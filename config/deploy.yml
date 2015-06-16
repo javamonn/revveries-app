@@ -1,15 +1,15 @@
-# development:
-#   host: dev.example.com
-#   email: john@doe.net
-#   password: apassword
-#   # api_key: <your api key here>
-# staging:
-#   host: staging.example.com
-#   email: john@doe.net
-#   password: apassword
-#   # api_key: <your api key here>
-# production:
-#   host: www.example.com
-#   email: john@doe.net
-#   password: apassword
-#   # api_key: <your api key here>
+ development:
+   host: dev.example.com
+   email: <%= ENV['LOCOMOTIVE_EMAIL'] %>
+   password: <%= ENV['LOCOMOTIVE_PASSWORD'] %>
+   api_key: <%= ENV['LOCOMOTIVE_API_KEY'] %>
+ staging:
+   host: staging.example.com
+   email: <%= ENV['LOCOMOTIVE_EMAIL'] %>
+   password: <%= ENV['LOCOMOTIVE_PASSWORD'] %>
+   api_key: <%= ENV['LOCOMOTIVE_API_KEY'] %>
+ production:
+   host: <%= ENV['HOST_NAME'] %>
+   email: <%= ENV['LOCOMOTIVE_EMAIL'] %>
+   password: <%= ENV['LOCOMOTIVE_PASSWORD'] %>
+   api_key: <%= ENV['LOCOMOTIVE_API_KEY'] %>
