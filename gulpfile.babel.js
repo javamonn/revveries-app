@@ -10,7 +10,7 @@ var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 
-gulp.task('js', () => {
+gulp.task('scripts', () => {
   return watchify(browserify('./js/main.js/', watchify.args))
     .transform(babelify)
     .bundle()
@@ -24,6 +24,10 @@ gulp.task('js', () => {
     .pipe(gulp.dest('./public/javascripts/'))
 });
 
-gulp.task('default', () => {
+gulp.task('styles', () => {
+  
+});
+
+gulp.task('default', ['scripts', 'styles'], () => {
 
 });
