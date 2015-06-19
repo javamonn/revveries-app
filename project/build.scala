@@ -20,6 +20,11 @@ object RevveriesappBuild extends Build {
       name := Name,
       version := Version,
       scalaVersion := ScalaVersion,
+      dependencyOverrides := Set(
+        "org.scala-lang" %  "scala-library"  % scalaVersion.value,
+        "org.scala-lang" %  "scala-reflect"  % scalaVersion.value,
+        "org.scala-lang" %  "scala-compiler" % scalaVersion.value
+      ),
       resolvers += Classpaths.typesafeReleases,
       resolvers += "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases",
       libraryDependencies ++= Seq(

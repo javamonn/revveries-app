@@ -5,6 +5,6 @@
   <title>revveries</title>
 </head>
 <body>
-  ${unescape(body)} 
+  <%= unescape(body) %>
 </body>
 </html>
