@@ -1,5 +1,4 @@
 'use strict';
-
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var browserify = require('browserify');
@@ -10,8 +9,10 @@ var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 
+const APP_PATH = './src/main/webapp/';
+
 gulp.task('scripts', () => {
-  return watchify(browserify('./js/main.js/', watchify.args))
+  return watchify(browserify('${APP_PATH}/WEB-INF/js/main.js/', watchify.args))
     .transform(babelify)
     .bundle()
       .on('error', gutil.log)
@@ -21,7 +22,7 @@ gulp.task('scripts', () => {
     .pipe(uglify())
       .on('error', gutil.log)
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('./public/javascripts/'))
+    .pipe(gulp.dest('${APP_PATH}/_build/'))
 });
 
 gulp.task('styles', () => {

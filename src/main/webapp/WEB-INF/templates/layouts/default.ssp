@@ -1,0 +1,10 @@
+<%@ var body: String %>
+
+<html>
+<head>
+  <title>revveries</title>
+</head>
+<body>
+  ${unescape(body)} 
+</body>
+</html>
