@@ -12,7 +12,10 @@ var sourcemaps = require('gulp-sourcemaps');
 const APP_PATH = './src/main/webapp/';
 
 gulp.task('scripts', () => {
-  return watchify(browserify('${APP_PATH}/WEB-INF/js/main.js/', watchify.args))
+  return watchify(browserify({
+    entries: [`${APP_PATH}/WEB-INF/js/main.js/`],
+    paths: ['./node_modules', `${APP_PATH}/WEB-INF/js`]
+    }, watchify.args))
     .transform(babelify)
     .bundle()
       .on('error', gutil.log)
@@ -22,7 +25,7 @@ gulp.task('scripts', () => {
     .pipe(uglify())
       .on('error', gutil.log)
     .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest('${APP_PATH}/_build/'))
+    .pipe(gulp.dest(`${APP_PATH}/_build/`))
 });
 
 gulp.task('styles', () => {
