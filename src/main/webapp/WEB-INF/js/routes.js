@@ -8,5 +8,6 @@ var routes = (
     <DefaultRoute handler={Gallery} />
   </Route>
 );
+console.log('routes');
 
 module.exports = routes;
