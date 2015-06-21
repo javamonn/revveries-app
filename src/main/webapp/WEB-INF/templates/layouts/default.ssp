@@ -6,5 +6,6 @@
 </head>
 <body>
   <%= unescape(body) %>
+  <script src="/_build/bundle.js"></script>
 </body>
 </html>

@@ -13,9 +13,11 @@ const APP_PATH = './src/main/webapp/';
 
 gulp.task('scripts', () => {
   return watchify(browserify({
-    entries: [`${APP_PATH}/WEB-INF/js/main.js/`],
-    paths: ['./node_modules', `${APP_PATH}/WEB-INF/js`]
-    }, watchify.args))
+      entries: [`${APP_PATH}/WEB-INF/js/main.js/`],
+      paths: ['./node_modules', `${APP_PATH}/WEB-INF/js`],
+      cache: {},
+      packageCache: {}
+    }))
     .transform(babelify)
     .bundle()
       .on('error', gutil.log)
@@ -24,7 +26,7 @@ gulp.task('scripts', () => {
     .pipe(sourcemaps.init({loadMaps: true}))
     .pipe(uglify())
       .on('error', gutil.log)
-    .pipe(sourcemaps.write('./'))
+    .pipe(sourcemaps.write())
     .pipe(gulp.dest(`${APP_PATH}/_build/`))
 });
 

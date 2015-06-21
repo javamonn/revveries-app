@@ -1,8 +1,11 @@
-import Gallery from 'views/Gallery/Handler'
+import React from 'react';
+import Gallery from 'views/Gallery/Handler';
+import App from 'views/App/Handler';
+import { Route, DefaultRoute } from 'react-router';
 
 var routes = (
   <Route handler={App}>
-    <Route path="/" handler={Gallery}></Route>
+    <DefaultRoute handler={Gallery} />
   </Route>
 );
 

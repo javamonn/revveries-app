@@ -1,8 +1,9 @@
-import { Router, Route, Link } from 'react-router';
-import BrowserHistory from 'react-router/lib/BrowserHistory';
+"use strict";
+
 import React from 'react';
+import Router, { Route, Link } from 'react-router';
 import routes from 'routes';
 
 Router.run(routes, Router.HashLocation, (Root) => {
-  React.render(<Root />, document.getElementById('app'));
+  React.render(<Root/>, document.getElementById('app'));
 });
