@@ -19,6 +19,7 @@ gulp.task('scripts', () => {
     packageCache: {}
   }));
   var rebundle = () => { 
+    gutil.log('bundling');
     bundler
       .transform(babelify)
       .bundle()
@@ -30,9 +31,9 @@ gulp.task('scripts', () => {
         .on('error', gutil.log)
       .pipe(sourcemaps.write())
       .pipe(gulp.dest(`${APP_PATH}/_build/`))
+      .pipe(notify(() => gutil.log('finished bundling')));
   };
   bundler.on('update', () => {
-    gutil.log('rebundling');
     rebundle();
   );
   return rebundle();
