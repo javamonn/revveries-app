@@ -3,6 +3,7 @@
 <html>
 <head>
   <title>revveries</title>
+  <link rel="stylesheet" href="/_build/main.css">
 </head>
 <body>
   <%= unescape(body) %>

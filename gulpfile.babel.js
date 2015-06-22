@@ -8,6 +8,7 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
+var sass = require('gulp-sass');
 
 const APP_PATH = './src/main/webapp/';
 
@@ -31,16 +32,19 @@ gulp.task('scripts', () => {
         .on('error', gutil.log)
       .pipe(sourcemaps.write())
       .pipe(gulp.dest(`${APP_PATH}/_build/`))
-      .pipe(notify(() => gutil.log('finished bundling')));
   };
-  bundler.on('update', () => {
-    rebundle();
-  );
+  bundler.on('update', () => rebundle());
   return rebundle();
 });
 
-gulp.task('styles', () => {
-  
+gulp.task('styles', ['styles:watch'], () => {
+  return gulp.src(APP_PATH + '/WEB-INF/scss/*.scss')
+    .pipe(sass.sync().on('error', sass.logError))
+    .pipe(gulp.dest(APP_PATH + '/_build/'));
+});
+
+gulp.task('styles:watch', () => {
+  return gulp.watch(APP_PATH + "/WEB-INF/scss/*.scss", ['styles']);
 });
 
 gulp.task('default', ['scripts', 'styles'], () => {
