@@ -41,9 +41,7 @@ object RevveriesappBuild extends Build {
         "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0",
         "org.scalatra" %% "scalatra-json" % "2.4.0.RC1",
-        "org.json4s"   %% "json4s-jackson" % "3.3.0.RC1",
-        "org.mongodb" %% "casbah" % "2.7.2",
-        "org.json4s" %% "json4s-mongo" % "3.2.10"
+        "org.json4s"   %% "json4s-jackson" % "3.3.0.RC1"
       ),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
         Seq(
