@@ -4,6 +4,7 @@ import org.scalatra.sbt._
 import org.scalatra.sbt.PluginKeys._
 import com.mojolly.scalate.ScalatePlugin._
 import ScalateKeys._
+import org.flywaydb.sbt.FlywayPlugin._
 
 object RevveriesappBuild extends Build {
   val Organization = "com.revveries"
@@ -15,7 +16,7 @@ object RevveriesappBuild extends Build {
   lazy val project = Project (
     "revveries-app",
     file("."),
-    settings = ScalatraPlugin.scalatraWithJRebel ++ scalateSettings ++ Seq(
+    settings = ScalatraPlugin.scalatraWithJRebel ++ scalateSettings ++ flywaySettings ++ Seq(
       organization := Organization,
       name := Name,
       version := Version,
@@ -46,6 +47,7 @@ object RevveriesappBuild extends Build {
         "com.typesafe.slick" %% "slick" % "3.0.0-RC1",
         "c3p0" % "c3p0" % "0.9.1.2"
       ),
+      flywayUrl := sys.env("JDBC_URL"),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
         Seq(
           TemplateConfig(

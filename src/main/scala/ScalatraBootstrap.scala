@@ -21,10 +21,8 @@ class ScalatraBootstrap extends LifeCycle {
 
   private def initCpds(): ComboPooledDataSource = {
     val cpds = new ComboPooledDataSource
-    val dbUri = new URI(sys.env("DATABASE_URL"))
-    cpds.setJdbcUrl("jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath())
-    //cpds.setUser(sys.env("DATABASE_USER"))
-    //cpds.setPassword(sys.env("DATABASE_PASSWORD"))
+    cpds.setJdbcUrl(sys.env("JDBC_URL")
+    println("jdbc:postgresql://" + dbUri.getHost() + ":" + dbUri.getPort() + dbUri.getPath())
     cpds
   }
 }
