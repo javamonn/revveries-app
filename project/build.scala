@@ -3,6 +3,7 @@ import Keys._
 import org.scalatra.sbt._
 import org.scalatra.sbt.PluginKeys._
 import com.mojolly.scalate.ScalatePlugin._
+import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 import ScalateKeys._
 import org.flywaydb.sbt.FlywayPlugin._
 
@@ -33,8 +34,8 @@ object RevveriesappBuild extends Build {
         "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
         "org.scalatra" %% "scalatra-specs2" % ScalatraVersion % "test",
         "ch.qos.logback" % "logback-classic" % "1.1.2" % "runtime",
-        "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505" % "container",
-        "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "container",
+        "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505" % "compile;container",
+        "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "compile;container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0",
         "org.scalatra" %% "scalatra-json" % "2.4.0.RC1",
         "org.json4s"   %% "json4s-jackson" % "3.3.0.RC1",
@@ -56,5 +57,5 @@ object RevveriesappBuild extends Build {
         )
       }
     )
-  )
+  ).enablePlugins(JavaAppPackaging)
 }
