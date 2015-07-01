@@ -28,11 +28,6 @@ object RevveriesappBuild extends Build {
       ),
       resolvers += Classpaths.typesafeReleases,
       resolvers += "Scalaz Bintray Repo" at "http://dl.bintray.com/scalaz/releases",
-      resolvers += Resolver.url(
-        "bintray-sbt-plugin-releases",
-        url("http://dl.bintray.com/content/sbt/sbt-plugin-releases")
-      )(Resolver.ivyStylePatterns),
-      resolvers += Classpaths.sbtPluginReleases,
       libraryDependencies ++= Seq(
         "org.scalatra" %% "scalatra" % ScalatraVersion,
         "org.scalatra" %% "scalatra-scalate" % ScalatraVersion,
