@@ -42,6 +42,7 @@ object RevveriesappBuild extends Build {
         "org.json4s"   %% "json4s-jackson" % "3.3.0.RC1",
         "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
         "com.typesafe.slick" %% "slick" % "3.0.0-RC1",
+        "com.typesafe.slick" %% "slick-codegen" % "3.0.0",
         "c3p0" % "c3p0" % "0.9.1.2",
         "com.typesafe" % "config" % "1.3.0"
       ),
