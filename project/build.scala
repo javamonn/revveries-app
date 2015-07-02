@@ -14,6 +14,7 @@ object RevveriesappBuild extends Build {
   val ScalaVersion = "2.11.6"
   val ScalatraVersion = "2.4.0.RC2-1"
 
+
   lazy val project = Project (
     "revveries-app",
     file("."),
@@ -45,6 +46,8 @@ object RevveriesappBuild extends Build {
         "com.typesafe" % "config" % "1.3.0"
       ),
       flywayUrl := sys.props.getOrElse("JDBC_URL", default = sys.env("JDBC_URL")),
+      //flywayUser := sys.props.getOrElse("JDBC_USER", default = sys.env("JDBC_USER")),
+      //flywayPassword := sys.props.getOrElse("JDBC_PASSWORD", default = sys.env("JDBC_PASSWORD")),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
         Seq(
           TemplateConfig(
