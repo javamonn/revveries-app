@@ -12,7 +12,7 @@ var sass = require('gulp-sass');
 
 const APP_PATH = './src/main/webapp/';
 
-gulp.task('scripts', () => {
+gulp.task('scripts:watch', () => {
   var bundler = watchify(browserify({
     entries: [`${APP_PATH}/WEB-INF/js/main.js/`],
     paths: ['./node_modules', `${APP_PATH}/WEB-INF/js`],
@@ -37,7 +37,7 @@ gulp.task('scripts', () => {
   return rebundle();
 });
 
-gulp.task('styles', ['styles:watch'], () => {
+gulp.task('styles', () => {
   return gulp.src(APP_PATH + '/WEB-INF/scss/*.scss')
     .pipe(sass.sync().on('error', sass.logError))
     .pipe(gulp.dest(APP_PATH + '/_build/'));
@@ -45,6 +45,10 @@ gulp.task('styles', ['styles:watch'], () => {
 
 gulp.task('styles:watch', () => {
   return gulp.watch(APP_PATH + "/WEB-INF/scss/*.scss", ['styles']);
+});
+
+gulp.task('develop', () => {
+  
 });
 
 gulp.task('default', ['scripts', 'styles'], () => {

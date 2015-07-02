@@ -41,9 +41,10 @@ object RevveriesappBuild extends Build {
         "org.json4s"   %% "json4s-jackson" % "3.3.0.RC1",
         "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
         "com.typesafe.slick" %% "slick" % "3.0.0-RC1",
-        "c3p0" % "c3p0" % "0.9.1.2"
+        "c3p0" % "c3p0" % "0.9.1.2",
+        "com.typesafe" % "config" % "1.3.0"
       ),
-      flywayUrl := sys.env("JDBC_URL"),
+      flywayUrl := sys.props.getOrElse("JDBC_URL", default = sys.env("JDBC_URL")),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
         Seq(
           TemplateConfig(
