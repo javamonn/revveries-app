@@ -12,8 +12,31 @@ var sass = require('gulp-sass');
 
 const APP_PATH = './src/main/webapp/';
 
+gulp.task('scripts', () => {
+  var bundler = browserify({
+    entries: [`${APP_PATH}/WEB-INF/js/main.js/`],
+    paths: ['./node_modules', `${APP_PATH}/WEB-INF/js`],
+    cache: {},
+    packageCache: {}
+  });
+  var rebundle = () => { 
+    gutil.log('bundling');
+    return bundler
+      .transform(babelify)
+      .bundle()
+        .on('error', gutil.log)
+      .pipe(source('bundle.js'))
+      .pipe(buffer())
+      .pipe(sourcemaps.init({loadMaps: true}))
+      .pipe(uglify())
+        .on('error', gutil.log)
+      .pipe(sourcemaps.write())
+      .pipe(gulp.dest(`${APP_PATH}/_build/`))
+  };
+  return rebundle();
+});
+
 gulp.task('scripts:watch', () => {
-  // TODO: decomp into separate build and watch tasks
   var bundler = watchify(browserify({
     entries: [`${APP_PATH}/WEB-INF/js/main.js/`],
     paths: ['./node_modules', `${APP_PATH}/WEB-INF/js`],
@@ -48,7 +71,7 @@ gulp.task('styles:watch', ['styles'], () => {
   return gulp.watch(APP_PATH + "/WEB-INF/scss/*.scss", ['styles']);
 });
 
-gulp.task('develop', ['scripts:watch', 'styles:watch'] () => {  
+gulp.task('develop', ['scripts:watch', 'styles:watch'], () => {  
 
 });
 
