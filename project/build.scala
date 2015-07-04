@@ -44,11 +44,10 @@ object RevveriesappBuild extends Build {
         "com.typesafe.slick" %% "slick" % "3.0.0-RC1",
         "com.typesafe.slick" %% "slick-codegen" % "3.0.0",
         "c3p0" % "c3p0" % "0.9.1.2",
-        "com.typesafe" % "config" % "1.3.0"
+        "com.typesafe" % "config" % "1.3.0",
+        "org.scalatra" %% "scalatra-scalatest" % "2.4.0.RC1" % "test"
       ),
       flywayUrl := sys.props.getOrElse("JDBC_URL", default = sys.env("JDBC_URL")),
-      //flywayUser := sys.props.getOrElse("JDBC_USER", default = sys.env("JDBC_USER")),
-      //flywayPassword := sys.props.getOrElse("JDBC_PASSWORD", default = sys.env("JDBC_PASSWORD")),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>
         Seq(
           TemplateConfig(

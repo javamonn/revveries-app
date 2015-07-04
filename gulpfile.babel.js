@@ -13,6 +13,7 @@ var sass = require('gulp-sass');
 const APP_PATH = './src/main/webapp/';
 
 gulp.task('scripts', () => {
+  // todo cleanup, decomp scripts simularity
   var bundler = browserify({
     entries: [`${APP_PATH}/WEB-INF/js/main.js/`],
     paths: ['./node_modules', `${APP_PATH}/WEB-INF/js`],

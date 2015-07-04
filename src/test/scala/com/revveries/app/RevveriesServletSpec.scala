@@ -1,16 +1,30 @@
 package com.revveries.app
 
-import org.scalatra.test.specs2._
+import org.scalatra.test.scalatest._
+import org.scalatest.FunSpecLike
 
-// For more on Specs2, see http://etorreborre.github.com/specs2/guide/org.specs2.guide.QuickStart.html
-class RevveriesServletSpec extends ScalatraSpec { def is =
-  "GET / on RevveriesServlet"                     ^
-    "should return status 200"                  ! root200^
-                                                end
-
+class RevveriesServletSpec extends ScalatraSuite with FunSpecLike { 
   addServlet(classOf[RevveriesServlet], "/*")
 
-  def root200 = get("/") {
-    status must_== 200
+
+  /* TODO: 
+   *   - Setup selenium for more comprehensive integration tests
+   *   - abstract get into a before/after
+   */
+
+  describe("routes") {
+    describe("fetch index") {
+      it("completes successfully") { 
+        get("/") {
+          status should equal (200)
+        }
+      }
+      it("contains react elements") {
+        get("/") {
+          body should include ("id=\"app\"")
+        }
+      }
+    }
   }
+
 }
