@@ -1,27 +1,21 @@
 import com.revveries.app._
 import org.scalatra._
 import javax.servlet.ServletContext
-import com.mchange.v2.c3p0.ComboPooledDataSource
-import slick.driver.JdbcDriver.api._
 import java.net.URI
+import com.revveries.app.utils.DatabaseConnection
 
 class ScalatraBootstrap extends LifeCycle {
 
-  val cpds = initCpds()
-
+  val connection = new DatabaseConnection(sys.env("JDBC_URL"))
+ 
   override def init(context: ServletContext) {
-    val db = Database.forDataSource(cpds)
+    val db = connection.open
     context.mount(new RevveriesServlet, "/")
     context.mount(new GalleryServlet(db), "/api/gallery/*")
   }
 
   override def destroy(context: ServletContext) {
-    cpds.close
+    connection.close
   }
 
-  private def initCpds(): ComboPooledDataSource = {
-    val cpds = new ComboPooledDataSource
-    cpds.setJdbcUrl(sys.env("JDBC_URL"))
-    cpds
-  }
 }
