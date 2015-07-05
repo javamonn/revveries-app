@@ -22,7 +22,10 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Get slug info of all galleries
    */
   get("/") {
-    
+    val galleryIndex = for {
+      c <- Tables.Galleries
+    } yield c
+    db.run(galleryIndex.result) 
   }
 
   /**
@@ -43,6 +46,7 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Get gallery :id
    */
   get("/:id") {
-
+    val galleryFind = Tables.Galleries.filter(_.galleryId === params("id").toInt)
+    db.run(galleryFind.result)
   }
 }

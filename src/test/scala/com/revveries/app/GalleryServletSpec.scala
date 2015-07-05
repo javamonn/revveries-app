@@ -29,22 +29,31 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
     sys.props.getOrElse("JDBC_TEST_PASSWORD", default = sys.env("JDBC_TEST_PASSWORD"))
   )
   val db = connection.open
+  connection.populateTestDatabase
 
   addServlet(new GalleryServlet(db), "/api/galleries/*")
 
-  describe("index (GET @ /)") {
-    it("retrieves gallery slugs") {
-
+  describe("show gallery (GET @ /galleries/:id)") {
+    it("retrieves the correct gallery") {
+      get("/api/galleries/1") {
+        val res = parse(body).extract[Tables.GalleriesRow] 
+        res.galleryId should equal (1)
+      }
     }
   }
 
-  describe("show (GET @ /galleries/:id)") {
-    it("retrieves a specific gallery") {
-
+  describe("index galleries (GET @ /)") {
+    it("retrieves all galleries") {
+      get("/api/galleries/") {
+        println(body)
+        var res = parse(body).extract[List[Tables.GalleriesRow]]
+        println(res)
+        res.length should be > 0
+      }
     }
   }
 
-  describe("create (POST @ /galleries/)") {
+  describe("create gallery (POST @ /galleries/)") {
   
     val testGallery = Map(
       "name" -> "Test Gallery",
@@ -60,6 +69,7 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
         val res = parse(body).extract[Tables.GalleriesRow] 
         res.name should equal (testGallery("name"))
         res.description should equal (testGallery("description"))
+        res.galleryId should be > 0
       }
     }
   }
