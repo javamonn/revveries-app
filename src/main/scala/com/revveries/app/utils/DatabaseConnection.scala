@@ -6,7 +6,11 @@ import slick.driver.JdbcDriver.api._
 class DatabaseConnection(uri: String) {
   val cpds: ComboPooledDataSource = new ComboPooledDataSource
   cpds.setJdbcUrl(uri)
+  val database = Database.forDataSource(cpds)
 
-  def open: Database = Database.forDataSource(cpds)
-  def close = cpds.close
+  def open: Database = database
+  def close = {
+    database.close
+    cpds.close
+  }
 }

@@ -2,9 +2,9 @@ package com.revveries.app.utils
 
 import org.flywaydb.core.Flyway
 
-class TestDatabaseConnection(uri: String, user: String, password: String) extends DatabaseConnection(uri) {
+class TestDatabaseConnection(uri: String, base_url: String, user: String, password: String) extends DatabaseConnection(uri) {
   val flyway = new Flyway
-  flyway.setDataSource(uri, user, password)
+  flyway.setDataSource(base_url, user, password)
   flyway.clean
   flyway.migrate
 

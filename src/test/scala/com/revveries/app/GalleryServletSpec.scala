@@ -8,10 +8,14 @@ import com.revveries.app.utils.TestDatabaseConnection
 import slick.driver.JdbcDriver.api._
 import org.json4s._
 import org.json4s.jackson.JsonMethods._
+import org.json4s.jackson.Serialization
+import org.json4s.jackson.Serialization.{read, write}
+import com.revveries.app.models.Tables
 
 class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
   
-  implicit lazy val jsonFormats: Formats = DefaultFormats
+  protected implicit lazy val jsonFormats: Formats = 
+    DefaultFormats.withCompanions(classOf[Tables.GalleriesRow] -> Tables)
 
   override def afterAll = {
     connection.close
@@ -19,7 +23,8 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
   }
   
   val connection = new TestDatabaseConnection(
-    sys.props.getOrElse("JDBC_TEST_URL", default = sys.env("JDBC_TEST_URL")),
+    sys.props.getOrElse("JDBC_TEST_URI", default = sys.env("JDBC_TEST_URI")),
+    sys.props.getOrElse("JDBC_TEST_BASE_URL", default = sys.env("JDBC_TEST_BASE_URL")),
     sys.props.getOrElse("JDBC_TEST_USER", default = sys.env("JDBC_TEST_USER")),
     sys.props.getOrElse("JDBC_TEST_PASSWORD", default = sys.env("JDBC_TEST_PASSWORD"))
   )
@@ -49,11 +54,10 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
       "Content-Type" -> " application/json"
     )
 
-    case class GalleryCreateResponse(name: String, description: String, id: String)
 
     it("creates a gallery") {
-      post("/", testGallery, jsonHeader) {
-        val res = parse(body).extract[GalleryCreateResponse] 
+      post("/api/galleries/", write(testGallery), jsonHeader) {
+        val res = parse(body).extract[Tables.GalleriesRow] 
         res.name should equal (testGallery("name"))
         res.description should equal (testGallery("description"))
       }

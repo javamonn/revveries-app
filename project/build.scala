@@ -38,7 +38,7 @@ object RevveriesappBuild extends Build {
         "org.eclipse.jetty" % "jetty-webapp" % "9.1.5.v20140505" % "compile;container",
         "org.eclipse.jetty" % "jetty-plus" % "9.1.5.v20140505" % "compile;container",
         "javax.servlet" % "javax.servlet-api" % "3.1.0",
-        "org.scalatra" %% "scalatra-json" % "2.4.0.RC1",
+        "org.scalatra" %% "scalatra-json" % ScalatraVersion,
         "org.json4s"   %% "json4s-jackson" % "3.3.0.RC1",
         "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
         "com.typesafe.slick" %% "slick" % "3.0.0-RC1",
