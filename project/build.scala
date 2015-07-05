@@ -45,7 +45,8 @@ object RevveriesappBuild extends Build {
         "com.typesafe.slick" %% "slick-codegen" % "3.0.0",
         "c3p0" % "c3p0" % "0.9.1.2",
         "com.typesafe" % "config" % "1.3.0",
-        "org.scalatra" %% "scalatra-scalatest" % "2.4.0.RC1" % "test"
+        "org.scalatra" %% "scalatra-scalatest" % "2.4.0.RC1" % "test",
+        "org.flywaydb" % "flyway-core" % "3.2.1"
       ),
       flywayUrl := sys.props.getOrElse("JDBC_URL", default = sys.env("JDBC_URL")),
       scalateTemplateConfig in Compile <<= (sourceDirectory in Compile){ base =>

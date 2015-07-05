@@ -11,7 +11,7 @@ class ScalatraBootstrap extends LifeCycle {
   override def init(context: ServletContext) {
     val db = connection.open
     context.mount(new RevveriesServlet, "/")
-    context.mount(new GalleryServlet(db), "/api/gallery/*")
+    context.mount(new GalleryServlet(db), "/api/galleries/*")
   }
 
   override def destroy(context: ServletContext) {
