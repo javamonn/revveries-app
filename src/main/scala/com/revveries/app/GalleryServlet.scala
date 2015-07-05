@@ -17,6 +17,13 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with JacksonJsonS
    * Get slug info of all galleries
    */
   get("/") {
+    
+  }
+
+  /**
+   * Create gallery
+   */
+  post("/") {
 
   }
 
