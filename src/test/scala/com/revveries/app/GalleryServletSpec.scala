@@ -45,9 +45,7 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
   describe("index galleries (GET @ /)") {
     it("retrieves all galleries") {
       get("/api/galleries/") {
-        println(body)
         var res = parse(body).extract[List[Tables.GalleriesRow]]
-        println(res)
         res.length should be > 0
       }
     }
