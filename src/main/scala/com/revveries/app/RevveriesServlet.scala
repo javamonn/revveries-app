@@ -4,8 +4,17 @@ import org.scalatra._
 import scalate.ScalateSupport
 
 class RevveriesServlet extends ScalatraServlet with ScalateSupport {
-  get("/") {
+
+  before {
     contentType = "text/html"
+  }
+
+  get("/") {
     ssp("index")
   }
+
+  get("/cms") {
+    ssp("cms")  
+  }
+
 }

@@ -1,2 +1,4 @@
-<section id="sidenav"></section>
-<section id="app"></section>
+<section id="index">
+  <section id="sidenav"></section>
+  <section id="gallery"></section>
+</section>
