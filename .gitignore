@@ -72,3 +72,4 @@ node_modules/
 src/main/webapp/_build
 .env
 .sbtopts
+npm-debug.log
