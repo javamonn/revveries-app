@@ -1,9 +1,7 @@
 import Reflux from 'reflux';
 
 var GalleryActions = Reflux.createActions([
-  "galleryCreated",
-  "galleryEdited",
-  "galleryDeleted"
+  "gallerySelected"
 ]);
 
 module.exports = GalleryActions
