@@ -1,9 +1,12 @@
 import Reflux from 'reflux';
 
-var PictureActions = Reflux.createActions([
+var CmsActions = Reflux.createActions([
   "pictureCreated",
   "pictureEdited",
-  "pictureDeleted"
+  "pictureDeleted",
+  "galleryCreated",
+  "galleryEdited",
+  "galleryDeleted"
 ]);
 
-module.exports = PictureActions
+module.exports = CmsActions;

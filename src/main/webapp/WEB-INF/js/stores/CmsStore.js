@@ -1,5 +1,6 @@
 import Reflux from 'reflux';
-import CmsActions from 'actions/CmsActions'
+
+const CmsActions = require('../actions/CmsActions');
 
 var CmsStore = Reflux.createStore({
   listenables: CmsActions,
@@ -25,7 +26,12 @@ var CmsStore = Reflux.createStore({
   },
   
   onGalleryDeleted() {
+    
+  },
 
+  getInitialState() {
+    fetch('/api/galleries/')
+      .then(res => res.json())
   }
 });
 

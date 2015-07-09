@@ -9,6 +9,7 @@ var buffer = require('vinyl-buffer');
 var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
+var shell = require('gulp-shell');
 
 const APP_PATH = './src/main/webapp/';
 
@@ -71,6 +72,14 @@ gulp.task('styles', () => {
 gulp.task('styles:watch', ['styles'], () => {
   return gulp.watch(APP_PATH + "/WEB-INF/scss/*.scss", ['styles']);
 });
+
+gulp.task('spec', shell.task([
+  'jest'
+]));
+
+gulp.task('spec:watch', () => {
+  return gulp.watch(`${APP_PATH}/WEB-INF/js/**/*.js`, ['spec']);
+})
 
 gulp.task('develop', ['scripts:watch', 'styles:watch'], () => {  
 
