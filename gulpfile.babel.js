@@ -82,7 +82,7 @@ gulp.task('spec:watch', () => {
 })
 
 gulp.task('develop', ['scripts:watch', 'styles:watch'], () => {  
-
+  
 });
 
 gulp.task('default', ['scripts', 'styles'], () => {

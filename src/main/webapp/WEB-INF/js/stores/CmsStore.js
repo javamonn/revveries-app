@@ -1,4 +1,5 @@
 import Reflux from 'reflux';
+import fetch from 'node-fetch';
 
 const CmsActions = require('../actions/CmsActions');
 
