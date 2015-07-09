@@ -1,0 +1,6 @@
+language: scala
+before_script:
+        - npm install
+script:
+        - sbt test
+        - gulp test
