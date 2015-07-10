@@ -10,8 +10,10 @@ describe('CmsStore', () => {
   
   describe('.getInitialState', () => {
     it('returns an immutable list of galleries', () => {
-      CmsStore.getInitialState().forEach(gal => {
-        expect(gal instanceof Gallery).toBe(true);
+      CmsStore.getInitialState().then(val => {
+        return val.forEach(gal => {
+          expect(gal instanceof Gallery).toBe(true);
+        });
       });
     });
   });

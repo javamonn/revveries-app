@@ -31,7 +31,8 @@
     "unmockedModulePathPatterns": [
       "react",
       "reflux",
-      "react-router"
+      "react-router",
+      "immutable"
     ]
   },
   "dependencies": {
