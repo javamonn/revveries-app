@@ -1,4 +1,4 @@
-# revveries-app #
+# Revveries #
 ![Build Status](https://travis-ci.org/javamonn/revveries-app.svg?branch=master)
 
 ## Build & Run ##

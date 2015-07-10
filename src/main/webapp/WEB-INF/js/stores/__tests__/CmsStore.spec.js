@@ -1,10 +1,18 @@
-jest.dontMock('../CmsStore.js');
+jest.dontMock('../CmsStore');
 
 import Reflux from 'reflux';
-const CmsStore = require('../CmsStore');
+import { List } from 'immutable';
+
+const Gallery = require('../records/GalleryRecord');
 
 describe('CmsStore', () => {
-  it("runs the tests", () => {
-    expect(true).toBe(true);
+  const CmsStore = require('../CmsStore');
+  
+  describe('.getInitialState', () => {
+    it('returns an immutable list of galleries', () => {
+      CmsStore.getInitialState().forEach(gal => {
+        expect(gal instanceof Gallery).toBe(true);
+      });
+    });
   });
 });
