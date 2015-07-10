@@ -1,6 +1,7 @@
 language: scala
 before_script:
         - npm install
+        - psql -U postgres -c "createdb revveries-test"
 script:
-        - ./sbt test
+        - ./sbt -DJDBC_TEST_URI="jdbc:postgresql:revveries-test" -DJDBC_TEST_BASE_URL="jdbc:postgresql:revveries-test" -DJDBC_TEST_USER="postgres" -DJDBC_TEST_PASSWORD='' test
         - gulp spec
