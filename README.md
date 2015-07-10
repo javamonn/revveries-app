@@ -1,10 +1,19 @@
 # revveries-app #
+![Build Status](https://travis-ci.org/javamonn/revveries-app.svg?branch=master)
 
 ## Build & Run ##
 
 ```sh
-$ cd revveries-app
+$ npm install
+$ gulp 
 $ ./sbt
 > container:start
-> browse
 ```
+
+## Run the Tests ##
+```sh
+$ gulp spec
+$ ./sbt
+> test
+```
+
