@@ -34,20 +34,50 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
   addServlet(new GalleryServlet(db), "/api/galleries/*")
 
   describe("show gallery (GET @ /galleries/:id)") {
-    it("retrieves the correct gallery") {
+    def show(f: Tables.GalleriesRow => Unit) {
       get("/api/galleries/1") {
-        val res = parse(body).extract[Tables.GalleriesRow] 
-        res.galleryId should equal (1)
+        var res = parse(body).extract[Tables.GalleriesRow]
+        f(res)
       }
+    }
+
+    it("retrieves the correct gallery") {
+      show((gal: Tables.GalleriesRow) => {
+        gal.galleryId should equal (1)
+      })
+    }
+
+    it("contains a name") {
+      show((gal: Tables.GalleriesRow) => {
+        gal.name shouldBe a [String]
+      })
+    }
+
+    it("contains an order") {
+      show((gal: Tables.GalleriesRow) => {
+        gal.galleryOrder should be >= 0
+      })
+    }
+
+    it("contains a description") {
+      show((gal: Tables.GalleriesRow) => {
+       gal.description shouldBe a [String] 
+      })
     }
   }
 
   describe("index galleries (GET @ /)") {
-    it("retrieves all galleries") {
+    def index(f: List[Tables.GalleriesRow] => Unit) {
       get("/api/galleries/") {
         var res = parse(body).extract[List[Tables.GalleriesRow]]
-        res.length should be > 0
+        f(res)
       }
+    }
+
+    it("retrieves all galleries") {
+      index((galleries: List[Tables.GalleriesRow]) => {
+        galleries.length should be > 0
+      })
     }
   }
 
@@ -55,7 +85,8 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
   
     val testGallery = Map(
       "name" -> "Test Gallery",
-      "description" -> "This is a test"
+      "description" -> "This is a test",
+      "galleryOrder" -> 4
     )
     val jsonHeader = Map(
       "Content-Type" -> " application/json"

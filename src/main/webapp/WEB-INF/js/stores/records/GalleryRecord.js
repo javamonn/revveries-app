@@ -4,7 +4,7 @@ var Gallery = Record({
   // id of gallery in db
   gallery_id: undefined,
   // position of gallery in sidenav
-  order: undefined,
+  gallery_order: undefined,
   // name of gallery
   name: undefined,
   // description of gallery
