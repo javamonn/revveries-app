@@ -1,5 +1,4 @@
 import Reflux from 'reflux';
-import fetch from 'node-fetch';
 import { List }  from 'immutable';
 
 const CmsActions = require('../actions/CmsActions');
