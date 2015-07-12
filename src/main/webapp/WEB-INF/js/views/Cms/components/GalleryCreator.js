@@ -1,9 +1,10 @@
 import React from 'react';
 import mui from 'material-ui';
+import cmsActions from 'actions/CmsActions';
 
 const FloatingActionButton = mui.FloatingActionButton;
 const Dialog = mui.Dialog;
-
+const TextField = mui.TextField;
 
 var GalleryCreator = React.createClass({
   
@@ -13,27 +14,51 @@ var GalleryCreator = React.createClass({
       { text: 'Create', onTouchTap: this._onGalleryCreate, ref: 'create' }
     ];
     return (
-      <div>
+      <div id="gallery-creator">
         <FloatingActionButton 
           className="create-button" 
           iconClassName="fa fa-plus" 
-          onTouchTap={this._onDialogShow}>
-        </FloatingActionButton>
+          onTouchTap={this._onDialogShow}
+          style={{
+            position: 'absolute',
+            bottom: '18',
+            right: '18',
+          }} />
         <Dialog
           ref="createGalleryDialog"
           title="Create a Gallery"
           actions={dialogActions}
           actionFocus="create">
-          test
+          <section className="create-gallery-content">
+            <TextField 
+              floatingLabelText="Title" 
+              ref="titleField"
+            />
+            <TextField 
+              floatingLabelText="Description (optional)" 
+              multiline={true} 
+              ref="descriptionField"
+            />
+          </section>
         </Dialog>
       </div>
-    )
+    );
   },
   _onGalleryCreate() {
-    console.log('on gallery Create');
+    if (this.refs.titleField.getValue()) {
+      cmsActions.galleryCreated( 
+        this.refs.titleField.getValue(),
+        this.refs.descriptionField.getValue()
+      );
+      this.refs.createGalleryDialog.dismiss();
+      this.refs.titleField.clearValue();
+      this.refs.descriptionField.clearValue();
+      this.refs.titleField.setErrorText('');
+    } else {
+      this.refs.titleField.setErrorText('Gallery title is required');
+    }
   },
   _onDialogShow() {
-    console.log('show');
     this.refs.createGalleryDialog.show();
   }
 });

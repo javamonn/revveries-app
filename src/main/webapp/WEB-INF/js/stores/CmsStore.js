@@ -19,8 +19,8 @@ var CmsStore = Reflux.createStore({
 
   },
 
-  onGalleryCreated() {
-
+  onGalleryCreated(title, description) {
+    console.log('gallery created');
   },
 
   onGalleryEdited() {
