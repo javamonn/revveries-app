@@ -17,4 +17,26 @@ describe('CmsStore', () => {
       });
     });
   });
+
+  describe('.onGalleryCreated', () => {
+    it('creates a gallery', () => {
+
+    });
+
+    it('assigns the correct gallery order', () => {
+
+    });
+
+    it('assigns the correct gallery title', () => {
+
+    });
+
+    it('assigns the correct gallery description', () => {
+
+    });
+
+    it('assigns an id', () => {
+
+    });
+  });
 });
