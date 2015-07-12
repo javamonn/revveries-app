@@ -6,7 +6,7 @@ import com.revveries.app.utils.DatabaseConnection
 
 class ScalatraBootstrap extends LifeCycle {
 
-  val connection = new DatabaseConnection(sys.env("JDBC_URL"))
+  val connection = new DatabaseConnection(sys.props.getOrElse("JDBC_URL", default = sys.env("JDBC_URL")))
  
   override def init(context: ServletContext) {
     val db = connection.open

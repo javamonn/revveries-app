@@ -24,9 +24,10 @@ var Cms = React.createClass({
   },
 
   render() {
+
     return (
       <div id="cms">
-        <AppBar title="Galleries" />
+        <AppBar title={<h1 id="app-bar-title">Galleries</h1>} />
         <GalleryManager galleries={this.state.galleries} />
       </div>
     )
