@@ -5,6 +5,7 @@
   <title>revveries</title>
   <link rel="stylesheet" href="/_build/main.css">
   <link href='http://fonts.googleapis.com/css?family=Roboto:400,100,500' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
 </head>
 <body>
   <%= unescape(body) %>

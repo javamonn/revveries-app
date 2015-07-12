@@ -2,7 +2,7 @@ import React from 'react';
 import Reflux from 'reflux';
 
 import GalleryManager from 'views/Cms/components/GalleryManager';
-import PictureManager from 'views/Cms/components/PictureManager';
+import GalleryCreator from 'views/Cms/components/GalleryCreator';
 import CmsStore from 'stores/CmsStore';
 import mui from 'material-ui';
 
@@ -29,6 +29,7 @@ var Cms = React.createClass({
       <div id="cms">
         <AppBar title={<h1 id="app-bar-title">Galleries</h1>} />
         <GalleryManager galleries={this.state.galleries} />
+        <GalleryCreator />
       </div>
     )
   }
