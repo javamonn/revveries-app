@@ -14,3 +14,28 @@
     flex-direction: column;
   }
 }
+
+#gallery-list {
+  padding: 0px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: column;
+  .gallery-card {
+    margin-top: 24px;
+    width: 600px;
+    max-width: 600px;
+    .card-actions {
+      padding: 0px !important;
+    }
+    .actions-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0px !important;
+    }
+    .actions-container > div {
+      display: inline-block;
+    }
+  }
+}

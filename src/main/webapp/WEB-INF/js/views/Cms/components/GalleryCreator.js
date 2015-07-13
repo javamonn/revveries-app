@@ -5,6 +5,7 @@ import cmsActions from 'actions/CmsActions';
 const FloatingActionButton = mui.FloatingActionButton;
 const Dialog = mui.Dialog;
 const TextField = mui.TextField;
+const FontIcon = mui.FontIcon;
 
 var GalleryCreator = React.createClass({
   
@@ -17,13 +18,14 @@ var GalleryCreator = React.createClass({
       <div id="gallery-creator">
         <FloatingActionButton 
           className="create-button" 
-          iconClassName="fa fa-plus" 
           onTouchTap={this._onDialogShow}
           style={{
             position: 'absolute',
-            bottom: '18',
-            right: '18',
-          }} />
+            bottom: '24',
+            right: '24',
+          }}>
+        <FontIcon className="material-icons">add</FontIcon>
+        </FloatingActionButton>
         <Dialog
           ref="createGalleryDialog"
           title="Create a Gallery"
