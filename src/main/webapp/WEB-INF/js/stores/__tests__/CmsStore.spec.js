@@ -19,24 +19,39 @@ describe('CmsStore', () => {
   });
 
   describe('.onGalleryCreated', () => {
-    it('creates a gallery', () => {
+    var galleries = [];
+    var galleryTitle = 'Test Gallery Title';
+    var galleryDescription = 'Test Gallery Description';
 
+    CmsStore.listen(_galleries => galleries = _galleries);
+
+    it('creates a gallery', () => {
+      var lengthBefore = galleries.size;
+      CmsStore.onGalleryCreated(galleryTitle, galleryDescription)
+        .then(() => {
+          expect(galleries.size).toBeGreaterThan(lengthBefore);
+        });
     });
 
     it('assigns the correct gallery order', () => {
-
+      CmsStore.onGalleryCreated(galleryTitle, galleryDescription)
+        .then(() => {
+          expect(galleries.last().galleryOrder).toBe(galleries.size() - 1)
+        });
     });
 
     it('assigns the correct gallery title', () => {
-
+      CmsStore.onGalleryCreated(galleryTitle, galleryDescription)
+        .then(() => {
+          expect(galleries.last().name).toBe(galleryTitle);
+        });
     });
 
     it('assigns the correct gallery description', () => {
-
-    });
-
-    it('assigns an id', () => {
-
+      CmsStore.onGalleryCreated(galleryTitle, galleryDescription)
+        .then(() => {
+          expect(galleries.last().description).toBe(galleryDescription);
+        });
     });
   });
 });

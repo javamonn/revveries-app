@@ -1,15 +1,24 @@
 let buildMockGallery = id => ({
   galleryId: id,
-  order: 0,
+  galleryOrder: id,
   name: "Test Gallery " + id,
   description: "Test Description " + id,
 });
 
-let fetch = url => {
+let fetch = (url, params) => {
   var data;
   switch (url) {
     case '/api/galleries/':
-      data = Array(5).map((val, i) => buildMockGallery(i));
+      // create gallery
+      if (params && params.method == 'post') {
+        data = JSON.parse(params.body);
+        data.galleryId = -1;
+      }
+      // index
+      else {
+        data = Array(5).map((val, i) => buildMockGallery(i));
+      }
+      
   };
 
   return Promise.resolve(data);

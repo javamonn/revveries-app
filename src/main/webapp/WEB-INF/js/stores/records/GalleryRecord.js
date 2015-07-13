@@ -2,9 +2,9 @@ import { Record } from 'immutable';
 
 var Gallery = Record({
   // id of gallery in db
-  gallery_id: undefined,
+  galleryId: undefined,
   // position of gallery in sidenav
-  gallery_order: undefined,
+  galleryOrder: undefined,
   // name of gallery
   name: undefined,
   // description of gallery
