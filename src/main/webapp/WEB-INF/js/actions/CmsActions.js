@@ -6,7 +6,8 @@ var CmsActions = Reflux.createActions([
   "pictureDeleted",
   "galleryCreated",
   "galleryEdited",
-  "galleryDeleted"
+  "galleryDeleted",
+  "galleryMoved"
 ]);
 
 module.exports = CmsActions;

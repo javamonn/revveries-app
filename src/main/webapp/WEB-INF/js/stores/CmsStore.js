@@ -9,18 +9,6 @@ var _galleries = List([]);
 var CmsStore = Reflux.createStore({
   listenables: CmsActions,
 
-  onPictureCreated() {
-
-  },
-
-  onPictureEdited() {
-
-  },
-
-  onPictureDeleted() {
-
-  },
-
   onGalleryCreated(title, description) {
     return fetch('/api/galleries/', {
       method: 'post',
@@ -36,12 +24,38 @@ var CmsStore = Reflux.createStore({
     });
   },
 
-  onGalleryEdited() {
+  onGalleryEdited(gallery) {
 
   },
   
   onGalleryDeleted() {
     
+  },
+
+  onGalleryMoved(oldIndex, newIndex) {
+    _updateGalleries(_galleries.map((gal, index) => {
+      if index == oldIndex return _galleries.get(newIndex);
+      else if index == newIndex return _galleries.get(oldIndex);
+      else return gal;
+    }));
+    
+    var galNew = _galleries.get(newIndex);
+    var moveAction = fetch(`/api/galleries/${galNew.galleryId}`, {
+      method: 'put',
+      body: JSON.stringify({
+        gallery: galNew.set(galleryOrder, newIndex)
+      })
+    });
+
+    var galOld  = _galleries.get(oldIndex);
+    var moveReaction = fetch(`/api/galleries/${galOld.galleryId}`, {
+      method: 'put',
+      body: JSON.stringify({
+        gallery: galOld.set(galleryOrder, newIndex)
+      })
+    });
+
+    return Promise.all([moveAction, moveReaction]);
   },
 
   getInitialState() {
@@ -55,7 +69,6 @@ var CmsStore = Reflux.createStore({
 });
 
 var _updateGalleries = galleries => {
-  console.log('_updateGalleries');
   _galleries = galleries;
   CmsStore.trigger(_galleries);
 }

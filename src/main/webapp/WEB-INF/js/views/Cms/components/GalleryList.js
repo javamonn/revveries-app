@@ -29,10 +29,11 @@ var GalleryList = React.createClass({
             title={gallery.name} 
             subtitle={gallery.description} 
             style={{
-              paddingBottom: '4'
+              paddingBottom: '4',
+              paddingTop: '6'
             }}
           />
-          <CardActions className="card-actions" style={{padding: '0'}}>
+          <CardActions className="card-actions">
             <div className="actions-container">
               <div className="left-actions">
                 <FlatButton 
@@ -41,14 +42,25 @@ var GalleryList = React.createClass({
                 </FlatButton>
               </div>
               <div className="right-actions">
-                <IconButton tooltip="Move Up" tooltipPosition="top-center" onTouchTap={this._onMoveUp(i)}>
-                  <FontIcon className="material-icons">keyboard_arrow_up</FontIcon> 
+                <IconButton 
+                  tooltip="Move Up" 
+                  tooltipPosition="top-center" 
+                  onTouchTap={this._onMoveUp(i)}
+                  style={{paddingLeft: '6', paddingRight: '6'}}>
+                    <FontIcon className="material-icons">keyboard_arrow_up</FontIcon> 
                 </IconButton>
-                <IconButton tooltip="Move Down" tooltipPosition="top-center" onTouchTap={this._onMoveDown(i)}>
-                  <FontIcon className="material-icons">keyboard_arrow_down</FontIcon> 
+                <IconButton 
+                  tooltip="Move Down" 
+                  tooltipPosition="top-center" 
+                  onTouchTap={this._onMoveDown(i)}
+                  style={{paddingLeft: '6', paddingRight: '6'}}>
+                    <FontIcon className="material-icons">keyboard_arrow_down</FontIcon> 
                 </IconButton>
-                <IconButton tooltip="Delete" tooltipPosition="top-center" onTouchTap={this._onDelete(i)}>
-                  <FontIcon className="material-icons">delete</FontIcon> 
+                <IconButton 
+                  tooltip="Delete" 
+                  tooltipPosition="top-center" 
+                  style={{paddingLeft: '6', paddingRight: '6'}}>
+                    <FontIcon className="material-icons">delete</FontIcon> 
                 </IconButton>
               </div>
             </div>
@@ -65,11 +77,15 @@ var GalleryList = React.createClass({
   },
 
   _onMoveUp(galleryIndex) {
-
+    if (galleryIndex > 0) {
+      CmsActions.galleryMoved(galleryIndex, galleryIndex - 1)
+    }
   },
 
   _onMoveDown(galleryIndex) {
-
+    if (galleryIndex < galleries.size() - 1) {
+      CmsActions.galleryMoved(galleryIndex, galleryIndex + 1)
+    }
   },
 
   _onDelete(galleryIndex) {
