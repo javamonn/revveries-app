@@ -106,7 +106,7 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
   describe("update gallery (PUT @ /galleries/:id)") {
 
     val testGallery = Map(
-      "galleryId" -> 0,
+      "galleryId" -> 1,
       "name" -> "Test1 - Updated",
       "description" -> "Test Description1 - updated",
       "galleryOrder" -> 100
@@ -132,7 +132,6 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
         res.galleryOrder should equal (testGallery("galleryOrder"))
       })
     }
-    
   }
 }
 

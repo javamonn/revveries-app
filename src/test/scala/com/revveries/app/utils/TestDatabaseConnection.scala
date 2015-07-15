@@ -21,9 +21,9 @@ class TestDatabaseConnection(uri: String, base_url: String, user: String, passwo
   def populateTestDatabase {
     val testPopulate = DBIO.seq(
       Tables.Galleries ++= Seq(
-        Tables.GalleriesRow(-1, "Test1", "Test Description1", 0),
-        Tables.GalleriesRow(-1, "Test2", "Test Description2", 2),
-        Tables.GalleriesRow(-1, "Test3", "Test Description3", 1)
+        Tables.GalleriesRow(0, "Test1", "Test Description1", 0),
+        Tables.GalleriesRow(1, "Test2", "Test Description2", 2),
+        Tables.GalleriesRow(2, "Test3", "Test Description3", 1)
       )
     )
     database.run(testPopulate)
