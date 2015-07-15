@@ -102,5 +102,37 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
       }
     }
   }
+
+  describe("update gallery (PUT @ /galleries/:id)") {
+
+    val testGallery = Map(
+      "galleryId" -> 0,
+      "name" -> "Test1 - Updated",
+      "description" -> "Test Description1 - updated",
+      "galleryOrder" -> 100
+    )
+
+    val jsonHeader = Map(
+      "Content-Type" -> " application/json"
+    )
+
+    def update(f: Tables.GalleriesRow => Unit) {
+      put("/api/galleries/1", write(testGallery), jsonHeader) {
+        println(body)
+        var res = parse(body).extract[Tables.GalleriesRow]
+        f(res)
+      }
+    }
+
+    it("updates the gallery properties") {
+      update(res => {
+        res.galleryId should equal (testGallery("galleryId"))
+        res.name should equal (testGallery("name"))
+        res.description should equal (testGallery("description"))
+        res.galleryOrder should equal (testGallery("galleryOrder"))
+      })
+    }
+    
+  }
 }
 

@@ -7,6 +7,7 @@ import org.json4s.{DefaultFormats, Formats}
 import org.scalatra.json._
 import org.scalatra.json.JsonSupport._
 import com.revveries.app.models.Tables
+import com.revveries.app.models.Tables.Galleries
 import scala.concurrent.ExecutionContext.Implicits.global
 
 class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSupport with JacksonJsonSupport {
@@ -22,7 +23,7 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Get slug info of all galleries
    */
   get("/") {
-    db.run(Tables.Galleries.result) 
+    db.run(Galleries.result) 
   }
 
   /**
@@ -32,8 +33,8 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSuppor
     val gallery = 
       (parse(request.body) merge parse("""{"galleryId": -1}""")).extract[Tables.GalleriesRow]
     val galleryInsert =
-      (Tables.Galleries 
-        returning Tables.Galleries.map(_.galleryId)
+      (Galleries 
+        returning Galleries.map(_.galleryId)
         into ((gallery, id) => gallery.copy(galleryId=id))
       ) += gallery
     db.run(galleryInsert)
@@ -43,7 +44,19 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Get gallery :id
    */
   get("/:id") {
-    val galleryFind = Tables.Galleries.filter(_.galleryId === params("id").toInt)
+    val galleryFind = Galleries.filter(_.galleryId === params("id").toInt)
     db.run(galleryFind.result)
+  }
+
+  /**
+   * Update gallery :id
+   */
+  put("/:id") {
+    val gallery = parse(request.body).extract[Tables.GalleriesRow]
+    val galleryUpdate = Galleries
+      .filter(_.galleryId === params("id").toInt)
+      .map(gal => (gal.name, gal.description, gal.galleryOrder))
+      .update((gallery.name, gallery.description, gallery.galleryOrder))
+    db.run(galleryUpdate)
   }
 }
