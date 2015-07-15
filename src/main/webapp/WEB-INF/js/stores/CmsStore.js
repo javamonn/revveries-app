@@ -34,8 +34,8 @@ var CmsStore = Reflux.createStore({
 
   onGalleryMoved(oldIndex, newIndex) {
     _updateGalleries(_galleries.map((gal, index) => {
-      if index == oldIndex return _galleries.get(newIndex);
-      else if index == newIndex return _galleries.get(oldIndex);
+      if (index == oldIndex) return _galleries.get(newIndex);
+      else if (index == newIndex) return _galleries.get(oldIndex);
       else return gal;
     }));
     
