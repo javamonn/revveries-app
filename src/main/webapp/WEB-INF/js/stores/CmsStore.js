@@ -28,8 +28,29 @@ var CmsStore = Reflux.createStore({
 
   },
   
-  onGalleryDeleted() {
-    
+  onGalleryDeleted(galleryIndex) {
+    _updateGalleries(
+      _galleries
+        .delete(galleryIndex)
+        .map((gal, index) => {
+           return index >= galleryIndex ? gal.set('galleryOrder', gal.galleryOrder - 1) : gal
+        });
+    );
+    var deleteAction = fetch(`/api/galleries/${galleryIndex}`, {
+      method: 'delete'
+    }).then(res => {
+      var updateOrderPromises = _galleries.reduce((memo, gal, index) => {
+        if (index >= galleryIndex) {
+          memo.push(fetch(`api/galleries/${gal.galleryId}`, {
+            method: 'put',
+            body: JSON.stringify(gal.toJS())
+          }));
+        }
+        return memo;
+      });
+      return Promise.all(updateOrderPromises);
+    });
+    return deleteAction;
   },
 
   onGalleryMoved(oldIndex, newIndex) {

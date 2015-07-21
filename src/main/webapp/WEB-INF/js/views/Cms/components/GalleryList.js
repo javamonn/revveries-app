@@ -92,6 +92,7 @@ var GalleryList = React.createClass({
   },
 
   _onDelete(galleryIndex) {
+    // TODO: Are you sure, snackbar
     CmsActions.galleryDeleted(galleryIndex);
   }
 });
