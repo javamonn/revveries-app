@@ -1,12 +1,12 @@
 package com.revveries.app
 
 import org.scalatra._
-import slick.driver.JdbcDriver.api._
 import scalate.ScalateSupport
 import org.json4s.{DefaultFormats, Formats}
 import org.scalatra.json._
 import org.scalatra.json.JsonSupport._
 import com.revveries.app.models.Tables
+import scala.slick.driver.PostgresDriver.api._
 
 class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSupport with JacksonJsonSupport with MethodOverride {
   protected implicit lazy val jsonFormats: Formats = 
@@ -60,6 +60,18 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSuppor
     db.run(galleryUpdate) map { status =>
       // TODO: Handle status = 0 non update case
       gallery
+    }
+  }
+
+  /**
+   * Delete gallery :id
+   */
+  delete("/:id") {
+    val galleryDelete = Tables.Galleries.filter(_.galleryId === params("id").toInt)
+    db.run(galleryDelete.delete) map { rowsDeleted =>
+      Map(
+        "status" -> 200
+      )
     }
   }
 }

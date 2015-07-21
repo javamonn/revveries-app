@@ -118,7 +118,6 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
 
     def update(f: Tables.GalleriesRow => Unit) {
       put("/api/galleries/1", write(testGallery), jsonHeader) {
-        println(body)
         var res = parse(body).extract[Tables.GalleriesRow]
         f(res)
       }
@@ -130,6 +129,41 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
         res.name should equal (testGallery("name"))
         res.description should equal (testGallery("description"))
         res.galleryOrder should equal (testGallery("galleryOrder"))
+      })
+    }
+  }
+
+  describe("delete gallery (DELETE @ /galleries/:id") {
+
+    val jsonHeader = Map(
+      "Content-Type" -> " application/json"
+    )
+
+    def deleteGallery(f: Map[String, Int] => Unit) {
+      delete("/api/galleries/1", jsonHeader) {
+        var res = parse(body).extract[Map[String, Int]]
+        f(res)
+      }
+    }
+
+    def index(f: List[Tables.GalleriesRow] => Unit) {
+      get("/api/galleries/") {
+        var res = parse(body).extract[List[Tables.GalleriesRow]]
+        f(res)
+      }
+    }
+
+    it("returns a 200 status code") {
+      deleteGallery(res => {
+        res("status") should equal (200)
+      })
+    }
+
+    it("deletes the gallery") {
+      deleteGallery(res => {
+        index(galleries => {
+          galleries.exists(_.galleryId == 1) shouldBe false
+        })
       })
     }
   }

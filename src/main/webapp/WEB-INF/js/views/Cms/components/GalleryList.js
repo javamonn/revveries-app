@@ -61,6 +61,7 @@ var GalleryList = React.createClass({
                 <IconButton 
                   tooltip="Delete" 
                   tooltipPosition="top-center" 
+                  onTouchTap={this._onDelete.bind(this, i)}
                   style={{paddingLeft: '6', paddingRight: '6'}}>
                     <FontIcon className="material-icons">delete</FontIcon> 
                 </IconButton>
@@ -91,7 +92,7 @@ var GalleryList = React.createClass({
   },
 
   _onDelete(galleryIndex) {
-
+    CmsActions.galleryDeleted(galleryIndex);
   }
 });
 
