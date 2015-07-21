@@ -2,7 +2,9 @@ import React from 'react';
 import Immutable  from 'immutable';
 import mui from 'material-ui';
 
-let {
+const CmsActions = require('actions/CmsActions');
+
+const {
   Card,
   CardTitle,
   CardActions,
@@ -45,14 +47,14 @@ var GalleryList = React.createClass({
                 <IconButton 
                   tooltip="Move Up" 
                   tooltipPosition="top-center" 
-                  onTouchTap={this._onMoveUp(i)}
+                  onTouchTap={this._onMoveUp.bind(this, i)}
                   style={{paddingLeft: '6', paddingRight: '6'}}>
                     <FontIcon className="material-icons">keyboard_arrow_up</FontIcon> 
                 </IconButton>
                 <IconButton 
                   tooltip="Move Down" 
                   tooltipPosition="top-center" 
-                  onTouchTap={this._onMoveDown(i)}
+                  onTouchTap={this._onMoveDown.bind(this, i)}
                   style={{paddingLeft: '6', paddingRight: '6'}}>
                     <FontIcon className="material-icons">keyboard_arrow_down</FontIcon> 
                 </IconButton>
@@ -78,13 +80,13 @@ var GalleryList = React.createClass({
 
   _onMoveUp(galleryIndex) {
     if (galleryIndex > 0) {
-      CmsActions.galleryMoved(galleryIndex, galleryIndex - 1)
+      CmsActions.galleryMoved(galleryIndex, galleryIndex - 1);
     }
   },
 
   _onMoveDown(galleryIndex) {
-    if (galleryIndex < galleries.size() - 1) {
-      CmsActions.galleryMoved(galleryIndex, galleryIndex + 1)
+    if (galleryIndex < this.props.galleries.size - 1) {
+      CmsActions.galleryMoved(galleryIndex, galleryIndex + 1);
     }
   },
 

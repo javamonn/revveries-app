@@ -40,19 +40,16 @@ var CmsStore = Reflux.createStore({
     }));
     
     var galNew = _galleries.get(newIndex);
+    console.log(galNew.set('galleryOrder', newIndex));
     var moveAction = fetch(`/api/galleries/${galNew.galleryId}`, {
       method: 'put',
-      body: JSON.stringify({
-        gallery: galNew.set(galleryOrder, newIndex)
-      })
+      body: JSON.stringify(galNew.set('galleryOrder', newIndex).toJS())
     });
 
     var galOld  = _galleries.get(oldIndex);
     var moveReaction = fetch(`/api/galleries/${galOld.galleryId}`, {
       method: 'put',
-      body: JSON.stringify({
-        gallery: galOld.set(galleryOrder, newIndex)
-      })
+      body: JSON.stringify(galOld.set('galleryOrder', newIndex).toJS())
     });
 
     return Promise.all([moveAction, moveReaction]);
