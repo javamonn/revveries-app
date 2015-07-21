@@ -54,4 +54,29 @@ describe('CmsStore', () => {
         });
     });
   });
+
+  describe('.onGalleryMoved', () => {
+    CmsStore.listen(_galleries => galleries = _galleries);
+    var galleries = [];
+    var galleryTitle = 'Test Gallery Title';
+    var galleryDescription = 'Test Gallery Description';
+
+    var movePromise = CmsStore
+      .onGalleryCreated(galleryTitle + ' 1', galleryDescription + ' 1')
+      .then(() => CmsStore.onGalleryCreated(galleryTitle + ' 2', galleryDescription + ' 2'))
+      .then(() => CmsStore.onGalleryMoved(0, 1));
+
+    it('moves the gallery at oldIndex to newIndex', () => {
+        movePromise.then(() => {
+          expect(galleries.get(1).galleryId).toBe(1);
+        });
+    });
+
+    it('moves the gallery at newIndex to oldIndex', () => {
+        movePromise.then(() => {
+          expect(galleries.get(0).galleryId).toBe(2);
+        })
+    });
+
+  });
 });

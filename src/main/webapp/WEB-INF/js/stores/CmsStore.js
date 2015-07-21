@@ -40,7 +40,6 @@ var CmsStore = Reflux.createStore({
     }));
     
     var galNew = _galleries.get(newIndex);
-    console.log(galNew.set('galleryOrder', newIndex));
     var moveAction = fetch(`/api/galleries/${galNew.galleryId}`, {
       method: 'put',
       body: JSON.stringify(galNew.set('galleryOrder', newIndex).toJS())
