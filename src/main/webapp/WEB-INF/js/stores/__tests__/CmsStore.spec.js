@@ -1,7 +1,4 @@
 jest.dontMock('../CmsStore');
-jest.dontMock('../__mocks__/fetch');
-
-fetch = require('../__mocks__/fetch');
 
 import Reflux from 'reflux';
 import { List } from 'immutable';

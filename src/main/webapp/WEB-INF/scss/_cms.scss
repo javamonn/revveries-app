@@ -37,5 +37,8 @@
     .actions-container > div {
       display: inline-block;
     }
+    .hidden-button {
+      display: none !important;
+    }
   }
 }

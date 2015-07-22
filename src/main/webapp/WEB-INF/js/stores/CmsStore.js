@@ -29,6 +29,7 @@ var CmsStore = Reflux.createStore({
   },
   
   onGalleryDeleted(galleryIndex) {
+    var galleryId = _galleries.get(galleryIndex).galleryId;
     _updateGalleries(
       _galleries
         .delete(galleryIndex)
@@ -36,7 +37,7 @@ var CmsStore = Reflux.createStore({
            return index >= galleryIndex ? gal.set('galleryOrder', gal.galleryOrder - 1) : gal
         })
     );
-    var deleteAction = fetch(`/api/galleries/${galleryIndex}`, {
+    var deleteAction = fetch(`/api/galleries/${galleryId}`, {
       method: 'delete'
     }).then(res => {
       var updateOrderPromises = _galleries.reduce((memo, gal, index) => {
@@ -47,7 +48,7 @@ var CmsStore = Reflux.createStore({
           }));
         }
         return memo;
-      });
+      }, []);
       return Promise.all(updateOrderPromises);
     });
     return deleteAction;

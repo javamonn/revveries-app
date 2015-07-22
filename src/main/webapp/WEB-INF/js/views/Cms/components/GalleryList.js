@@ -45,6 +45,7 @@ var GalleryList = React.createClass({
               </div>
               <div className="right-actions">
                 <IconButton 
+                  className={i == 0 ? 'hidden-button' :''}
                   tooltip="Move Up" 
                   tooltipPosition="top-center" 
                   onTouchTap={this._onMoveUp.bind(this, i)}
@@ -52,6 +53,7 @@ var GalleryList = React.createClass({
                     <FontIcon className="material-icons">keyboard_arrow_up</FontIcon> 
                 </IconButton>
                 <IconButton 
+                  className={i == this.props.galleries.size - 1 ? 'hidden-button' :''}
                   tooltip="Move Down" 
                   tooltipPosition="top-center" 
                   onTouchTap={this._onMoveDown.bind(this, i)}
@@ -92,7 +94,6 @@ var GalleryList = React.createClass({
   },
 
   _onDelete(galleryIndex) {
-    // TODO: Are you sure, snackbar
     CmsActions.galleryDeleted(galleryIndex);
   }
 });
