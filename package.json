@@ -32,8 +32,12 @@
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/reflux",
       "<rootDir>/node_modules/react-router",
-      "<rootDir>/node_modules/immutable"
-    ]
+      "<rootDir>/node_modules/immutable",
+      "<rootDir>/node_modules/babel",
+      "<rootDir>/node_modules/gulp-babel",
+      "<rootDir>/node_modules/babel-core"
+    ],
+    "setupEnvScriptFile": "<rootDir>/src/main/webapp/WEB-INF/js/__tests__/.setupJestTestEnv.js"
   },
   "dependencies": {
     "babel": "^5.5.8",
