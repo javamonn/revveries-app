@@ -1,8 +1,6 @@
 language: scala
 jdk:
         - oraclejdk8
-node_js:
-        - "iojs"
 before_script:
         - npm install
         - psql -c "create database revveries_test;" -U postgres
