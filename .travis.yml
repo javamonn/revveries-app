@@ -6,4 +6,4 @@ before_script:
         - psql -c "create database revveries_test;" -U postgres
 script:
         - sbt -DJDBC_URL="jdbc:postgresql:revveries_test" -DJDBC_TEST_URI="jdbc:postgresql:revveries_test" -DJDBC_TEST_BASE_URL="jdbc:postgresql:revveries_test" -DJDBC_TEST_USER="postgres" -DJDBC_TEST_PASSWORD='' test
-        - gulp spec
+        - npm test
