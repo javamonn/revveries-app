@@ -1,11 +1,11 @@
 import React from 'react';
 import Reflux from 'reflux';
 
-import GalleryList from 'views/Cms/components/GalleryList';
-import GalleryCreator from 'views/Cms/components/GalleryCreator';
 import CmsStore from 'stores/CmsStore';
 import mui from 'material-ui';
 import Immutable from 'immutable';
+
+import GalleryManager from './views/GalleryManager/Handler';
 
 const ThemeManager = new mui.Styles.ThemeManager();
 const AppBar = mui.AppBar;
@@ -50,8 +50,7 @@ var Cms = React.createClass({
     return (
       <div id="cms">
         <AppBar title={<h1 id="app-bar-title">Galleries</h1>} />
-        <GalleryList galleries={this.state.galleries} />
-        <GalleryCreator />
+        <GalleryManager galleries={this.state.galleries} />
       </div>
     )
   }
