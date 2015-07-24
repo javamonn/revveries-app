@@ -74,4 +74,11 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSuppor
       )
     }
   }
+
+  /**
+   * Ordered list of pictures in gallery :id
+   */
+  get("/:id/pictures") {
+    
+  }
 }
