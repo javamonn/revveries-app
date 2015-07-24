@@ -6,6 +6,9 @@ const Gallery = require('./records/GalleryRecord');
 
 var _galleries = List([]);
 
+/**
+ * TODO: Rename to GalleryStore
+ */
 var CmsStore = Reflux.createStore({
   listenables: CmsActions,
 
@@ -25,7 +28,7 @@ var CmsStore = Reflux.createStore({
   },
 
   onGalleryEdited(gallery) {
-
+    // TODO: implement
   },
   
   onGalleryDeleted(galleryIndex) {

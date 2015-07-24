@@ -42,7 +42,7 @@ trait Tables {
     val name: Rep[String] = column[String]("name", O.Length(255,varying=true))
     /** Database column description SqlType(text) */
     val description: Rep[String] = column[String]("description")
-    /** Database column description SqlType(integer) */
+    /** Database column gallery_order SqlType(integer) */
     val galleryOrder: Rep[Int] = column[Int]("gallery_order")
   }
   /** Collection-like TableQuery object for table Galleries */
@@ -64,7 +64,7 @@ trait Tables {
   class Pictures(_tableTag: Tag) extends Table[PicturesRow](_tableTag, "pictures") {
     def * = (pictureId, title, description, url, galleryId) <> (PicturesRow.tupled, PicturesRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(pictureId), Rep.Some(title), Rep.Some(description), Rep.Some(url), Rep.Some(galleryId)).shaped.<>({r=>import r._; _1.map(_=> PicturesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (Rep.Some(pictureId), Rep.Some(title), Rep.Some(description), Rep.Some(url), Rep.Some(galleryId), Rep.Some(pictureOrder)).shaped.<>({r=>import r._; _1.map(_=> PicturesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column picture_id SqlType(serial), AutoInc, PrimaryKey */
     val pictureId: Rep[Int] = column[Int]("picture_id", O.AutoInc, O.PrimaryKey)
@@ -76,6 +76,9 @@ trait Tables {
     val url: Rep[String] = column[String]("url", O.Length(255,varying=true))
     /** Database column gallery_id SqlType(int4) */
     val galleryId: Rep[Int] = column[Int]("gallery_id")
+    /** Database column picture_order SqlType(integer) */
+    val galleryOrder: Rep[Int] = column[Int]("gallery_order")
+
 
     /** Foreign key referencing Galleries (database name pictures_gallery_id_fkey) */
     lazy val galleriesFk = foreignKey("pictures_gallery_id_fkey", galleryId, Galleries)(r => r.galleryId, onUpdate=ForeignKeyAction.NoAction, onDelete=ForeignKeyAction.NoAction)

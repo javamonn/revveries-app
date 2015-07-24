@@ -7,7 +7,9 @@ import { Route, DefaultRoute } from 'react-router';
 var routes = (
   <Route handler={App}>
     <DefaultRoute handler={Gallery} />
-    <Route path="cms" handler={Cms} />
+    <Route path="cms" handler={Cms}>
+      <Route path="gallery/:id" handler={PictureManager} />
+    </Route>
   </Route>
 );
 

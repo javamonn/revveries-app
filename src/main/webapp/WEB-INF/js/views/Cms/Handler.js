@@ -25,7 +25,6 @@ var Cms = React.createClass({
 
   componentDidMount() {
     CmsStore.getInitialState().then(galleries => {
-      console.log(galleries);
       if (this.isMounted()) {
         this.setState({galleries});
       }
