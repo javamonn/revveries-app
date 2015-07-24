@@ -53,16 +53,17 @@ trait Tables {
    *  @param title Database column title SqlType(varchar), Length(255,true)
    *  @param description Database column description SqlType(text)
    *  @param url Database column url SqlType(varchar), Length(255,true)
-   *  @param galleryId Database column gallery_id SqlType(int4) */
-  case class PicturesRow(pictureId: Int, title: String, description: String, url: String, galleryId: Int)
+   *  @param galleryId Database column gallery_id SqlType(int4)
+   *  @param pictureOrder Database column picture_order SqlType(integer) */
+  case class PicturesRow(pictureId: Int, title: String, description: String, url: String, galleryId: Int, pictureOrder: Int)
   /** GetResult implicit for fetching PicturesRow objects using plain SQL queries */
   implicit def GetResultPicturesRow(implicit e0: GR[Int], e1: GR[String]): GR[PicturesRow] = GR{
     prs => import prs._
-    PicturesRow.tupled((<<[Int], <<[String], <<[String], <<[String], <<[Int]))
+    PicturesRow.tupled((<<[Int], <<[String], <<[String], <<[String], <<[Int], <<[Int]))
   }
   /** Table description of table pictures. Objects of this class serve as prototypes for rows in queries. */
   class Pictures(_tableTag: Tag) extends Table[PicturesRow](_tableTag, "pictures") {
-    def * = (pictureId, title, description, url, galleryId) <> (PicturesRow.tupled, PicturesRow.unapply)
+    def * = (pictureId, title, description, url, galleryId, pictureOrder) <> (PicturesRow.tupled, PicturesRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
     def ? = (Rep.Some(pictureId), Rep.Some(title), Rep.Some(description), Rep.Some(url), Rep.Some(galleryId), Rep.Some(pictureOrder)).shaped.<>({r=>import r._; _1.map(_=> PicturesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
@@ -77,7 +78,7 @@ trait Tables {
     /** Database column gallery_id SqlType(int4) */
     val galleryId: Rep[Int] = column[Int]("gallery_id")
     /** Database column picture_order SqlType(integer) */
-    val galleryOrder: Rep[Int] = column[Int]("gallery_order")
+    val pictureOrder: Rep[Int] = column[Int]("picture_order")
 
 
     /** Foreign key referencing Galleries (database name pictures_gallery_id_fkey) */
