@@ -21,7 +21,13 @@ class PictureServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Create picture
    */
   post("/") {
-    
+    val picture = 
+      (parse(request.body) merge parse("""{"pictureId": -1}""")).extract[Tables.PicturesRow]
+    val pictureInsert = (Tables.Pictures
+      returning Tables.Pictures.map(_.pictureId)
+      into ((picture, id) => picture.copy(pictureId=id))
+    ) += picture
+    db.run(pictureInsert)
   }
 
   /**
@@ -50,6 +56,11 @@ class PictureServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Delete picture :id
    */
   delete("/:id") {
-
+    val pictureDelete = Tables.Pictures.filter(_.pictureId === params("id").toInt)
+    db.run(pictureDelete.delete) map { rowsDeleted =>
+      Map(
+        "status" -> 200
+      )
+    }
   }
 }
