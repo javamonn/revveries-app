@@ -154,5 +154,29 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
       })
     }
   }
+
+  describe("get pictures for gallery (GET @ /galleries/:id/pictures") {
+    def getPictures(f: List[Tables.PicturesRow] => Unit) {
+      get("/api/galleries/1/pictures") {
+        var res = parse(body).extract[List[Tables.PicturesRow]]
+        f(res)
+      }
+    }
+
+    it("returns the pictures in the gallery") {
+      getPictures(pictures => {
+        pictures.length should be > 0
+        pictures.forall(_.galleryId == 1) shouldBe true
+      })
+    }
+    
+    it("returns the pictures in order") {
+      getPictures(pictures => {
+        pictures.forall(picture => {
+          picture.pictureOrder == pictures.indexOf(picture)
+        }) shouldBe true
+      })
+    }
+  }
 }
 
