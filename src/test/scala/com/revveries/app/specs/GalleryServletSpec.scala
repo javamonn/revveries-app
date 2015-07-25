@@ -53,7 +53,7 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
     }
   }
 
-  describe("index galleries (GET @ /)") {
+  describe("index galleries (GET @ /galleries/)") {
     def index(f: List[Tables.GalleriesRow] => Unit) {
       get("/api/galleries/") {
         var res = parse(body).extract[List[Tables.GalleriesRow]]

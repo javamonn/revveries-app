@@ -20,6 +20,18 @@ class PictureServletSpec extends ScalatraSpec with FunSpecLike {
 
   addServlet(new PictureServlet(RevveriesSuite.db), "/api/pictures/*")
 
+  describe("index pictures (GET @ /pictures/)") {
+    def index(f: List[Tables.PicturesRow] => Unit) {
+      get("/api/pictures/") {
+        var res = parse(body).extract[List[Tables.PicturesRow]]
+        f(res)
+      }
+    }
+    it("retrieves all pictures") {
+      index(pictures => pictures.length should be > 0)
+    }
+  }
+
   describe("show picture (GET @ /pictures/:id)") {
     def show(f: Tables.PicturesRow => Unit) {
       get("/api/pictures/1") {
@@ -28,9 +40,7 @@ class PictureServletSpec extends ScalatraSpec with FunSpecLike {
       }
     }
     it("retrieves the correct picture") {
-      show((pic => {
-        pic.pictureId should equal (1)
-      }))
+      show((picture => picture.pictureId should equal (1)))
     }
   }
 }

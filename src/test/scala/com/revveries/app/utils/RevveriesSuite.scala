@@ -1,6 +1,9 @@
 package com.revveries.app.utils
 import slick.driver.PostgresDriver.api._
 
+/**
+ * TODO: Clean up and close db connection in an afterAll
+ */
 object RevveriesSuite {
   val connection = new TestDatabaseConnection(
     sys.props.getOrElse("JDBC_TEST_URI", default = sys.env("JDBC_TEST_URI")),
