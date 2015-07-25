@@ -38,6 +38,13 @@ class PictureServletSpec extends ScalatraSpec with FunSpecLike {
     }
   }
 
+  def update(pictureIndex: Int, picture: Map[String, Any], f: Tables.PicturesRow => Unit) {
+    put(s"/api/pictures/$pictureIndex", write(picture), jsonHeader) {
+      var res = parse(body).extract[Tables.PicturesRow]
+      f(res)
+    }
+  }
+
   def show(pictureIndex: Int, f: Tables.PicturesRow => Unit) {
     get(s"/api/pictures/$pictureIndex") {
       var res = parse(body).extract[Tables.PicturesRow]
@@ -99,4 +106,23 @@ class PictureServletSpec extends ScalatraSpec with FunSpecLike {
       })
     }
   }
+
+  describe("update picture (PUT @ /pictures/:id)") {
+    val testPicture = Map(
+      "pictureId" -> -1,
+      "title" -> "Test Picture 1 - updated",
+      "description" -> "Test Picture Description 1 - updated",
+      "url" -> "http://testpicture.com",
+      "galleryId" -> 2,
+      "pictureOrder" -> 3
+    )
+
+    it("updates the picture properties") {
+      update(1, testPicture, res => {
+        res.title should equal (testPicture("title"))
+        res.description should equal (testPicture("description"))
+      })
+    }
+  }
+
 }

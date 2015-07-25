@@ -49,7 +49,16 @@ class PictureServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Update picture :id
    */
   put("/:id") {
-
+    val picture = parse(request.body).extract[Tables.PicturesRow]
+    val pictureUpdate = Tables.Pictures
+      .filter(_.pictureId === params("id").toInt)
+      .map(pic => (pic.title, pic.description, pic.url, pic.galleryId, pic.pictureOrder))
+      .update((picture.title, picture.description, picture.url, picture.galleryId, picture.pictureOrder))
+        
+    db.run(pictureUpdate) map { status =>
+      // TODO: Handle status = 0 non update case
+      picture
+    }
   }
 
   /**
