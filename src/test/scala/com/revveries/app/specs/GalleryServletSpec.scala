@@ -170,9 +170,11 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
     
     it("returns the pictures in order") {
       getPictures(testGalleryId, pictures => {
-        pictures.forall(picture => {
-          picture.pictureOrder == pictures.indexOf(picture)
-        }) shouldBe true
+        var lastOrder = 0
+        pictures.foreach(picture => {
+          picture.pictureOrder.toInt should be >= lastOrder
+          lastOrder = picture.pictureOrder.toInt
+        })
       })
     }
   }
