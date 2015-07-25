@@ -6,7 +6,6 @@ import org.scalatest.FunSpecLike
 class RevveriesServletSpec extends ScalatraSuite with FunSpecLike { 
   addServlet(classOf[RevveriesServlet], "/*")
 
-
   /* TODO: 
    *   - Setup selenium for more comprehensive integration tests
    *   - abstract get into a before/after

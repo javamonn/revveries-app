@@ -11,27 +11,14 @@ import org.json4s.jackson.JsonMethods._
 import org.json4s.jackson.Serialization
 import org.json4s.jackson.Serialization.{read, write}
 import com.revveries.app.models.Tables
+import com.revveries.app.utils.RevveriesSuite
 
 class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
   
   protected implicit lazy val jsonFormats: Formats = 
     DefaultFormats.withCompanions(classOf[Tables.GalleriesRow] -> Tables)
 
-  override def afterAll = {
-    connection.close
-    super.afterAll()
-  }
-  
-  val connection = new TestDatabaseConnection(
-    sys.props.getOrElse("JDBC_TEST_URI", default = sys.env("JDBC_TEST_URI")),
-    sys.props.getOrElse("JDBC_TEST_BASE_URL", default = sys.env("JDBC_TEST_BASE_URL")),
-    sys.props.getOrElse("JDBC_TEST_USER", default = sys.env("JDBC_TEST_USER")),
-    sys.props.getOrElse("JDBC_TEST_PASSWORD", default = sys.env("JDBC_TEST_PASSWORD"))
-  )
-  val db = connection.open
-  connection.populateTestDatabase
-
-  addServlet(new GalleryServlet(db), "/api/galleries/*")
+  addServlet(new GalleryServlet(RevveriesSuite.db), "/api/galleries/*")
 
   describe("show gallery (GET @ /galleries/:id)") {
     def show(f: Tables.GalleriesRow => Unit) {
