@@ -51,11 +51,10 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    */
   put("/:id") {
     val gallery = parse(request.body).extract[Tables.GalleriesRow]
-    val galleryUpdate = 
-      Tables.Galleries
-        .filter(_.galleryId === params("id").toInt)
-        .map(gal => (gal.name, gal.description, gal.galleryOrder))
-        .update((gallery.name, gallery.description, gallery.galleryOrder))
+    val galleryUpdate = Tables.Galleries
+      .filter(_.galleryId === params("id").toInt)
+      .map(gal => (gal.name, gal.description, gal.galleryOrder))
+      .update((gallery.name, gallery.description, gallery.galleryOrder))
         
     db.run(galleryUpdate) map { status =>
       // TODO: Handle status = 0 non update case
@@ -79,6 +78,9 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Ordered list of pictures in gallery :id
    */
   get("/:id/pictures") {
-    
+    val picturesIndex = Tables.Pictures
+      .filter(_.galleryId === params("id").toInt)
+      .sortBy(_.pictureOrder.asc)
+    db.run(picturesIndex.result)
   }
 }

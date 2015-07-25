@@ -13,6 +13,10 @@ import org.json4s.jackson.Serialization.{read, write}
 import com.revveries.app.models.Tables
 import com.revveries.app.utils.RevveriesSuite
 
+/**
+ * TODO: clean and repopulate DB after each spec
+ */
+
 class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
   
   protected implicit lazy val jsonFormats: Formats = 
@@ -20,14 +24,46 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
 
   addServlet(new GalleryServlet(RevveriesSuite.db), "/api/galleries/*")
 
-  describe("show gallery (GET @ /galleries/:id)") {
-    def show(f: Tables.GalleriesRow => Unit) {
-      get("/api/galleries/1") {
-        var res = parse(body).extract[Tables.GalleriesRow]
-        f(res)
-      }
-    }
+  val jsonHeader = Map(
+    "Content-Type" -> " application/json"
+  )
 
+  def index(f: List[Tables.GalleriesRow] => Unit) {
+    get("/api/galleries/") {
+      var res = parse(body).extract[List[Tables.GalleriesRow]]
+      f(res)
+    }
+  }
+
+  def show(f: Tables.GalleriesRow => Unit) {
+    get("/api/galleries/1") {
+      var res = parse(body).extract[Tables.GalleriesRow]
+      f(res)
+    }
+  }
+
+  def update(gallery: Map[String, Any], f: Tables.GalleriesRow => Unit) {
+    put("/api/galleries/1", write(gallery), jsonHeader) {
+      var res = parse(body).extract[Tables.GalleriesRow]
+      f(res)
+    }
+  }
+
+  def deleteGallery(f: Map[String, Int] => Unit) {
+    delete("/api/galleries/1", jsonHeader) {
+      var res = parse(body).extract[Map[String, Int]]
+      f(res)
+    }
+  }
+
+  def getPictures(index: Int, f: List[Tables.PicturesRow] => Unit) {
+    get(s"/api/galleries/$index/pictures") {
+      var res = parse(body).extract[List[Tables.PicturesRow]]
+      f(res)
+    }
+  }
+
+  describe("show gallery (GET @ /galleries/:id)") {
     it("retrieves the correct gallery") {
       show((gal: Tables.GalleriesRow) => {
         gal.galleryId should equal (1)
@@ -54,13 +90,6 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
   }
 
   describe("index galleries (GET @ /galleries/)") {
-    def index(f: List[Tables.GalleriesRow] => Unit) {
-      get("/api/galleries/") {
-        var res = parse(body).extract[List[Tables.GalleriesRow]]
-        f(res)
-      }
-    }
-
     it("retrieves all galleries") {
       index((galleries: List[Tables.GalleriesRow]) => {
         galleries.length should be > 0
@@ -74,9 +103,6 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
       "name" -> "Test Gallery",
       "description" -> "This is a test",
       "galleryOrder" -> 4
-    )
-    val jsonHeader = Map(
-      "Content-Type" -> " application/json"
     )
 
 
@@ -99,19 +125,8 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
       "galleryOrder" -> 100
     )
 
-    val jsonHeader = Map(
-      "Content-Type" -> " application/json"
-    )
-
-    def update(f: Tables.GalleriesRow => Unit) {
-      put("/api/galleries/1", write(testGallery), jsonHeader) {
-        var res = parse(body).extract[Tables.GalleriesRow]
-        f(res)
-      }
-    }
-
     it("updates the gallery properties") {
-      update(res => {
+      update(testGallery, res => {
         res.galleryId should equal (testGallery("galleryId"))
         res.name should equal (testGallery("name"))
         res.description should equal (testGallery("description"))
@@ -121,24 +136,6 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
   }
 
   describe("delete gallery (DELETE @ /galleries/:id") {
-
-    val jsonHeader = Map(
-      "Content-Type" -> " application/json"
-    )
-
-    def deleteGallery(f: Map[String, Int] => Unit) {
-      delete("/api/galleries/1", jsonHeader) {
-        var res = parse(body).extract[Map[String, Int]]
-        f(res)
-      }
-    }
-
-    def index(f: List[Tables.GalleriesRow] => Unit) {
-      get("/api/galleries/") {
-        var res = parse(body).extract[List[Tables.GalleriesRow]]
-        f(res)
-      }
-    }
 
     it("returns a 200 status code") {
       deleteGallery(res => {
@@ -153,25 +150,26 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
         })
       })
     }
+
+    it("deletes the gallery's pictures") {
+      getPictures(1, pictures => {
+        pictures.length shouldBe 0
+      })
+    }
   }
 
-  describe("get pictures for gallery (GET @ /galleries/:id/pictures") {
-    def getPictures(f: List[Tables.PicturesRow] => Unit) {
-      get("/api/galleries/1/pictures") {
-        var res = parse(body).extract[List[Tables.PicturesRow]]
-        f(res)
-      }
-    }
+  describe("get pictures for gallery (GET @ /galleries/:id/pictures)") {
 
+    val testGalleryId = 2
     it("returns the pictures in the gallery") {
-      getPictures(pictures => {
+      getPictures(testGalleryId, pictures => {
         pictures.length should be > 0
-        pictures.forall(_.galleryId == 1) shouldBe true
+        pictures.forall(_.galleryId == testGalleryId) shouldBe true
       })
     }
     
     it("returns the pictures in order") {
-      getPictures(pictures => {
+      getPictures(testGalleryId, pictures => {
         pictures.forall(picture => {
           picture.pictureOrder == pictures.indexOf(picture)
         }) shouldBe true
