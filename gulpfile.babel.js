@@ -16,7 +16,7 @@ const APP_PATH = './src/main/webapp/';
 gulp.task('scripts', () => {
   // todo cleanup, decomp scripts simularity
   var bundler = browserify({
-    entries: [`${APP_PATH}/WEB-INF/js/main.js/`],
+    entries: [`${APP_PATH}/WEB-INF/js/views/Cms/main.js/`],
     paths: ['./node_modules', `${APP_PATH}/WEB-INF/js`],
     cache: {},
     packageCache: {}
@@ -40,7 +40,7 @@ gulp.task('scripts', () => {
 
 gulp.task('scripts:watch', () => {
   var bundler = watchify(browserify({
-    entries: [`${APP_PATH}/WEB-INF/js/main.js/`],
+    entries: [`${APP_PATH}/WEB-INF/js/views/Cms/main.js/`],
     paths: ['./node_modules', `${APP_PATH}/WEB-INF/js`],
     cache: {},
     packageCache: {}
@@ -53,10 +53,10 @@ gulp.task('scripts:watch', () => {
         .on('error', gutil.log)
       .pipe(source('bundle.js'))
       .pipe(buffer())
-      .pipe(sourcemaps.init({loadMaps: true}))
-      .pipe(uglify())
-        .on('error', gutil.log)
-      .pipe(sourcemaps.write())
+      //.pipe(sourcemaps.init({loadMaps: true}))
+      //.pipe(uglify())
+        //.on('error', gutil.log)
+      //.pipe(sourcemaps.write())
       .pipe(gulp.dest(`${APP_PATH}/_build/`))
   };
   bundler.on('update', () => rebundle());

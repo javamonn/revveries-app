@@ -12,4 +12,8 @@ class RevveriesServlet extends ScalatraServlet with ScalateSupport {
   get("/") {
     ssp("index")
   }
+
+  get("/cms") {
+    ssp("cms")
+  }
 }
