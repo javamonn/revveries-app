@@ -9,10 +9,6 @@ const AppBar = mui.AppBar;
 
 var Cms = React.createClass({
 
-  mixins: [
-    require('react/addons').addons.PureRenderMixin,
-  ],
-
   childContextTypes: {
     muiTheme: React.PropTypes.Object
   },

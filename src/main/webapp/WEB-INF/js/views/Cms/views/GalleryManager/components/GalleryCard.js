@@ -1,11 +1,9 @@
 import React from 'react';
 import Immutable  from 'immutable';
-import mui from 'material-ui';
-
-const CmsActions = require('actions/CmsActions');
-const GalleryRecord = require('stores/records/GalleryRecord');
-
-const {
+import { Navigation } from 'react-router';
+import CmsActions from 'actions/CmsActions';
+import GalleryRecord from 'stores/records/GalleryRecord';
+import mui, {
   Card,
   CardTitle,
   CardActions,
@@ -13,11 +11,12 @@ const {
   FontIcon,
   FlatButton,
   SnackBar
-} = mui;
+} from 'material-ui';
 
 var GalleryCard = React.createClass({
   mixins: [
-    require('react/addons').addons.PureRenderMixin
+    require('react/addons').addons.PureRenderMixin,
+    Navigation
   ],
 
   propTypes: {
@@ -42,6 +41,10 @@ var GalleryCard = React.createClass({
     CmsActions.galleryDeleted(this.props.galleryIndex);
   },
 
+  _onTransition() {
+    this.transitionTo('pictures', {galleryId: this.props.gallery.galleryId});
+  },
+
   render() {
     return (
       <Card className="gallery-card">
@@ -52,6 +55,7 @@ var GalleryCard = React.createClass({
             paddingBottom: '4',
             paddingTop: '6'
           }}
+          onTouchTap={this._onTransition}
         />
         <CardActions className="card-actions">
           <div className="actions-container">
