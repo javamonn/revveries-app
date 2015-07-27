@@ -83,7 +83,7 @@ var CmsStore = Reflux.createStore({
     return fetch('/api/galleries/')
       .then(res => res.json())
       .then(galleries => {
-        _galleries = List(galleries.map(gal => new Gallery(gal)))
+        _galleries = List(galleries.map(gal => new Gallery(gal)));
         return _galleries;
       });
   }
@@ -92,6 +92,6 @@ var CmsStore = Reflux.createStore({
 var _updateGalleries = galleries => {
   _galleries = galleries;
   CmsStore.trigger(_galleries);
-}
+};
 
 module.exports = CmsStore;
