@@ -1,11 +1,11 @@
 import React from 'react';
-import mui from 'material-ui';
 import cmsActions from 'actions/CmsActions';
-
-const FloatingActionButton = mui.FloatingActionButton;
-const Dialog = mui.Dialog;
-const TextField = mui.TextField;
-const FontIcon = mui.FontIcon;
+import mui, {
+  FloatingActionButton,
+  Dialog,
+  TextField,
+  FontIcon
+} from 'material-ui';
 
 var GalleryCreator = React.createClass({
   
@@ -31,7 +31,7 @@ var GalleryCreator = React.createClass({
           title="Create a Gallery"
           actions={dialogActions}
           actionFocus="create">
-          <section className="create-gallery-content">
+          <section className="create-content">
             <TextField 
               floatingLabelText="Title" 
               ref="titleField"

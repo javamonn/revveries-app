@@ -6,8 +6,9 @@
   line-height: 64px;
 }
 
-#gallery-creator {
-  .create-gallery-content {
+#gallery-creator,
+#picture-creator {
+  .create-content {
     display: flex;
     justify-content: center;
     align-items: center;
