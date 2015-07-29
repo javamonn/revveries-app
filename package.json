@@ -46,6 +46,7 @@
     "babel-jest": "^5.3.0",
     "babelify": "^6.1.2",
     "browserify": "^10.2.4",
+    "cuid": "^1.2.5",
     "dotenv": "^1.2.0",
     "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",

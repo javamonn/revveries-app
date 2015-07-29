@@ -2,6 +2,7 @@ import React from 'react';
 import Immutable  from 'immutable';
 import PictureActions from 'actions/PictureActions';
 import AWS from 'aws-sdk';
+import cuid from 'cuid';
 import env from '.config';
 import mui, {
   FloatingActionButton,
@@ -136,6 +137,19 @@ var PictureCreator = React.createClass({
       this.refs.titleField.getValue(),
       this.refs.descriptionField.getValue()
     );
+    // img name is key
+    this.state.S3.putObject({
+      Bucket: env.AWS_BUCKET,
+      Key: `images/${cuid()}`,
+      Body: file,
+      ContentType: file.type
+    }, (err, data) => {
+      if (err) console.log(err);
+      else {
+        console.log(data);
+      }
+    });
+
     this.refs.titleField.clearValue();
     this.refs.descriptionField.clearValue();
     this.refs.pictureField.value = null;
