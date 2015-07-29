@@ -1,6 +1,8 @@
 import React from 'react';
 import Immutable  from 'immutable';
 import PictureActions from 'actions/PictureActions';
+import AWS from 'aws-sdk';
+import env from '.config';
 import mui, {
   FloatingActionButton,
   Dialog,
@@ -12,7 +14,6 @@ import mui, {
   ToolbarTitle,
   IconButton
 } from 'material-ui';
-
 
 var PictureCreator = React.createClass({
   render() {
@@ -35,10 +36,18 @@ var PictureCreator = React.createClass({
       flash = (
         <Toolbar className="flash" style={{backgroundColor: (this.state.flash.state) == 'error' ? '#f44336': '#00bcd4' }}>
           <ToolbarGroup float="left">
-            <ToolbarTitle text={this.state.flash.message}  style={{fontSize: '14', color: '#FFF'}}/>
+            <ToolbarTitle 
+              text={this.state.flash.message}  
+              style={{fontSize: '14', color: '#FFF'}}
+            />
           </ToolbarGroup>
           <ToolbarGroup float="right">
-            <IconButton iconClassName='material-icons' iconStyle={{color: '#FFF'}}>highlight_off</IconButton>
+            <IconButton 
+              iconClassName='material-icons' 
+              iconStyle={{color: '#FFF'}}
+              onTouchTap={this._onHideFlash}>
+                highlight_off
+            </IconButton>
           </ToolbarGroup>
         </Toolbar>
       );
@@ -53,7 +62,7 @@ var PictureCreator = React.createClass({
             bottom: '24',
             right: '24',
           }}>
-        <FontIcon className='material-icons'>add</FontIcon>
+          <FontIcon className='material-icons'>add</FontIcon>
         </FloatingActionButton>
         <Dialog
           ref='createPictureDialog'
@@ -65,7 +74,11 @@ var PictureCreator = React.createClass({
             <RaisedButton
               secondary={true}
               label='Choose an Image'>
-              <input ref='pictureField' type='file' style={fileInputStyle}></input>
+              <input 
+                ref='pictureField' 
+                type='file' 
+                onChange={this._onFileSelect}
+                style={fileInputStyle} />
             </RaisedButton>
             <TextField 
               floatingLabelText='Title (optional)'
@@ -83,15 +96,36 @@ var PictureCreator = React.createClass({
   },
 
   getInitialState() {
+    AWS.config.region = env.AWS_REGION
+    AWS.config.update({
+      accessKeyId: env.AWS_AKID,
+      secretAccessKey: env.AWS_SK
+    });
     return {
-      flash: null
+      flash: null,
+      S3: new AWS.S3()
     };
   },
+
+  _onFileSelect(e) {
+    var file = e.target.files[0];
+    if (file.type.includes('image')) {
+      this._onHideFlash();
+    } else {
+      this.setState({
+        flash: {
+          message: 'Selected file must be an image.',
+          state: 'error'
+        }
+      });
+    }
+  },
   _onPictureCreate() {
+    var files = this.refs.pictureField.getDOMNode();
     if (!this.refs.pictureField.value) {
       this.setState({
         flash: {
-          message: 'You must select an image to upload',
+          message: 'You must select an image to upload.',
           state: 'error'
         }
       });
@@ -105,9 +139,17 @@ var PictureCreator = React.createClass({
     this.refs.titleField.clearValue();
     this.refs.descriptionField.clearValue();
     this.refs.pictureField.value = null;
+    this._onHideFlash();
   },
+
   _onDialogShow() {
     this.refs.createPictureDialog.show();
+  },
+
+  _onHideFlash() {
+    this.setState({
+      flash: null
+    });
   }
 });
 

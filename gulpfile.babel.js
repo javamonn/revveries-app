@@ -11,6 +11,8 @@ var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
 var shell = require('gulp-shell');
 
+require('dotenv').load();
+
 const APP_PATH = './src/main/webapp/';
 
 gulp.task('scripts', () => {
