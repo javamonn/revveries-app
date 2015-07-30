@@ -1,9 +1,6 @@
 import React from 'react';
 import Immutable  from 'immutable';
 import PictureActions from 'actions/PictureActions';
-import AWS from 'aws-sdk';
-import cuid from 'cuid';
-import env from '.config';
 import mui, {
   FloatingActionButton,
   Dialog,
@@ -53,10 +50,10 @@ var PictureCreator = React.createClass({
         </Toolbar>
       );
     }
-    if (this.state.imageSelected) {
+    if (this.state.selectedImage) {
       imagePreview = (
         <div className="image-preview">
-          <img src={this.state.imageSelected} />
+          <img src={this.state.selectedImage} />
           <IconButton 
             className="remove-preview" 
             iconClassName="material-icons"
@@ -71,7 +68,7 @@ var PictureCreator = React.createClass({
         <div className="empty-image-preview">
           <RaisedButton
             secondary={true}
-            label={this.state.imageSelected ? 'Choose New Image' : 'Choose an Image'}>
+            label={this.state.selectedImage ? 'Choose New Image' : 'Choose an Image'}>
             <input 
               ref='pictureField' 
               type='file' 
@@ -118,11 +115,6 @@ var PictureCreator = React.createClass({
   },
 
   getInitialState() {
-    AWS.config.region = env.AWS_REGION
-    AWS.config.update({
-      accessKeyId: env.AWS_AKID,
-      secretAccessKey: env.AWS_SK
-    });
     return {
       flash: null,
       S3: new AWS.S3()
@@ -134,7 +126,10 @@ var PictureCreator = React.createClass({
     if (file.type.includes('image')) {
       this._onHideFlash();
       this.setState({
-        imageSelected: URL.createObjectURL(file)
+        selectedImage: {
+          url: URL.createObjectURL(file),
+          file: file
+        }
       });
       this.refs.createPictureDialog.dismiss();
       this.refs.createPictureDialog.show();
@@ -148,8 +143,7 @@ var PictureCreator = React.createClass({
     }
   },
   _onPictureCreate() {
-    var files = this.refs.pictureField.getDOMNode();
-    if (!this.refs.pictureField.value) {
+    if (!this.state.selectedImage) {
       this.setState({
         flash: {
           message: 'You must select an image to upload.',
@@ -159,22 +153,10 @@ var PictureCreator = React.createClass({
       return;
     }
     PictureActions.pictureCreated(
-      this.refs.pictureField.value,
+      this.state.selectedImage,
       this.refs.titleField.getValue(),
       this.refs.descriptionField.getValue()
     );
-    // img name is key
-    this.state.S3.putObject({
-      Bucket: env.AWS_BUCKET,
-      Key: `images/${cuid()}`,
-      Body: file,
-      ContentType: file.type
-    }, (err, data) => {
-      if (err) console.log(err);
-      else {
-        console.log(data);
-      }
-    });
     this._clearDialog();
   },
 
@@ -192,7 +174,7 @@ var PictureCreator = React.createClass({
 
   _onRemovePreview() {
     this.setState({
-      imageSelected: null    
+      selectedImage: null 
     });
   },
 
