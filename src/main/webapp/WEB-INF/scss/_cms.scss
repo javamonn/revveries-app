@@ -25,6 +25,28 @@
       margin-bottom: 10px;
       border-radius: 4px;
     }
+    .image-preview,
+    .empty-image-preview {
+      position: relative;
+      height: 250px;
+      width: 400px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+    .empty-image-preview {
+      background-color: #DDD;
+      border-radius: 4px;
+    }
+    .image-preview img {
+      height: 100%;
+    }
+    .remove-preview {
+      position: absolute !important;
+      top: 0;
+      right: 12px;
+    }
   }
 
   #gallery-list {

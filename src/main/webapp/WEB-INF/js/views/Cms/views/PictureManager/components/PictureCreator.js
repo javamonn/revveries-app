@@ -29,10 +29,10 @@ var PictureCreator = React.createClass({
       opacity: '0'
     };
     let dialogActions = [
-      { text: 'Cancel' },
+      { text: 'Cancel', onTouchTap: this._clearDialog },
       { text: 'Create', onTouchTap: this._onPictureCreate, ref: 'create' }
     ];
-    var flash;
+    var flash, imagePreview;
     if (this.state.flash) {
       flash = (
         <Toolbar className="flash" style={{backgroundColor: (this.state.flash.state) == 'error' ? '#f44336': '#00bcd4' }}>
@@ -53,6 +53,34 @@ var PictureCreator = React.createClass({
         </Toolbar>
       );
     }
+    if (this.state.imageSelected) {
+      imagePreview = (
+        <div className="image-preview">
+          <img src={this.state.imageSelected} />
+          <IconButton 
+            className="remove-preview" 
+            iconClassName="material-icons"
+            iconStyle={{color: '#FFF'}}
+            onTouchTap={this._onRemovePreview}>
+              highlight_off
+          </IconButton>
+        </div>
+      );
+    } else {
+      imagePreview = (
+        <div className="empty-image-preview">
+          <RaisedButton
+            secondary={true}
+            label={this.state.imageSelected ? 'Choose New Image' : 'Choose an Image'}>
+            <input 
+              ref='pictureField' 
+              type='file' 
+              onChange={this._onFileSelect}
+              style={fileInputStyle} />
+          </RaisedButton>
+        </div>
+      );
+    }
     return (
       <div id='picture-creator'>
         <FloatingActionButton 
@@ -69,18 +97,11 @@ var PictureCreator = React.createClass({
           ref='createPictureDialog'
           title='Upload a Picture'
           actions={dialogActions}
-          actionFocus="create">
+          actionFocus="create"
+          autoScrollBodyContent={true}>
           {flash}
           <section className="create-content">
-            <RaisedButton
-              secondary={true}
-              label='Choose an Image'>
-              <input 
-                ref='pictureField' 
-                type='file' 
-                onChange={this._onFileSelect}
-                style={fileInputStyle} />
-            </RaisedButton>
+            {imagePreview}
             <TextField 
               floatingLabelText='Title (optional)'
               ref='titleField'
@@ -112,6 +133,11 @@ var PictureCreator = React.createClass({
     var file = e.target.files[0];
     if (file.type.includes('image')) {
       this._onHideFlash();
+      this.setState({
+        imageSelected: URL.createObjectURL(file)
+      });
+      this.refs.createPictureDialog.dismiss();
+      this.refs.createPictureDialog.show();
     } else {
       this.setState({
         flash: {
@@ -149,15 +175,25 @@ var PictureCreator = React.createClass({
         console.log(data);
       }
     });
-
-    this.refs.titleField.clearValue();
-    this.refs.descriptionField.clearValue();
-    this.refs.pictureField.value = null;
-    this._onHideFlash();
+    this._clearDialog();
   },
 
   _onDialogShow() {
     this.refs.createPictureDialog.show();
+  },
+
+  _clearDialog() {
+    this.refs.createPictureDialog.dismiss();
+    this._onRemovePreview();
+    this.refs.titleField.clearValue();
+    this.refs.descriptionField.clearValue();
+    this._onHideFlash();
+  },
+
+  _onRemovePreview() {
+    this.setState({
+      imageSelected: null    
+    });
   },
 
   _onHideFlash() {
