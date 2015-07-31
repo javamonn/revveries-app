@@ -1,4 +1,4 @@
-import Record from 'immutable';
+import { Record } from 'immutable';
 
 var Picture = Record({
   // Integer ID of picture record in DB 

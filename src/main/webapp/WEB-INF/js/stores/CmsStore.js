@@ -22,9 +22,7 @@ var CmsStore = Reflux.createStore({
       })
     })
     .then(res => res.json())
-    .then(galleries => {
-      _updateGalleries(_galleries.push(new Gallery(galleries)))
-    });
+    .then(galleries => _updateGalleries(_galleries.push(new Gallery(galleries))));
   },
 
   onGalleryEdited(gallery) {

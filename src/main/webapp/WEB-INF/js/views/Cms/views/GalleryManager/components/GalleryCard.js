@@ -10,7 +10,6 @@ import mui, {
   IconButton,
   FontIcon,
   FlatButton,
-  SnackBar
 } from 'material-ui';
 
 var GalleryCard = React.createClass({
