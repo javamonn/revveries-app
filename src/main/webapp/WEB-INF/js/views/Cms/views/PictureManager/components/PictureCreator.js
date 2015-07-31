@@ -53,7 +53,7 @@ var PictureCreator = React.createClass({
     if (this.state.selectedImage) {
       imagePreview = (
         <div className="image-preview">
-          <img src={this.state.selectedImage} />
+          <img src={this.state.selectedImage.url} />
           <IconButton 
             className="remove-preview" 
             iconClassName="material-icons"
@@ -153,7 +153,7 @@ var PictureCreator = React.createClass({
       return;
     }
     PictureActions.pictureCreated(
-      this.state.selectedImage,
+      this.state.selectedImage.file,
       this.refs.titleField.getValue(),
       this.refs.descriptionField.getValue()
     );

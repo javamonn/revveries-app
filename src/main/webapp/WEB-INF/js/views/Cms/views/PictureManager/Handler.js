@@ -16,7 +16,7 @@ var PictureManager = React.createClass({
   ],
 
   componentDidMount() {
-    PictureStore.getInitialState(this.getParams().galleryId).then(pictures => {
+    PictureStore.getInitialState(parseInt(this.getParams().galleryId)).then(pictures => {
       if (this.isMounted()) {
         this.setState({pictures});
       }
@@ -28,9 +28,11 @@ var PictureManager = React.createClass({
       pictures: Immutable.List([])
     };
   },
-  onGalleriesChanged(galleries) {
+
+  onPicturesChanged(pictures) {
     this.setState({pictures});
   },
+
   render() {
     var pictureCount = this.state.pictures.size;
     var cardList = this.state.pictures.map((picture, i) => {

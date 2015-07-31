@@ -4,8 +4,8 @@ import AWS from 'aws-sdk';
 import cuid from 'cuid';
 import env from '.config';
 
-const PictureActions = require('../actions/CmsActions');
-const Picture = require('./records/GalleryRecord');
+const PictureActions = require('../actions/PictureActions');
+const Picture = require('./records/PictureRecord');
 
 AWS.config.region = env.AWS_REGION
 AWS.config.update({
@@ -24,27 +24,28 @@ var PictureStore = Reflux.createStore({
    * TODO: Lack of picture id disallows optimistic picture creation here.
    * Backend needs to be refactored to enable this.
    */
-  onPictureCreated(title, description, image) {
+  onPictureCreated(image, title, description) {
     var awsURL = cuid();
-    var localURL =  URL.createObjectURL(image);
+    // don't need local URL until optimisitic creation
+    //var localURL =  URL.createObjectURL(image);
     var awsPromise = new Promise(
       (resolve, reject) => {
         _S3.putObject({
           Bucket: env.AWS_BUCKET,
-          Key: `images/${imageUrl}`,
-          Body: file,
-          ContentType: file.type
-        }, (err, data) => (err) ? reject(err): resolve(data));
+          Key: `images/${awsURL}`,
+          Body: image,
+          ContentType: image.type
+        }, (err, data) => (err) ? reject(err) : resolve(data));
       }
     );
     var apiPromise = fetch('/api/pictures', {
-      action: 'put',
+      method: 'post',
       body: JSON.stringify({
         title: title,
         description: description,
-        url: awsURL,
+        url: env.AWS_URI + awsURL,
         galleryId: _galleryId,
-        pictureOrder: _pictures.size()
+        pictureOrder: _pictures.size
       })
     })
     .then(res => res.json())

@@ -6,6 +6,7 @@ import mui, {
   Card,
   CardTitle,
   CardActions,
+  CardMedia,
   IconButton,
   FontIcon,
   FlatButton,
