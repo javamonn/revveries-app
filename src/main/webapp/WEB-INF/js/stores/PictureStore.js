@@ -57,8 +57,30 @@ var PictureStore = Reflux.createStore({
     // TODO: implement
   },
 
-  onPictureDeleted(pictureId) {
-
+  onPictureDeleted(pictureIndex) {
+    var pictureId = _pictures.get(pictureIndex).pictureId;
+    _updatePictures(
+      _pictures
+        .delete(pictureIndex)
+        .map((picture, index) => {
+          return (index >= pictureIndex) ? picture.set('pictureOrder', picture.pictureOrder - 1) : picture;
+        })
+    );
+    var deleteAction = fetch(`/api/pictures/${pictureId}`, {
+      method: 'delete' 
+    }).then(res => {
+      var updateOrderPromises = _pictures.reduce((memo, picture, index) => {
+        if (index >= pictureIndex) {
+          memo.push(fetch(`/api/pictures/${picture.pictureId}`, {
+            method: 'put',
+            body: JSON.stringify(picture.toJS())
+          }));
+        }
+        return memo;
+      }, []);
+      return Promise.all(updateOrderPromises);
+    });
+    return deleteAction;
   },
 
   onPictureMoved(oldIndex, newIndex) {

@@ -36,7 +36,7 @@ var PictureCard = React.createClass({
   },
 
   _onDelete() {
-    PictureActions.galleryDeleted(this.props.pictureIndex);
+    PictureActions.pictureDeleted(this.props.pictureIndex);
   },
 
   render() {
