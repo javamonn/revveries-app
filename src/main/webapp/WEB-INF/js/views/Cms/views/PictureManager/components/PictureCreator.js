@@ -84,7 +84,7 @@ var PictureCreator = React.createClass({
           className='create-button'
           onTouchTap={this._onDialogShow}
           style={{
-            position: 'absolute',
+            position: 'fixed',
             bottom: '24',
             right: '24',
           }}>

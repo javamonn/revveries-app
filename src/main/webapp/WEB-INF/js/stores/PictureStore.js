@@ -49,21 +49,36 @@ var PictureStore = Reflux.createStore({
       })
     })
     .then(res => res.json())
-    .then(picture => _updatePictures(_pictures.push(new Picture(picture))))
-    return Promise.all([awsPromise, apiPromise]);
+    return Promise.all([awsPromise, apiPromise])
+      .then(picture => _updatePictures(_pictures.push(new Picture(picture))))
   },
 
   onPictureEdited(picture) {
-
+    // TODO: implement
   },
 
   onPictureDeleted(pictureId) {
 
   },
 
-
-  onPictureMoved() {
-
+  onPictureMoved(oldIndex, newIndex) {
+    console.log('on picture moved');
+    _updatePictures(_pictures.map((picture, index) => {
+      if (index == oldIndex) return _pictures.get(newIndex);
+      else if (index == newIndex) return _pictures.get(oldIndex);
+      else return picture;
+    }));
+    var pictureNew = _pictures.get(newIndex);
+    var moveAction = fetch(`/api/pictures/${pictureNew.pictureId}`, {
+      method: 'put',
+      body: JSON.stringify(pictureNew.set('pictureOrder', newIndex).toJS())
+    });
+    var pictureOld = _pictures.get(oldIndex);
+    var moveReaction = fetch(`/api/pictures/${pictureOld.pictureId}`, {
+      method: 'put',
+      body: JSON.stringify(pictureOld.set('pictureOrder', oldIndex).toJS())
+    });
+    return Promise.all([moveAction, moveReaction]);
   },
 
   getInitialState(galleryId) {

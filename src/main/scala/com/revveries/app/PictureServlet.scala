@@ -21,6 +21,7 @@ class PictureServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Create picture
    */
   post("/") {
+    println(request.body)
     val picture = 
       (parse(request.body) merge parse("""{"pictureId": -1}""")).extract[Tables.PicturesRow]
     val pictureInsert = (Tables.Pictures

@@ -24,13 +24,13 @@ var PictureCard = React.createClass({
   },
 
   _onMoveUp() {
-    if (this.props.galleryIndex > 0) {
+    if (this.props.pictureIndex > 0) {
       PictureActions.pictureMoved(this.props.pictureIndex, this.props.pictureIndex - 1);
     }
   },
 
   _onMoveDown() {
-    if (this.props.galleryIndex < this.props.pictureCount - 1) {
+    if (this.props.pictureIndex < this.props.pictureCount - 1) {
       PictureActions.pictureMoved(this.props.pictureIndex, this.props.pictureIndex + 1);
     }
   },
@@ -56,7 +56,7 @@ var PictureCard = React.createClass({
     return ( 
       <Card className="picture-card">
         {cardTitle}
-        <CardMedia>
+        <CardMedia className="media-container">
           <img src={this.props.picture.url} />
         </CardMedia>
         <CardActions className="card-actions">

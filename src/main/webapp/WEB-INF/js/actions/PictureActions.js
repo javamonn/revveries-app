@@ -1,7 +1,9 @@
 import Reflux from 'reflux';
 
 var PictureActions = Reflux.createActions([
-  'pictureCreated'
+  'pictureCreated',
+  'pictureMoved',
+  'pictureDeleted'
 ]);
 
 module.exports = PictureActions;
