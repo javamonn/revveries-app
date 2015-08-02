@@ -1,8 +1,8 @@
 import Reflux from 'reflux';
 
 var StateActions = Reflux.createActions([
-  'picturesTransition',
-  'galleriesTransition'
+  'transitionToPictures',
+  'transitionToGalleries'
 ]);
 
 module.exports = StateActions;

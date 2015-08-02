@@ -5,6 +5,7 @@ import cuid from 'cuid';
 
 const PictureActions = require('../actions/PictureActions');
 const Picture = require('./records/PictureRecord');
+const Gallery = require('./records/GalleryRecord');
 const env = require('../config');
 
 AWS.config.region = env.AWS_REGION
@@ -13,9 +14,7 @@ AWS.config.update({
   secretAccessKey: env.AWS_SK
 });
 var _S3 = new AWS.S3();
-
-var _pictures = List([]);
-var _galleryId = -1;
+var _gallery;
 
 var PictureStore = Reflux.createStore({
   listenables: PictureActions,
@@ -45,12 +44,12 @@ var PictureStore = Reflux.createStore({
         description: description,
         url: env.AWS_URI + awsURL,
         galleryId: _galleryId,
-        pictureOrder: _pictures.size
+        pictureOrder: _gallery.pictures.size
       })
     })
     .then(res => res.json())
     return Promise.all([awsPromise, apiPromise])
-      .then(picture => _updatePictures(_pictures.push(new Picture(picture))))
+      .then(picture => _updatePictures(_gallery.pictures.push(new Picture(picture))))
   },
 
   onPictureEdited(picture) {
@@ -58,9 +57,9 @@ var PictureStore = Reflux.createStore({
   },
 
   onPictureDeleted(pictureIndex) {
-    var pictureId = _pictures.get(pictureIndex).pictureId;
+    var pictureId = _gallery.pictures.get(pictureIndex).pictureId;
     _updatePictures(
-      _pictures
+      _gallery.pictures
         .delete(pictureIndex)
         .map((picture, index) => {
           return (index >= pictureIndex) ? picture.set('pictureOrder', picture.pictureOrder - 1) : picture;
@@ -69,7 +68,7 @@ var PictureStore = Reflux.createStore({
     var deleteAction = fetch(`/api/pictures/${pictureId}`, {
       method: 'delete' 
     }).then(res => {
-      var updateOrderPromises = _pictures.reduce((memo, picture, index) => {
+      var updateOrderPromises = _gallery.pictures.reduce((memo, picture, index) => {
         if (index >= pictureIndex) {
           memo.push(fetch(`/api/pictures/${picture.pictureId}`, {
             method: 'put',
@@ -84,17 +83,17 @@ var PictureStore = Reflux.createStore({
   },
 
   onPictureMoved(oldIndex, newIndex) {
-    _updatePictures(_pictures.map((picture, index) => {
-      if (index == oldIndex) return _pictures.get(newIndex);
-      else if (index == newIndex) return _pictures.get(oldIndex);
+    _updatePictures(_gallery.pictures.map((picture, index) => {
+      if (index == oldIndex) return _gallery.pictures.get(newIndex);
+      else if (index == newIndex) return _gallery.pictures.get(oldIndex);
       else return picture;
     }));
-    var pictureNew = _pictures.get(newIndex);
+    var pictureNew = _gallery.pictures.get(newIndex);
     var moveAction = fetch(`/api/pictures/${pictureNew.pictureId}`, {
       method: 'put',
       body: JSON.stringify(pictureNew.set('pictureOrder', newIndex).toJS())
     });
-    var pictureOld = _pictures.get(oldIndex);
+    var pictureOld = _gallery.pictures.get(oldIndex);
     var moveReaction = fetch(`/api/pictures/${pictureOld.pictureId}`, {
       method: 'put',
       body: JSON.stringify(pictureOld.set('pictureOrder', oldIndex).toJS())
@@ -103,19 +102,20 @@ var PictureStore = Reflux.createStore({
   },
 
   getInitialState(galleryId) {
-    _galleryId = galleryId;
-    return fetch(`/api/galleries/${galleryId}/pictures`)
-      .then(res => res.json())
-      .then(pictures => {
-        _pictures = List(pictures.map(pic => new Picture(pic)));
-        return _pictures;
+    var picturesPromise = fetch(`/api/galleries/${galleryId}/pictures`).then(res => res.json())
+    var galleryPromise = fetch(`/api/galleries/${galleryId}`).then(res => res.json())
+    return Promise.all([picturesPromise, galleryPromise])
+      .then(data => {
+        data[1][0].pictures = List(data[0].map(pic => new Picture(pic)));
+        _gallery = new Gallery(data[1][0]);
+        return _gallery;
       });
   }
 });
 
 var _updatePictures = pictures => {
-  _pictures = pictures;
-  PictureStore.trigger(_pictures);
+  _gallery = _gallery.set('pictures', pictures);
+  PictureStore.trigger(_gallery);
 };
 
 module.exports = PictureStore;

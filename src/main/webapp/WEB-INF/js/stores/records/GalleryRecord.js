@@ -1,4 +1,4 @@
-import { Record } from 'immutable';
+import { Record, List } from 'immutable';
 
 var Gallery = Record({
   // id of gallery in db
@@ -10,7 +10,7 @@ var Gallery = Record({
   // description of gallery
   description: undefined,
   // list of picture records contained in this gallery
-  pictures: undefined
+  pictures: List([])
 });
 
 module.exports = Gallery

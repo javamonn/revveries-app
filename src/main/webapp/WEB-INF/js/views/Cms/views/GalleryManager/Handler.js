@@ -1,7 +1,6 @@
 import React from 'react';
 import Immutable  from 'immutable';
 import Reflux from 'reflux';
-
 import GalleryCreator from './components/GalleryCreator';
 import GalleryCard from './components/GalleryCard';
 import CmsStore from 'stores/CmsStore';

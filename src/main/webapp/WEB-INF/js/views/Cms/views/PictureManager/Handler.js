@@ -1,11 +1,12 @@
 import React from 'react';
 import Immutable  from 'immutable';
 import Reflux from 'reflux';
+import StateActions from 'actions/StateActions';
 import { State } from 'react-router';
-
 import PictureCreator from './components/PictureCreator';
 import PictureCard from './components/PictureCard';
 import PictureStore from 'stores/PictureStore';
+import Gallery from 'stores/records/GalleryRecord';
 
 var PictureManager = React.createClass({
 
@@ -16,26 +17,29 @@ var PictureManager = React.createClass({
   ],
 
   componentDidMount() {
-    PictureStore.getInitialState(parseInt(this.getParams().galleryId)).then(pictures => {
-      if (this.isMounted()) {
-        this.setState({pictures});
-      }
-    });
+    PictureStore.getInitialState(parseInt(this.getParams().galleryId))
+      .then(gallery => {
+        if (this.isMounted()) {
+          this.setState({gallery});
+          console.log(gallery.toJS());
+          StateActions.transitionToPictures(gallery.name);
+        }
+      });
   },
 
   getInitialState() {
     return {
-      pictures: Immutable.List([])
+      gallery: new Gallery()
     };
   },
 
-  onPicturesChanged(pictures) {
-    this.setState({pictures});
+  onPicturesChanged(gallery) {
+    this.setState({gallery});
   },
 
   render() {
-    var pictureCount = this.state.pictures.size;
-    var cardList = this.state.pictures.map((picture, i) => {
+    var pictureCount = this.state.gallery.pictures.size;
+    var cardList = this.state.gallery.pictures.map((picture, i) => {
       return (
         <PictureCard picture={picture} pictureIndex={i} pictureCount={pictureCount} />
       );
