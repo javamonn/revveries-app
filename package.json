@@ -35,7 +35,9 @@
       "<rootDir>/node_modules/immutable",
       "<rootDir>/node_modules/babel",
       "<rootDir>/node_modules/gulp-babel",
-      "<rootDir>/node_modules/babel-core"
+      "<rootDir>/node_modules/babel-core",
+      "<rootDir>/node_modules/aws-sdk",
+      "<rootDir>/src/main/webapp/WEB-INF/js/.config"
     ],
     "setupEnvScriptFile": "<rootDir>/src/main/webapp/WEB-INF/js/__tests__/.setupJestTestEnv.js"
   },

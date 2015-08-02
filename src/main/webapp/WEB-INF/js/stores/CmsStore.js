@@ -36,7 +36,7 @@ var CmsStore = Reflux.createStore({
         .delete(galleryIndex)
         .map((gal, index) => {
            return index >= galleryIndex ? gal.set('galleryOrder', gal.galleryOrder - 1) : gal
-        });
+        })
     );
     var deleteAction = fetch(`/api/galleries/${galleryId}`, {
       method: 'delete'

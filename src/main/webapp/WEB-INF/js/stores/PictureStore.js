@@ -2,10 +2,10 @@ import Reflux from 'reflux';
 import { List }  from 'immutable';
 import AWS from 'aws-sdk';
 import cuid from 'cuid';
-import env from '.config';
 
 const PictureActions = require('../actions/PictureActions');
 const Picture = require('./records/PictureRecord');
+const env = require('../config');
 
 AWS.config.region = env.AWS_REGION
 AWS.config.update({
@@ -84,7 +84,6 @@ var PictureStore = Reflux.createStore({
   },
 
   onPictureMoved(oldIndex, newIndex) {
-    console.log('on picture moved');
     _updatePictures(_pictures.map((picture, index) => {
       if (index == oldIndex) return _pictures.get(newIndex);
       else if (index == newIndex) return _pictures.get(oldIndex);

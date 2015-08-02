@@ -73,4 +73,4 @@ src/main/webapp/_build
 .env
 .sbtopts
 npm-debug.log
-.config.js
+config.js
