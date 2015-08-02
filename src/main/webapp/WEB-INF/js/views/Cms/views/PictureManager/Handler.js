@@ -21,7 +21,6 @@ var PictureManager = React.createClass({
       .then(gallery => {
         if (this.isMounted()) {
           this.setState({gallery});
-          console.log(gallery.toJS());
           StateActions.transitionToPictures(gallery.name);
         }
       });

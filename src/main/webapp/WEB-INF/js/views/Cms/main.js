@@ -12,7 +12,7 @@ injectTapEventPlugin();
 
 var routes = (
   <Route path='/' handler={Cms}>
-    <DefaultRoute handler={GalleryManager} />
+    <DefaultRoute name='galleries' handler={GalleryManager} />
     <Route name='pictures' path=':galleryId/pictures' handler={PictureManager} />
   </Route>
 );

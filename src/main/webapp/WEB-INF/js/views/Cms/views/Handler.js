@@ -1,8 +1,9 @@
 import React from 'react';
 import Reflux from 'reflux';
 import Immutable from 'immutable';
-import { RouteHandler } from 'react-router';
+import { RouteHandler, Navigation } from 'react-router';
 import StateStore from 'stores/StateStore';
+import StateActions from 'actions/StateActions';
 const ThemeManager = new mui.Styles.ThemeManager();
 import mui, {
   AppBar,
@@ -12,7 +13,8 @@ import mui, {
 var Cms = React.createClass({
 
   mixins: [
-    Reflux.listenTo(StateStore, 'onStateChanged')
+    Reflux.listenTo(StateStore, 'onStateChanged'),
+    Navigation
   ],
 
   childContextTypes: {
@@ -35,6 +37,11 @@ var Cms = React.createClass({
     };
   },
 
+  _onTransitionToGalleries() {
+    this.transitionTo('galleries');
+    StateActions.transitionToGalleries();
+  },
+
   render() {
     var appBar;
     if (this.state.stateInfo.name == 'galleries') {
@@ -46,11 +53,18 @@ var Cms = React.createClass({
         </AppBar>
       );
     } else {
+      var backButton = (
+        <IconButton 
+          iconClassName="material-icons"
+          onTouchTap={this._onTransitionToGalleries}>
+            keyboard_backspace
+        </IconButton>
+      );
       appBar = (
         <AppBar
           title={<h1 id="app-bar-title">{this.state.stateInfo.title}</h1>}
           style={{position: 'fixed'}}
-          iconElementLeft={<IconButton iconClassName="material-icons">keyboard_backspace</IconButton>}>
+          iconElementLeft={backButton}>
         </AppBar>
       );
     }
