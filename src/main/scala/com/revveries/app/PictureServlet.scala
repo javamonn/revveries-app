@@ -7,8 +7,10 @@ import org.scalatra.json._
 import org.scalatra.json.JsonSupport._
 import com.revveries.app.models.Tables
 import scala.slick.driver.PostgresDriver.api._
+import com.revveries.app.utils.Auth
 
-class PictureServlet(val db: Database) extends ScalatraServlet with FutureSupport with JacksonJsonSupport with MethodOverride {
+class PictureServlet(val db: Database) extends ScalatraServlet 
+  with FutureSupport with JacksonJsonSupport with MethodOverride with Auth {
   protected implicit lazy val jsonFormats: Formats = 
     DefaultFormats.withCompanions(classOf[Tables.PicturesRow] -> Tables)
   protected implicit def executor = scala.concurrent.ExecutionContext.Implicits.global
@@ -21,7 +23,7 @@ class PictureServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Create picture
    */
   post("/") {
-    println(request.body)
+    auth
     val picture = 
       (parse(request.body) merge parse("""{"pictureId": -1}""")).extract[Tables.PicturesRow]
     val pictureInsert = (Tables.Pictures
@@ -50,6 +52,7 @@ class PictureServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Update picture :id
    */
   put("/:id") {
+    auth
     val picture = parse(request.body).extract[Tables.PicturesRow]
     val pictureUpdate = Tables.Pictures
       .filter(_.pictureId === params("id").toInt)
@@ -66,6 +69,7 @@ class PictureServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Delete picture :id
    */
   delete("/:id") {
+    auth
     val pictureDelete = Tables.Pictures.filter(_.pictureId === params("id").toInt)
     db.run(pictureDelete.delete) map { rowsDeleted =>
       Map(

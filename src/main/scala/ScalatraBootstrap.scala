@@ -13,6 +13,7 @@ class ScalatraBootstrap extends LifeCycle {
     context.mount(new RevveriesServlet, "/")
     context.mount(new GalleryServlet(db), "/api/galleries/*")
     context.mount(new PictureServlet(db), "/api/pictures/*")
+    context.mount(new AuthServlet, "/api/auth/*")
   }
 
   override def destroy(context: ServletContext) {
