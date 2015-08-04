@@ -22,10 +22,13 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
   protected implicit lazy val jsonFormats: Formats = 
     DefaultFormats.withCompanions(classOf[Tables.GalleriesRow] -> Tables)
 
+  val secret = "test secret"
+  sys.props.put("AUTH_SECRET", secret)
   addServlet(new GalleryServlet(RevveriesSuite.db), "/api/galleries/*")
 
   val jsonHeader = Map(
-    "Content-Type" -> " application/json"
+    "Content-Type" -> "application/json",
+    "Cookie" -> s"authSecret=$secret"
   )
 
   def index(f: List[Tables.GalleriesRow] => Unit) {
@@ -50,7 +53,7 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
   }
 
   def deleteGallery(f: Map[String, Int] => Unit) {
-    delete("/api/galleries/1", jsonHeader) {
+    delete("/api/galleries/1", List(), jsonHeader) {
       var res = parse(body).extract[Map[String, Int]]
       f(res)
     }
