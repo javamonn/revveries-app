@@ -67,8 +67,8 @@ var PictureStore = Reflux.createStore({
         })
     );
     var deleteAction = fetch(`/api/pictures/${pictureId}`, {
-      method: 'delete' 
-      credentials: 'include',
+      method: 'delete',
+      credentials: 'include'
     }).then(res => {
       var updateOrderPromises = _gallery.pictures.reduce((memo, picture, index) => {
         if (index >= pictureIndex) {
