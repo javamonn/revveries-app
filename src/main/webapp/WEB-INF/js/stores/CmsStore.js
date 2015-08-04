@@ -15,6 +15,7 @@ var CmsStore = Reflux.createStore({
   onGalleryCreated(title, description) {
     return fetch('/api/galleries/', {
       method: 'post',
+      credentials: 'include',
       body: JSON.stringify({
         name: title,
         description: description,
@@ -39,12 +40,14 @@ var CmsStore = Reflux.createStore({
         })
     );
     var deleteAction = fetch(`/api/galleries/${galleryId}`, {
+      credentials: 'include',
       method: 'delete'
     }).then(res => {
       var updateOrderPromises = _galleries.reduce((memo, gal, index) => {
         if (index >= galleryIndex) {
           memo.push(fetch(`/api/galleries/${gal.galleryId}`, {
             method: 'put',
+            credentials: 'include',
             body: JSON.stringify(gal.toJS())
           }));
         }
@@ -65,12 +68,14 @@ var CmsStore = Reflux.createStore({
     var galNew = _galleries.get(newIndex);
     var moveAction = fetch(`/api/galleries/${galNew.galleryId}`, {
       method: 'put',
+      credentials: 'include',
       body: JSON.stringify(galNew.set('galleryOrder', newIndex).toJS())
     });
 
     var galOld  = _galleries.get(oldIndex);
     var moveReaction = fetch(`/api/galleries/${galOld.galleryId}`, {
       method: 'put',
+      credentials: 'include',
       body: JSON.stringify(galOld.set('galleryOrder', newIndex).toJS())
     });
 

@@ -39,6 +39,7 @@ var PictureStore = Reflux.createStore({
     );
     var apiPromise = fetch('/api/pictures', {
       method: 'post',
+      credentials: 'include',
       body: JSON.stringify({
         title: title,
         description: description,
@@ -67,11 +68,13 @@ var PictureStore = Reflux.createStore({
     );
     var deleteAction = fetch(`/api/pictures/${pictureId}`, {
       method: 'delete' 
+      credentials: 'include',
     }).then(res => {
       var updateOrderPromises = _gallery.pictures.reduce((memo, picture, index) => {
         if (index >= pictureIndex) {
           memo.push(fetch(`/api/pictures/${picture.pictureId}`, {
             method: 'put',
+            credentials: 'include',
             body: JSON.stringify(picture.toJS())
           }));
         }
@@ -91,11 +94,13 @@ var PictureStore = Reflux.createStore({
     var pictureNew = _gallery.pictures.get(newIndex);
     var moveAction = fetch(`/api/pictures/${pictureNew.pictureId}`, {
       method: 'put',
+      credentials: 'include',
       body: JSON.stringify(pictureNew.set('pictureOrder', newIndex).toJS())
     });
     var pictureOld = _gallery.pictures.get(oldIndex);
     var moveReaction = fetch(`/api/pictures/${pictureOld.pictureId}`, {
       method: 'put',
+      credentials: 'include',
       body: JSON.stringify(pictureOld.set('pictureOrder', oldIndex).toJS())
     });
     return Promise.all([moveAction, moveReaction]);

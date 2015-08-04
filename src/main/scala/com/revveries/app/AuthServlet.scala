@@ -9,6 +9,8 @@ import org.scalatra.json.JsonSupport._
 class AuthServlet extends ScalatraServlet with JacksonJsonSupport {
   protected implicit lazy val jsonFormats: Formats = DefaultFormats
 
+  val secret = sys.props.getOrElse("AUTH_SECRET", default = sys.env("AUTH_SECRET"))
+
   before() {
     contentType = formats("json")
   }
@@ -17,7 +19,10 @@ class AuthServlet extends ScalatraServlet with JacksonJsonSupport {
    * Attempt to authenticate with a secret.
    */
   post("/") {
-    println(request.body)
+    if (request.body == secret) {
+      Ok("Authenticated")
+    } else {
+      halt(401, "Unauthenticated")
+    }
   }
-
 }

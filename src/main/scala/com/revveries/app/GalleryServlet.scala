@@ -7,8 +7,10 @@ import org.scalatra.json._
 import org.scalatra.json.JsonSupport._
 import com.revveries.app.models.Tables
 import scala.slick.driver.PostgresDriver.api._
+import com.revveries.app.utils.Auth
 
-class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSupport with JacksonJsonSupport with MethodOverride {
+class GalleryServlet(val db: Database) extends ScalatraServlet 
+  with FutureSupport with JacksonJsonSupport with MethodOverride with Auth {
   protected implicit lazy val jsonFormats: Formats = 
     DefaultFormats.withCompanions(classOf[Tables.GalleriesRow] -> Tables)
   protected implicit def executor = scala.concurrent.ExecutionContext.Implicits.global
@@ -28,6 +30,7 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Create gallery
    */
   post("/") {
+    auth
     val gallery = 
       (parse(request.body) merge parse("""{"galleryId": -1}""")).extract[Tables.GalleriesRow]
     val galleryInsert =
@@ -50,6 +53,7 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Update gallery :id
    */
   put("/:id") {
+    auth
     val gallery = parse(request.body).extract[Tables.GalleriesRow]
     val galleryUpdate = Tables.Galleries
       .filter(_.galleryId === params("id").toInt)
@@ -66,6 +70,7 @@ class GalleryServlet(val db: Database) extends ScalatraServlet with FutureSuppor
    * Delete gallery :id
    */
   delete("/:id") {
+    auth
     val galleryDelete = Tables.Galleries.filter(_.galleryId === params("id").toInt)
     db.run(galleryDelete.delete) map { rowsDeleted =>
       Map(
