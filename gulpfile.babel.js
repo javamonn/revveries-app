@@ -15,21 +15,20 @@ require('dotenv').load();
 
 const APP_PATH = './src/main/webapp/';
 
-gulp.task('scripts', () => {
-  // todo cleanup, decomp scripts simularity
-  var bundler = browserify({
-    entries: [`${APP_PATH}/WEB-INF/js/views/Cms/main.js/`],
+let bundle = bundleName => {
+  var browserifyOpts = {
+    entries: [`${APP_PATH}/WEB-INF/js/views/${bundleName}/main.js`],
     paths: ['./node_modules', `${APP_PATH}/WEB-INF/js`],
-    cache: {},
-    packageCache: {}
-  });
+  };
+  var opts = Object.assign({}, watchify.args, browserifyOpts);
+  var bundler = watchify(browserify(opts));
   var rebundle = () => { 
     gutil.log('bundling');
     return bundler
       .transform(babelify)
       .bundle()
         .on('error', gutil.log)
-      .pipe(source('bundle.js'))
+      .pipe(source(`${bundleName}.js`))
       .pipe(buffer())
       .pipe(sourcemaps.init({loadMaps: true}))
       .pipe(uglify())
@@ -37,32 +36,23 @@ gulp.task('scripts', () => {
       .pipe(sourcemaps.write())
       .pipe(gulp.dest(`${APP_PATH}/_build/`))
   };
-  return rebundle();
+  rebundle();
+  return {
+    bundler,
+    rebundle
+  }
+};
+
+gulp.task('scripts', () => {
+  bundle('Cms');
+  bundle('Auth');
 });
 
 gulp.task('scripts:watch', () => {
-  var bundler = watchify(browserify({
-    entries: [`${APP_PATH}/WEB-INF/js/views/Cms/main.js/`],
-    paths: ['./node_modules', `${APP_PATH}/WEB-INF/js`],
-    cache: {},
-    packageCache: {}
-  }));
-  var rebundle = () => { 
-    gutil.log('bundling');
-    bundler
-      .transform(babelify)
-      .bundle()
-        .on('error', gutil.log)
-      .pipe(source('bundle.js'))
-      .pipe(buffer())
-      //.pipe(sourcemaps.init({loadMaps: true}))
-      //.pipe(uglify())
-        //.on('error', gutil.log)
-      //.pipe(sourcemaps.write())
-      .pipe(gulp.dest(`${APP_PATH}/_build/`))
-  };
-  bundler.on('update', () => rebundle());
-  return rebundle();
+  var cms = bundle('Cms');
+  var auth = bundle('Auth');
+  cms.bundler.on('update', () => cms.rebundle());
+  auth.bundler.on('update', () => auth.rebundle());
 });
 
 gulp.task('styles', () => {

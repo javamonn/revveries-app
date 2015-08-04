@@ -1,6 +1,9 @@
 package com.revveries.app.utils
 
-trait Auth {
+import org.scalatra._
+import javax.servlet.http.HttpServletRequest
+
+trait Auth extends ScalatraBase {
   val secret = sys.props.getOrElse("AUTH_SECRET", default = sys.env("AUTH_SECRET"))
 
   def auth = {
