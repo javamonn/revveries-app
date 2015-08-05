@@ -1,0 +1,8 @@
+<%@ val galleryJson: String %>
+
+<section id="app"></section>
+
+<script>
+  var initalGalleries = JSON.parse(<%= galleryJson %>);
+</script>
+<script src="/_build/App.js"></script>

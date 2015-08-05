@@ -12,7 +12,7 @@ class RevveriesServlet extends ScalatraServlet
   }
 
   get("/") {
-    ssp("index")
+    ssp("app")
   }
 
   get("/cms") {

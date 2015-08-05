@@ -1,12 +1,20 @@
-"use strict";
-
 import React from 'react';
-import { RouteHandler } from 'react-router';
+import Router, { Route, DefaultRoute, Link } from 'react-router';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 
-var App = React.createClass({
-  render () {
-    return <RouteHandler />;
-  }
+import App from './views/Handler';
+import Gallery from './views/Gallery/Handler';
+import Index from './views/Index/Handler';
+
+injectTapEventPlugin();
+
+var routes = (
+  <Route path='/' handler={App}>
+    <DefaultRoute name='default' handler={Index} />
+    <Route name='gallery' path='/:gallerySlug' handler={Gallery} />
+  </Route>
+);
+
+Router.run(routes, Router.HashLocation, (Root) => {
+  React.render(<Root />, document.getElementById('app'));
 });
-
-module.exports = App;
