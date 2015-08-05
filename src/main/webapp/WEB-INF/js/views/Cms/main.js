@@ -1,5 +1,3 @@
-"use strict";
-
 import React from 'react';
 import Router, { Route, DefaultRoute, Link } from 'react-router';
 import injectTapEventPlugin from 'react-tap-event-plugin';

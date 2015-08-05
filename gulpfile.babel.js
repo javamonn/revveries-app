@@ -2,6 +2,7 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var browserify = require('browserify');
+var strictify = require('strictify');
 var watchify = require('watchify');
 var babelify = require('babelify');
 var source = require('vinyl-source-stream');
@@ -26,6 +27,7 @@ let bundle = bundleName => {
     gutil.log('bundling');
     return bundler
       .transform(babelify)
+      .transform(strictify)
       .bundle()
         .on('error', gutil.log)
       .pipe(source(`${bundleName}.js`))
@@ -46,13 +48,16 @@ let bundle = bundleName => {
 gulp.task('scripts', () => {
   bundle('Cms');
   bundle('Auth');
+  bundle('App');
 });
 
 gulp.task('scripts:watch', () => {
   var cms = bundle('Cms');
   var auth = bundle('Auth');
+  var app = bundle('App');
   cms.bundler.on('update', () => cms.rebundle());
   auth.bundler.on('update', () => auth.rebundle());
+  app.bundler.on('update', () => app.rebundle());
 });
 
 gulp.task('styles', () => {
