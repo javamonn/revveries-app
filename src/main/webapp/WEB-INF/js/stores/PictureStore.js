@@ -44,7 +44,7 @@ var PictureStore = Reflux.createStore({
         title: title,
         description: description,
         url: env.AWS_URI + awsURL,
-        galleryId: _galleryId,
+        galleryId: _gallery.galleryId,
         pictureOrder: _gallery.pictures.size
       })
     })

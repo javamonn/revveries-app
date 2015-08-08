@@ -1,8 +1,8 @@
-<%@ val galleryJson: String %>
+<%@ var galleriesJson: String %>
 
 <section id="app"></section>
 
 <script>
-  var initalGalleries = JSON.parse(<%= galleryJson %>);
+  var initialGalleries = JSON.parse('<%= unescape(galleriesJson) %>');
 </script>
 <script src="/_build/App.js"></script>
