@@ -9,6 +9,8 @@ var Gallery = Record({
   name: undefined,
   // description of gallery
   description: undefined,
+  // slug url of gallery
+  slug: undefined,
   // list of picture records contained in this gallery
   pictures: List([])
 });

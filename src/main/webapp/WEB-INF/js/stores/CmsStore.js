@@ -1,5 +1,5 @@
 import Reflux from 'reflux';
-import { List }  from 'immutable';
+import { List } from 'immutable';
 
 const CmsActions = require('../actions/CmsActions');
 const Gallery = require('./records/GalleryRecord');

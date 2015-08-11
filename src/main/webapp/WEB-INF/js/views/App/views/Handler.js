@@ -1,10 +1,10 @@
 import React from 'react';
 import Reflux from 'reflux';
 import Immutable from 'immutable';
-import { RouteHandler, Navigation } from 'react-router';
+import { RouteHandler, Link } from 'react-router';
 import Gallery from 'stores/records/GalleryRecord';
 import Picture from 'stores/records/PictureRecord';
-//import GalleryStore from 'stores/GalleryStore';
+import AppStore from 'stores/AppStore';
 
 var App = React.createClass({
   mixins: [
@@ -13,29 +13,26 @@ var App = React.createClass({
   ],
 
   getInitialState() {
-    var galleries = Immutable.List(
-      initialGalleries.map(gallery => {
-        pictures = Immutable.List(gal.pictures.map(picture => new Picture(picture)));
-        gallery.pictures = pictures;
-        return new Gallery(gallery);
-      })
-    );
-    var defaultPicture = galleries.get(0).pictures.get(0);
-    var galleries = galleries.delete(0);
-    return {
-      galleries,
-      defaultPicture
-    };
+    return AppStore.getInitialState();
   }, 
 
   render() {
+    var sidenav = this.state.galleries.map(gallery => {
+      return (
+        <li className="sidenav-item">
+          <Link to="gallery" params={{gallery.gallerySlug}}>gallery.galleryName</Link>
+        </li>
+      );
+    });
     return (
       <div id="app">
         <div id="sidenav">
-          
+          <ul id="sidenav-list">
+            {sidenav}
+          </ul>
         </div>
-        <div id="gallery"
-
+        <div id="gallery">
+          <RouteHandler />
         </div>
       </div>
     );
