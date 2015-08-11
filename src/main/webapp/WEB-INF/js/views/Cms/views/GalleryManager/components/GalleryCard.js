@@ -2,6 +2,7 @@ import React from 'react';
 import Immutable  from 'immutable';
 import { Navigation } from 'react-router';
 import CmsActions from 'actions/CmsActions';
+import StateActions from 'actions/StateActions';
 import GalleryRecord from 'stores/records/GalleryRecord';
 import mui, {
   Card,
@@ -42,6 +43,7 @@ var GalleryCard = React.createClass({
 
   _onTransition() {
     this.transitionTo('pictures', {galleryId: this.props.gallery.galleryId});
+    StateActions.transitionToPictures(this.props.gallery.name);
   },
 
   render() {

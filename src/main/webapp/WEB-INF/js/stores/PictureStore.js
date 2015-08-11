@@ -50,7 +50,9 @@ var PictureStore = Reflux.createStore({
     })
     .then(res => res.json())
     return Promise.all([awsPromise, apiPromise])
-      .then(picture => _updatePictures(_gallery.pictures.push(new Picture(picture))))
+      .then(data => {
+        _updatePictures(_gallery.pictures.push(new Picture(data[1])))
+      })
   },
 
   onPictureEdited(picture) {

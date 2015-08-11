@@ -32,7 +32,7 @@ class RevveriesServlet(val db: Database) extends ScalatraServlet
       val (gals, pics) = galleries.unzip
       val picturesByGallery = pics.groupBy(_.galleryId)
       val galleriesJson = 
-        gals.map(gal => Map(
+        gals.distinct.map(gal => Map(
           "gallery" -> gal, 
           "pictures" -> picturesByGallery(gal.galleryId)
         ))

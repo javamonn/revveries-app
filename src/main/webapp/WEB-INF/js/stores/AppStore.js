@@ -11,8 +11,9 @@ var AppStore = Reflux.createStore({
     if (_galleries === undefined || _defaultPicture === undefined) {
       var galleries = List(
         initialGalleries.map(gallery => {
-          pictures = List(gal.pictures.map(picture => new Picture(picture)));
+          var pictures = List(gallery.pictures.map(picture => new Picture(picture)));
           gallery.pictures = pictures;
+          console.log(gallery);
           return new Gallery(gallery);
         })
       );
