@@ -21,25 +21,28 @@ trait Tables {
   /** Entity class storing rows of table Galleries
    *  @param galleryId Database column gallery_id SqlType(serial), AutoInc, PrimaryKey
    *  @param name Database column name SqlType(varchar), Length(255,true)
+   *  @param slug Database column name SqlType(varchar), Length(255,true)
    *  @param description Database column description SqlType(text) 
    *  @param galleryOrder Database column gallery_order SqlType(integer)
    */
-  case class GalleriesRow(galleryId: Int, name: String, description: String, galleryOrder: Int)
+  case class GalleriesRow(galleryId: Int, name: String, slug: String, description: String, galleryOrder: Int)
   /** GetResult implicit for fetching GalleriesRow objects using plain SQL queries */
   implicit def GetResultGalleriesRow(implicit e0: GR[Int], e1: GR[String]): GR[GalleriesRow] = GR{
     prs => import prs._
-    GalleriesRow.tupled((<<[Int], <<[String], <<[String], <<[Int]))
+    GalleriesRow.tupled((<<[Int], <<[String], <<[String], <<[String], <<[Int]))
   }
   /** Table description of table galleries. Objects of this class serve as prototypes for rows in queries. */
   class Galleries(_tableTag: Tag) extends Table[GalleriesRow](_tableTag, "galleries") {
-    def * = (galleryId, name, description, galleryOrder) <> (GalleriesRow.tupled, GalleriesRow.unapply)
+    def * = (galleryId, name, slug, description, galleryOrder) <> (GalleriesRow.tupled, GalleriesRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(galleryId), Rep.Some(name), Rep.Some(description), Rep.Some(galleryOrder)).shaped.<>({r=>import r._; _1.map(_=> GalleriesRow.tupled((_1.get, _2.get, _3.get, _4.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (Rep.Some(galleryId), Rep.Some(name), Rep.Some(slug), Rep.Some(description), Rep.Some(galleryOrder)).shaped.<>({r=>import r._; _1.map(_=> GalleriesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column gallery_id SqlType(serial), AutoInc, PrimaryKey */
     val galleryId: Rep[Int] = column[Int]("gallery_id", O.AutoInc, O.PrimaryKey)
     /** Database column name SqlType(varchar), Length(255,true) */
     val name: Rep[String] = column[String]("name", O.Length(255,varying=true))
+    /** Database column slug SqlType(varchar), Length(255,true) */
+    val slug: Rep[String] = column[String]("slug", O.Length(255,varying=true))
     /** Database column description SqlType(text) */
     val description: Rep[String] = column[String]("description")
     /** Database column gallery_order SqlType(integer) */

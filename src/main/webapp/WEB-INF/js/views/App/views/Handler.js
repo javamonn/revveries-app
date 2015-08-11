@@ -1,16 +1,11 @@
 import React from 'react';
 import Reflux from 'reflux';
-import Immutable from 'immutable';
 import { RouteHandler, Link } from 'react-router';
 import Gallery from 'stores/records/GalleryRecord';
 import Picture from 'stores/records/PictureRecord';
 import AppStore from 'stores/AppStore';
 
 var App = React.createClass({
-  mixins: [
-    Navigation,
-    RouteHandler
-  ],
 
   getInitialState() {
     return AppStore.getInitialState();
@@ -20,7 +15,7 @@ var App = React.createClass({
     var sidenav = this.state.galleries.map(gallery => {
       return (
         <li className="sidenav-item">
-          <Link to="gallery" params={{gallery.gallerySlug}}>gallery.galleryName</Link>
+          <Link to="gallery" params={{gallerySlug: gallery.gallerySlug}}>{gallery.galleryName}</Link>
         </li>
       );
     });

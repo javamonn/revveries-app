@@ -18,6 +18,7 @@ var CmsStore = Reflux.createStore({
       credentials: 'include',
       body: JSON.stringify({
         name: title,
+        slug: title.toLowerCase().replace(/ /g, "_"),
         description: description,
         galleryOrder: _galleries.size
       })

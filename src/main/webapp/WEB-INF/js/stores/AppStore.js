@@ -9,9 +9,9 @@ var _defaultPicture;
 var AppStore = Reflux.createStore({
   getInitialState() {
     if (_galleries === undefined || _defaultPicture === undefined) {
-      var galleries = Immutable.List(
+      var galleries = List(
         initialGalleries.map(gallery => {
-          pictures = Immutable.List(gal.pictures.map(picture => new Picture(picture)));
+          pictures = List(gal.pictures.map(picture => new Picture(picture)));
           gallery.pictures = pictures;
           return new Gallery(gallery);
         })
