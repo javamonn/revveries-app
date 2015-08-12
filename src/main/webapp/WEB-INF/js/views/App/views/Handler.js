@@ -15,7 +15,7 @@ var App = React.createClass({
     var sidenav = this.state.galleries.map(gallery => {
       return (
         <li className="sidenav-item">
-          <Link to="gallery" params={{gallerySlug: gallery.gallerySlug}}>{gallery.galleryName}</Link>
+          <Link to="gallery" params={{gallerySlug: gallery.slug}}>{gallery.name}</Link>
         </li>
       );
     });
