@@ -1,6 +1,6 @@
 <%@ var galleriesJson: String %>
 
-<section id="app"></section>
+<section id="app-section"></section>
 
 <script>
   var initialGalleries = JSON.parse('<%= unescape(galleriesJson) %>');

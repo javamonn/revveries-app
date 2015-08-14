@@ -22,6 +22,7 @@ var App = React.createClass({
     return (
       <div id="app">
         <div id="sidenav">
+          <h1>Odette Chavez-Mayo</h1>
           <ul id="sidenav-list">
             {sidenav}
           </ul>

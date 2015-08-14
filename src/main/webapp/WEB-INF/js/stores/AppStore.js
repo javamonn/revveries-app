@@ -25,7 +25,6 @@ var AppStore = Reflux.createStore({
       _defaultPicture = galleries.get(0).pictures.get(0);
       _galleries = galleries.delete(0);
     }
-    console.log(_galleries.toJS());
     return {
       galleries: _galleries,
       defaultPicture: _defaultPicture
