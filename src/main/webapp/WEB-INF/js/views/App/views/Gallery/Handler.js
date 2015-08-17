@@ -16,9 +16,19 @@ var Gallery = React.createClass({
   },
 
   render() {
+    console.log(this.state.gallery.toJS());
+    var pictures = this.state.gallery.pictures.map(picture => {
+      return (
+        <li className="image">
+          <img src={picture.url} />
+        </li>
+      );
+    });
     return (
-      <div id="gallery"></div>
-    )
+      <div id="gallery">
+        <ul>{pictures}</ul>
+      </div>
+    );
   }
 });
 

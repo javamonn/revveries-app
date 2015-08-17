@@ -23,11 +23,9 @@ var App = React.createClass({
       <div id="app">
         <div id="sidenav">
           <h1>Odette Chavez-Mayo</h1>
-          <ul id="sidenav-list">
-            {sidenav}
-          </ul>
+          <ul>{sidenav}</ul>
         </div>
-        <div id="gallery">
+        <div id="content">
           <RouteHandler />
         </div>
       </div>
