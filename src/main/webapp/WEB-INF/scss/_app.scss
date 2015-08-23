@@ -74,4 +74,21 @@
       }
     }
   }
+  .picture-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    background: rgba(255, 255, 255, .7);
+  }
+}
+
+.overlay-visible #content,
+.overlay-visible #sidenav {
+  -webkit-filter: blur(3px);
 }

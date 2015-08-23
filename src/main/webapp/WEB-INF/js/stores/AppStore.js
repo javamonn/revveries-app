@@ -1,5 +1,6 @@
 import Reflux from 'reflux';
 import { List } from 'immutable';
+import AppActions from 'actions/AppActions';
 import Gallery from 'stores/records/GalleryRecord';
 import Picture from 'stores/records/PictureRecord';
 
@@ -9,8 +10,27 @@ var _defaultPicture;
 // TODO: Lazy load in active gallery, don't load all images up front
 var AppStore = Reflux.createStore({
 
+  listenables: AppActions,
+
   getGalleryForSlug(slug) {
     return _galleries.find(gal => gal.slug == slug);
+  },
+
+  onDisplayOverlay(picture) {
+    this.trigger({
+      overlay: {
+        visible: true,
+        picture: picture
+      }
+    });
+  },
+
+  onHideOverlay() {
+    this.trigger({
+      overlay: {
+        visible: false
+      }
+    })
   },
 
   getInitialState() {
@@ -27,7 +47,10 @@ var AppStore = Reflux.createStore({
     }
     return {
       galleries: _galleries,
-      defaultPicture: _defaultPicture
+      defaultPicture: _defaultPicture,
+      overlay: {
+        visible: false
+      }
     };
   }
 });

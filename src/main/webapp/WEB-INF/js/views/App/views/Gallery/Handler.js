@@ -2,7 +2,7 @@ import React from 'react';
 import Reflux from 'reflux';
 import AppStore from 'stores/AppStore';
 import { State } from 'react-router';
-import PictureOverlay from './Components/PictureOverlay';
+import AppActions from 'actions/AppActions';
 
 // TODO: Listen to app store to get lazily loaded images
 var Gallery = React.createClass({
@@ -21,13 +21,7 @@ var Gallery = React.createClass({
   },
 
   _onImageFocus(picture) {
-    console.log(picture);
-    this.setState({
-      overlay: {
-        visible: true,
-        picture: picture
-      }
-    });
+    AppActions.displayOverlay(picture);
   },
 
   render() {
@@ -38,16 +32,9 @@ var Gallery = React.createClass({
         </li>
       );
     });
-    var overlay;
-    if (this.state.overlay.visible) {
-      overlay = (
-        <PictureOverlay image={this.state.overlay.picture} />
-      );
-    }
     return (
       <div id="gallery">
         <ul>{pictures}</ul>
-        {overlay}
       </div>
     );
   }
