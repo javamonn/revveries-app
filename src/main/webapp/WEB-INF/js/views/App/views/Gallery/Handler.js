@@ -20,7 +20,7 @@ var Gallery = React.createClass({
     };
   },
 
-  _onImageFocus(picture) {
+  _displayOverlay(picture) {
     AppActions.displayOverlay(picture);
   },
 
@@ -28,7 +28,7 @@ var Gallery = React.createClass({
     var pictures = this.state.gallery.pictures.map(picture => {
       return (
         <li className="image">
-          <img src={picture.url} onTouchTap={this._onImageFocus.bind(this, picture)} />
+          <img src={picture.url} onTouchTap={this._displayOverlay.bind(this, picture)} />
         </li>
       );
     });
