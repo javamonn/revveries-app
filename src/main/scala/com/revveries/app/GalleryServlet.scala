@@ -8,6 +8,7 @@ import org.scalatra.json.JsonSupport._
 import com.revveries.app.utils.Auth
 import scala.slick.driver.PostgresDriver.api._
 import com.revveries.app.models.Tables
+import com.revveries.app.models.Tables.GalleriesRow
 import com.revveries.app.controllers.GalleryController
 
 class GalleryServlet(db: Database) extends ScalatraServlet 
@@ -36,7 +37,7 @@ class GalleryServlet(db: Database) extends ScalatraServlet
   post("/") {
     auth
     val gallery = 
-      (parse(request.body) merge parse("""{"galleryId": -1}""")).extract[Tables.GalleriesRow]
+      (parse(request.body) merge parse("""{"galleryId": -1}""")).extract[GalleriesRow]
     galleries.create(gallery)
   }
 
@@ -52,7 +53,7 @@ class GalleryServlet(db: Database) extends ScalatraServlet
    */
   put("/:id") {
     auth
-    val gallery = parse(request.body).extract[Tables.GalleriesRow]
+    val gallery = parse(request.body).extract[GalleriesRow]
     galleries.update(params("id").toInt, gallery) map { status =>
       // TODO: Handle status = 0 non update case
       gallery

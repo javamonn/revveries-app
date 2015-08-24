@@ -23,7 +23,6 @@ class RevveriesServletSpec extends ScalatraSuite with FunSpecLike {
     describe("fetch index") {
       it("completes successfully") { 
         get("/") {
-          println(body)
           status should equal (200)
         }
       }
