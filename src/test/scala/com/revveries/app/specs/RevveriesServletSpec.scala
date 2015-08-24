@@ -29,7 +29,7 @@ class RevveriesServletSpec extends ScalatraSuite with FunSpecLike {
       }
       it("contains react elements") {
         get("/") {
-          body should include ("id=\"app\"")
+          body should include ("id=\"app-section\"")
         }
       }
     }

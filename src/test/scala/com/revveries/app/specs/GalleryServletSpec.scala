@@ -105,6 +105,7 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
     val testGallery = Map(
       "name" -> "Test Gallery",
       "description" -> "This is a test",
+      "slug" -> "slug",
       "galleryOrder" -> 4
     )
 
@@ -125,6 +126,7 @@ class GalleryServletSpec extends ScalatraSpec with FunSpecLike {
       "galleryId" -> 1,
       "name" -> "Test1 - Updated",
       "description" -> "Test Description1 - updated",
+      "slug" -> "slug",
       "galleryOrder" -> 100
     )
 

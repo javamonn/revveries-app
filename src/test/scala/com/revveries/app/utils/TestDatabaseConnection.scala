@@ -23,9 +23,9 @@ class TestDatabaseConnection(uri: String, base_url: String, user: String, passwo
         returning Tables.Galleries.map(_.galleryId)
         into ((gallery, id) => gallery.copy(galleryId = id))
       ) ++= Seq(
-        Tables.GalleriesRow(-1, "Test Gallery1", "Test Description1", 0),
-        Tables.GalleriesRow(-1, "Test Gallery2", "Test Description2", 2),
-        Tables.GalleriesRow(-1, "Test Gallery3", "Test Description3", 3)
+        Tables.GalleriesRow(-1, "Test Gallery1", "slug1", "Test Description1", 0),
+        Tables.GalleriesRow(-1, "Test Gallery2", "slug2", "Test Description2", 2),
+        Tables.GalleriesRow(-1, "Test Gallery3", "slug3", "Test Description3", 3)
       )
     database.run(galleryInsert) map { 
       _.map(gal => {

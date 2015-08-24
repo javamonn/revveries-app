@@ -11,13 +11,13 @@ class GalleryController(db: Database) {
 
   protected implicit def executor = scala.concurrent.ExecutionContext.Implicits.global
 
-  def index {
-    db.run(Tables.Galleries.result) 
+  def index: Future[Seq[GalleriesRow]] = {
+    return db.run(Tables.Galleries.result) 
   }
 
   def get(galleryId: Int): Future[Seq[GalleriesRow]] = {
     val galleryFind = Tables.Galleries.filter(_.galleryId === galleryId)
-    db.run(galleryFind.result)
+    return db.run(galleryFind.result)
   }
 
   def create(gallery: GalleriesRow): Future[GalleriesRow] = {
@@ -26,7 +26,7 @@ class GalleryController(db: Database) {
         returning Tables.Galleries.map(_.galleryId)
         into ((gallery, id) => gallery.copy(galleryId=id))
       ) += gallery
-    db.run(galleryInsert)
+    return db.run(galleryInsert)
   }
 
   def update(galleryId: Int, gallery: GalleriesRow): Future[Int] = {
@@ -35,18 +35,18 @@ class GalleryController(db: Database) {
       .map(gal => (gal.name, gal.description, gal.galleryOrder))
       .update((gallery.name, gallery.description, gallery.galleryOrder))
         
-    db.run(galleryUpdate)
+    return db.run(galleryUpdate)
   }
 
   def delete(galleryId: Int): Future[Int] = {
     val galleryDelete = Tables.Galleries.filter(_.galleryId === galleryId)
-    db.run(galleryDelete.delete)
+    return db.run(galleryDelete.delete)
   }
 
   def picturesForGallery(galleryId: Int): Future[Seq[PicturesRow]] = {
     val picturesIndex = Tables.Pictures
       .filter(_.galleryId === galleryId)
       .sortBy(_.pictureOrder.asc)
-    db.run(picturesIndex.result)
+    return db.run(picturesIndex.result)
   }
 }
