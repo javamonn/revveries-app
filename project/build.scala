@@ -4,8 +4,11 @@ import org.scalatra.sbt._
 import org.scalatra.sbt.PluginKeys._
 import com.mojolly.scalate.ScalatePlugin._
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
+import com.typesafe.sbt.packager.docker._
 import ScalateKeys._
 import org.flywaydb.sbt.FlywayPlugin._
+import com.typesafe.sbt.SbtNativePackager.autoImport._
+import NativePackagerKeys._
 
 object RevveriesappBuild extends Build {
   val Organization = "com.revveries"
@@ -23,6 +26,7 @@ object RevveriesappBuild extends Build {
       name := Name,
       version := Version,
       scalaVersion := ScalaVersion,
+      dockerBaseImage := "java:7",
       dependencyOverrides := Set(
         "org.scala-lang" %  "scala-library"  % scalaVersion.value,
         "org.scala-lang" %  "scala-reflect"  % scalaVersion.value,
@@ -62,5 +66,7 @@ object RevveriesappBuild extends Build {
         )
       }
     )
-  ).enablePlugins(JavaAppPackaging)
+  ).enablePlugins(JavaAppPackaging, DockerPlugin)
+
+
 }
