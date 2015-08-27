@@ -16,8 +16,7 @@ object RevveriesappBuild extends Build {
   val Version = "0.1.0-SNAPSHOT"
   val ScalaVersion = "2.11.6"
   val ScalatraVersion = "2.4.0.RC2-1"
-
-
+  val Root = Project("revveries-app", file("."))
   lazy val project = Project (
     "revveries-app",
     file("."),
@@ -26,7 +25,17 @@ object RevveriesappBuild extends Build {
       name := Name,
       version := Version,
       scalaVersion := ScalaVersion,
-      dockerBaseImage := "java:7",
+      dockerCommands  := Seq(
+        Cmd("FROM", "java:8"),
+        Cmd("ENV", s"""JDBC_URL="${sys.props.getOrElse("JDBC_URL", default = sys.env("JDBC_URL"))}""""),
+        Cmd("ENV", s"""AUTH_SECRET="${sys.props.getOrElse("AUTH_SECRET", default = sys.env("AUTH_SECRET"))}""""),
+        Cmd("WORKDIR", "/opt/docker"),
+        Cmd("ADD", "opt /opt"),
+        Cmd("RUN", """["chown", "-R", "daemon:daemon", "."]"""),
+        Cmd("USER", "daemon"),
+        Cmd("ENTRYPOINT", """["bin/revveries-app"]"""),
+        Cmd("CMD", "[]")
+      ),
       dependencyOverrides := Set(
         "org.scala-lang" %  "scala-library"  % scalaVersion.value,
         "org.scala-lang" %  "scala-reflect"  % scalaVersion.value,

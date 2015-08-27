@@ -18,5 +18,7 @@ object JettyLauncher {
 
     server.start
     server.join
+
+    println("Server running on port " + port)
   }
 }
