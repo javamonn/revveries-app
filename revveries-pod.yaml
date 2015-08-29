@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: revveries-svc
+  labels:
+    app: revveries
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+  selector:
+    app: revveries
+
+---
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: revveries
+spec:
+  replicas: 1
+  selector: 
+    app: revveries
+  template:
+    metadata:
+      labels:
+        app: revveries
+    spec:
+      volumes:
+        - name: persist
+          gcePersistentDisk:
+            pdName: revveries-persist
+            fsType: ext4
+      containers:
+        - name: www
+          image: javamonn/revveries-www
+          ports:
+            - containerPort: 80
+        - name: api 
+          image: javamonn/revveries-api
+          ports:
+            - containerPort: 3000
+        - name: db
+          image: javamonn/revveries-db
+          ports:
+            - containerPort: 5432
