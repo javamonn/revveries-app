@@ -31,16 +31,37 @@ spec:
           gcePersistentDisk:
             pdName: revveries-persist
             fsType: ext4
+        - name: secret
+          secret:
+            secretName: revveries-prod-secret
       containers:
         - name: www
           image: javamonn/revveries-www
           ports:
             - containerPort: 80
+          volumeMounts:
+            - name: persist
+              mountPath: /var/persist
+              readOnly: true
+            - name: secret
+              mountPath: /etc/secret
+              readOnly: true
         - name: api 
           image: javamonn/revveries-api
           ports:
             - containerPort: 3000
+          volumeMounts:
+            - name: secret
+              mountPath: /etc/secret
+              readOnly: true
         - name: db
-          image: javamonn/revveries-db
+          image: postgres
           ports:
             - containerPort: 5432
+          volumeMounts:
+            - name: persist
+              mountPath:  /var/persist
+              readOnly: true
+            - name: secret
+              mountPath: /etc/secret
+              readOnly: true

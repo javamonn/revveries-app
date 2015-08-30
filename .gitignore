@@ -68,9 +68,10 @@ jrebel.lic
 # paulp script
 /.lib/
 
-node_modules/
+/app/node_modules/*
 src/main/webapp/_build
 .env
 .sbtopts
 npm-debug.log
 config.js
+/revveries-secret.yaml
