@@ -25,10 +25,9 @@ object RevveriesappBuild extends Build {
       name := Name,
       version := Version,
       scalaVersion := ScalaVersion,
+      dockerRepository := Some("javamonn"),
       dockerCommands  := Seq(
         Cmd("FROM", "java:8"),
-        Cmd("ENV", s"""JDBC_URL="${sys.props.getOrElse("JDBC_URL", default = sys.env("JDBC_URL"))}""""),
-        Cmd("ENV", s"""AUTH_SECRET="${sys.props.getOrElse("AUTH_SECRET", default = sys.env("AUTH_SECRET"))}""""),
         Cmd("WORKDIR", "/opt/docker"),
         Cmd("ADD", "opt /opt"),
         Cmd("RUN", """["chown", "-R", "daemon:daemon", "."]"""),
