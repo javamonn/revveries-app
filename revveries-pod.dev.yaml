@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: List
+items: 
+  - apiVersion: v1
+    kind: Service
+    metadata:
+      name: revveries-dev-svc
+      labels:
+        app: revveries-dev
+    spec:
+      type: NodePort
+      ports:
+        - port: 80
+      selector:
+        app: revveries-dev
+  - apiVersion: v1
+    kind: ReplicationController
+    metadata:
+      name: revveries-dev
+    spec:
+      replicas: 1
+      selector: 
+        app: revveries-dev
+      template:
+        metadata:
+          labels:
+            app: revveries-dev
+        spec:
+          volumes:
+            - name: persist
+              emptyDir:
+                fsType: ext4
+            - name: revveries-secret
+              secret:
+                secretName: revveries-dev-secret
+          containers:
+            - name: db
+              image: postgres
+              imagePullPolicy: IfNotPresent
+              ports:
+                - containerPort: 5432
+              volumeMounts:
+                - name: persist
+                  mountPath:  /var/persist
+                  readOnly: true
+                - name: revveries-secret
+                  mountPath: /etc/secret
+                  readOnly: true
+            - name: www
+              image: javamonn/revveries-www
+              ports:
+                - containerPort: 80
+              volumeMounts:
+                - name: persist
+                  mountPath: /var/persist
+                  readOnly: true
+                - name: revveries-secret
+                  mountPath: /etc/secret
+                  readOnly: true
+            - name: api 
+              image: javamonn/revveries-api
+              ports:
+                - containerPort: 3000
+              volumeMounts:
+                - name: revveries-secret
+                  mountPath: /etc/secret
+                  readOnly: true
