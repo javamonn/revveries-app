@@ -15,6 +15,10 @@ RUN wget https://openresty.org/download/ngx_openresty-1.9.3.1.tar.gz \
   && make install \
   && rm -rf /ngx_openresty*
 
+RUN mkdir /logs && chmod 777 /logs
+
 EXPOSE 80
+EXPOSE 443
+
 ADD revveries.nginx.conf ./revveries.nginx.conf
-CMD find /etc/secret -maxdepth 1 -type f -exec source {} \; && /usr/local/openresty/nginx/sbin/nginx -p `pwd` -c revveries.nginx.conf
+CMD /usr/local/openresty/nginx/sbin/nginx -p `pwd` -c revveries.nginx.conf
