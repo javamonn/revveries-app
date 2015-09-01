@@ -35,7 +35,7 @@ items:
                 secretName: revveries-dev-secret
           containers:
             - name: db
-              image: postgres
+              image: javamonn/revveries-db
               imagePullPolicy: IfNotPresent
               ports:
                 - containerPort: 5432
