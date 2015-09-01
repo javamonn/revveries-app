@@ -7,6 +7,8 @@ RUN apt-get update && apt-get -y install \
 RUN apt-get -y build-dep nginx \
   && apt-get -q -y clean && rm -rf /var/cache/apt/archives/* /var/lib/apt/lists/*
 
+RUN find /etc/secret -maxdepth 1 -type f -exec source {} \;
+
 RUN wget https://openresty.org/download/ngx_openresty-1.9.3.1.tar.gz \
   && tar xvfz ngx_openresty-1.9.3.1.tar.gz \
   && cd ngx_openresty-1.9.3.1 \
@@ -17,4 +19,4 @@ RUN wget https://openresty.org/download/ngx_openresty-1.9.3.1.tar.gz \
 
 EXPOSE 80
 ADD revveries.nginx.conf ./revveries.nginx.conf
-CMD /usr/local/openresty/nginx/sbin/nginx -p `pwd` -c revveries.nginx.conf
+CMD find /etc/secret -maxdepth 1 -type f -exec source {} \; && /usr/local/openresty/nginx/sbin/nginx -p `pwd` -c revveries.nginx.conf

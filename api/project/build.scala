@@ -12,7 +12,7 @@ import NativePackagerKeys._
 
 object RevveriesappBuild extends Build {
   val Organization = "com.revveries"
-  val Name = "revveries-app"
+  val Name = "revveries-api"
   val Version = "0.1.0-SNAPSHOT"
   val ScalaVersion = "2.11.6"
   val ScalatraVersion = "2.4.0.RC2-1"
@@ -25,15 +25,16 @@ object RevveriesappBuild extends Build {
       name := Name,
       version := Version,
       scalaVersion := ScalaVersion,
+      dockerUpdateLatest:= true,
       dockerRepository := Some("javamonn"),
       dockerCommands  := Seq(
         Cmd("FROM", "java:8"),
         Cmd("WORKDIR", "/opt/docker"),
         Cmd("ADD", "opt /opt"),
         Cmd("RUN", """["chown", "-R", "daemon:daemon", "."]"""),
+        // expose kubernetes secrets as env vars
         Cmd("USER", "daemon"),
-        Cmd("ENTRYPOINT", """["bin/revveries-app"]"""),
-        Cmd("CMD", "[]")
+        Cmd("CMD", "find /etc/secret -maxdepth 1 -type f -exec source {} \\; && bin/revveries-api")
       ),
       dependencyOverrides := Set(
         "org.scala-lang" %  "scala-library"  % scalaVersion.value,
