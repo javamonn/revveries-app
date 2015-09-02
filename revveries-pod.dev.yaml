@@ -35,8 +35,7 @@ items:
                 secretName: revveries-dev-secret
           containers:
             - name: db
-              image: javamonn/revveries-db
-              imagePullPolicy: IfNotPresent
+              image: javamonn/revveries-db:latest
               ports:
                 - containerPort: 5432
               volumeMounts:
@@ -47,7 +46,7 @@ items:
                   mountPath: /etc/secret
                   readOnly: true
             - name: www
-              image: javamonn/revveries-www
+              image: javamonn/revveries-www:latest
               ports:
                 - containerPort: 80
               volumeMounts:
@@ -58,7 +57,7 @@ items:
                   mountPath: /etc/secret
                   readOnly: true
             - name: api 
-              image: javamonn/revveries-api
+              image: javamonn/revveries-api:latest
               ports:
                 - containerPort: 3000
               volumeMounts:
