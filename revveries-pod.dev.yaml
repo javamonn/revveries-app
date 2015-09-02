@@ -39,12 +39,8 @@ items:
               ports:
                 - containerPort: 5432
               volumeMounts:
-                - name: persist
-                  mountPath:  /var/persist
-                  readOnly: true
                 - name: revveries-secret
                   mountPath: /etc/secret
-                  readOnly: true
             - name: www
               image: javamonn/revveries-www:latest
               ports:
@@ -57,7 +53,7 @@ items:
                   mountPath: /etc/secret
                   readOnly: true
             - name: api 
-              image: javamonn/revveries-api:latest
+              image: javamonn/revveries-api:0.1.0-SNAPSHOT
               ports:
                 - containerPort: 3000
               volumeMounts:

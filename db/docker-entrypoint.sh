@@ -6,7 +6,7 @@ set_listen_addresses() {
 	sed -ri "s/^#?(listen_addresses\s*=\s*)\S+/\1'$sedEscapedValue'/" "$PGDATA/postgresql.conf"
 }
 
-find /etc/secret -maxdepth 1 -type f -exec source {} \;
+for file in /etc/secret/*; do source $file; done
 
 if [ "$1" = 'postgres' ]; then
 	mkdir -p "$PGDATA"

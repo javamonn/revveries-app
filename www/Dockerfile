@@ -1,6 +1,8 @@
 FROM ubuntu
 MAINTAINER Daniel Ramirez <javamonn@gmail.com>
 
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
+
 RUN apt-get update && apt-get -y install \
   libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl make build-essential wget libpq-dev
 

@@ -34,7 +34,7 @@ object RevveriesappBuild extends Build {
         Cmd("RUN", """["chown", "-R", "daemon:daemon", "."]"""),
         // expose kubernetes secrets as env vars
         Cmd("USER", "daemon"),
-        Cmd("CMD", "find /etc/secret -maxdepth 1 -type f -exec source {} \\; && bin/revveries-api")
+        Cmd("CMD", "for file in /etc/secret/*; do /bin/bash -c \"source $file\"; done && bin/revveries-api")
       ),
       dependencyOverrides := Set(
         "org.scala-lang" %  "scala-library"  % scalaVersion.value,

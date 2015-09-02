@@ -1,6 +1,8 @@
 FROM debian:jessie
 
 # add our user and group first to make sure their IDs get assigned consistently, regardless of whatever dependencies get added
+
+RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 RUN groupadd -r postgres && useradd -r -g postgres postgres
 
 # grab gosu for easy step-down from root
