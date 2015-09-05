@@ -29,12 +29,12 @@ object RevveriesappBuild extends Build {
       dockerRepository := Some("javamonn"),
       dockerCommands  := Seq(
         Cmd("FROM", "java:8"),
+        Cmd("RUN", "rm /bin/sh && ln -s /bin/bash /bin/sh"),
         Cmd("WORKDIR", "/opt/docker"),
         Cmd("ADD", "opt /opt"),
         Cmd("RUN", """["chown", "-R", "daemon:daemon", "."]"""),
-        // expose kubernetes secrets as env vars
         Cmd("USER", "daemon"),
-        Cmd("CMD", "for file in /etc/secret/*; do /bin/bash -c \"source $file\"; done && bin/revveries-api")
+        Cmd("CMD", "for file in /etc/secret/*; do source $file; done && bin/revveries-api")
       ),
       dependencyOverrides := Set(
         "org.scala-lang" %  "scala-library"  % scalaVersion.value,
