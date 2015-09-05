@@ -29,19 +29,31 @@ items:
         spec:
           volumes:
             - name: persist
-              emptyDir:
+              gcePersistentDisk:
+                pdName: revveries-persist
                 fsType: ext4
             - name: revveries-secret
               secret:
                 secretName: revveries-dev-secret
           containers:
             - name: db
-            image: javamonn/revveries-db:latest
+              image: postgres:latest
               ports:
                 - containerPort: 5432
               volumeMounts:
                 - name: revveries-secret
                   mountPath: /etc/secret
+                - name: persist
+                  mountPath: /var/persist
+              env:
+                - name: POSTGRES_USER
+                  value: daemon
+                - name: POSTGRES_PASSWORD
+                  value: daemon
+                - name: POSTGRES_DB
+                  value: revveries-dev
+                - name: PGDATA
+                  value: /var/persist/postgresql/data
             - name: www
               image: javamonn/revveries-www:latest
               ports:

@@ -6,7 +6,7 @@ import slick.driver.JdbcDriver.api._
 
 class DatabaseConnection(uri: String) {
   val flyway = new Flyway
-  flyway.setDataSource(uri, sys.env("POSTGRES_USER"), "")
+  flyway.setDataSource(uri, sys.env("POSTGRES_USER"), sys.env("POSTGRES_PASSWORD"))
   flyway.migrate
 
   val cpds: ComboPooledDataSource = new ComboPooledDataSource

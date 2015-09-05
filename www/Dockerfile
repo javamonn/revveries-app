@@ -23,4 +23,4 @@ EXPOSE 80
 EXPOSE 443
 
 ADD revveries.nginx.conf ./revveries.nginx.conf
-CMD /usr/local/openresty/nginx/sbin/nginx -p `pwd` -c revveries.nginx.conf
+CMD for file in /etc/secret/*; do source $file; done && /usr/local/openresty/nginx/sbin/nginx -p `pwd` -c revveries.nginx.conf
