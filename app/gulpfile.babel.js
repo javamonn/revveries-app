@@ -11,15 +11,15 @@ var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
 var sass = require('gulp-sass');
 var shell = require('gulp-shell');
+var aws = require('aws-sdk');
+var s3 = require('vinyl-s3');
 
-require('dotenv').load();
-
-const APP_PATH = './src/main/webapp/';
+const env = require('./js/config');
 
 let bundle = bundleName => {
   var browserifyOpts = {
-    entries: [`${APP_PATH}/WEB-INF/js/views/${bundleName}/main.js`],
-    paths: ['./node_modules', `${APP_PATH}/WEB-INF/js`],
+    entries: [`./js/views/${bundleName}/main.js`],
+    paths: ['./node_modules', './js'],
   };
   var opts = Object.assign({}, watchify.args, browserifyOpts);
   var bundler = watchify(browserify(opts));
@@ -36,7 +36,7 @@ let bundle = bundleName => {
       .pipe(uglify())
         .on('error', gutil.log)
       .pipe(sourcemaps.write())
-      .pipe(gulp.dest(`${APP_PATH}/_build/`))
+      .pipe(gulp.dest('_build/'))
   };
   rebundle();
   return {
@@ -61,13 +61,13 @@ gulp.task('scripts:watch', () => {
 });
 
 gulp.task('styles', () => {
-  return gulp.src(APP_PATH + '/WEB-INF/scss/*.scss')
+  return gulp.src('./scss/*.scss')
     .pipe(sass.sync().on('error', sass.logError))
-    .pipe(gulp.dest(APP_PATH + '/_build/'));
+    .pipe(gulp.dest('./_build/'));
 });
 
 gulp.task('styles:watch', ['styles'], () => {
-  return gulp.watch(APP_PATH + "/WEB-INF/scss/*.scss", ['styles']);
+  return gulp.watch('./scss/*.scss', ['styles']);
 });
 
 gulp.task('spec', shell.task([
@@ -75,8 +75,21 @@ gulp.task('spec', shell.task([
 ]));
 
 gulp.task('spec:watch', () => {
-  return gulp.watch(`${APP_PATH}/WEB-INF/js/**/*.js`, ['spec']);
+  return gulp.watch('./js/**/*.js', ['spec']);
 })
+
+gulp.task('deploy', ['scripts', 'styles'], () => {
+  aws.config.region = env.AWS_REGION
+  aws.config.update({
+    accessKeyId: env.AWS_AKID,
+    secretAccessKey: env.AWS_SK
+  });
+  var awsS3 = new aws.S3();
+  
+  return gulp.src('./_build/*')
+    .pipe(s3.dest(`s3://${env.AWS_BUCKET}/static`, { s3: awsS3 }));
+
+});
 
 gulp.task('develop', ['scripts:watch', 'styles:watch'], () => {  
   
