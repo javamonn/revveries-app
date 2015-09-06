@@ -5,10 +5,12 @@ import org.scalatra.sbt.PluginKeys._
 import com.mojolly.scalate.ScalatePlugin._
 import com.typesafe.sbt.packager.archetypes.JavaAppPackaging
 import com.typesafe.sbt.packager.docker._
+import com.typesafe.sbt.packager.docker.DockerPlugin.autoImport.Docker
 import ScalateKeys._
 import org.flywaydb.sbt.FlywayPlugin._
 import com.typesafe.sbt.SbtNativePackager.autoImport._
 import NativePackagerKeys._
+import NativePackagerHelper._
 
 object RevveriesappBuild extends Build {
   val Organization = "com.revveries"
@@ -36,6 +38,10 @@ object RevveriesappBuild extends Build {
         Cmd("USER", "daemon"),
         Cmd("CMD", "for file in /etc/secret/*; do source $file; done && bin/revveries-api")
       ),
+      mappings in Docker ++=  {
+        val dir = baseDirectory.value / "src" / "main" / "webapp" / "WEB-INF"
+        (dir.***) pair rebase(dir.getParentFile, "opt/docker/bin")
+      },
       dependencyOverrides := Set(
         "org.scala-lang" %  "scala-library"  % scalaVersion.value,
         "org.scala-lang" %  "scala-reflect"  % scalaVersion.value,
@@ -76,6 +82,4 @@ object RevveriesappBuild extends Build {
       }
     )
   ).enablePlugins(JavaAppPackaging, DockerPlugin)
-
-
 }

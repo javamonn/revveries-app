@@ -36,16 +36,16 @@ class RevveriesServlet(val db: Database) extends ScalatraServlet
           "gallery" -> gal, 
           "pictures" -> picturesByGallery(gal.galleryId)
         ))
-      ssp("app", "galleriesJson" -> write(galleriesJson))
+      layoutTemplate("/WEB-INF/templates/views/app.ssp", "galleriesJson" -> write(galleriesJson))
     }
   }
 
   get("/cms") {
     auth
-    ssp("cms")
+    layoutTemplate("/WEB-INF/templates/views/cms.ssp")
   }
 
   get("/auth") {
-    ssp("auth")
+    layoutTemplate("/WEB-INF/templates/views/auth.ssp")
   }
 }

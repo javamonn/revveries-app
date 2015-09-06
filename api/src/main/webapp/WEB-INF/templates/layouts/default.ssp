@@ -3,7 +3,7 @@
 <html>
 <head>
   <title>revveries</title>
-  <link rel="stylesheet" href="/_build/main.css">
+  <link rel="stylesheet" href="https://s3-us-west-1.amazonaws.com/revveries/static/main.css">
   <link href='http://fonts.googleapis.com/css?family=Roboto:300,100,500' rel='stylesheet' type='text/css'>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
