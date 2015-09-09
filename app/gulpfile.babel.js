@@ -92,7 +92,8 @@ gulp.task('deploy', ['scripts', 'styles'], () => {
 });
 
 gulp.task('develop', ['scripts:watch', 'styles:watch'], () => {  
-  
+  gulp.src('./_build/*')
+    .pipe(gulp.dest('../.dev-persist/static/'));
 });
 
 gulp.task('default', ['scripts', 'styles'], () => {

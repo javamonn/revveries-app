@@ -38,10 +38,6 @@ object RevveriesappBuild extends Build {
         Cmd("USER", "daemon"),
         Cmd("CMD", "for file in /etc/secret/*; do source $file; done && bin/revveries-api")
       ),
-      mappings in Docker ++=  {
-        val dir = baseDirectory.value / "src" / "main" / "webapp" / "WEB-INF"
-        (dir.***) pair rebase(dir.getParentFile, "opt/docker/bin")
-      },
       dependencyOverrides := Set(
         "org.scala-lang" %  "scala-library"  % scalaVersion.value,
         "org.scala-lang" %  "scala-reflect"  % scalaVersion.value,

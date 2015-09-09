@@ -1,2 +1,4 @@
+<%@ var staticUrl: String %>
+
 <section id="auth"></section>
-<script src="https://s3-us-west-1.amazonaws.com/revveries/static/Auth.js"></script>
+<script src="<%= staticUrl %>Auth.js"></script>

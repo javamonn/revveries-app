@@ -1,67 +1,75 @@
 apiVersion: v1
-kind: Service
-metadata:
-  name: revveries-svc
-  labels:
-    app: revveries
-spec:
-  type: NodePort
-  ports:
-    - port: 80
-  selector:
-    app: revveries
-
----
-
-apiVersion: v1
-kind: ReplicationController
-metadata:
-  name: revveries
-spec:
-  replicas: 1
-  selector: 
-    app: revveries
-  template:
+kind: List
+items: 
+  - apiVersion: v1
+    kind: Service
     metadata:
+      name: revveries-dev-svc
       labels:
-        app: revveries
+        app: revveries-dev
     spec:
-      volumes:
-        - name: persist
-          gcePersistentDisk:
-            pdName: revveries-persist
-            fsType: ext4
-        - name: secret
-          secret:
-            secretName: revveries-prod-secret
-      containers:
-        - name: www
-          image: javamonn/revveries-www
-          ports:
-            - containerPort: 80
-          volumeMounts:
+      type: NodePort
+      ports:
+        - port: 80
+          targetPort: 80
+      selector:
+        app: revveries-dev
+  - apiVersion: v1
+    kind: ReplicationController
+    metadata:
+      name: revveries-dev
+    spec:
+      replicas: 1
+      selector: 
+        app: revveries-dev
+      template:
+        metadata:
+          labels:
+            app: revveries-dev
+        spec:
+          volumes:
             - name: persist
-              mountPath: /var/persist
-              readOnly: true
-            - name: secret
-              mountPath: /etc/secret
-              readOnly: true
-        - name: api 
-          image: javamonn/revveries-api
-          ports:
-            - containerPort: 3000
-          volumeMounts:
-            - name: secret
-              mountPath: /etc/secret
-              readOnly: true
-        - name: db
-          image: postgres
-          ports:
-            - containerPort: 5432
-          volumeMounts:
-            - name: persist
-              mountPath:  /var/persist
-              readOnly: true
-            - name: secret
-              mountPath: /etc/secret
-              readOnly: true
+              gcePersistentDisk:
+                pdName: revveries-persist
+                fsType: ext4
+            - name: revveries-secret
+              secret:
+                secretName: revveries-prod-secret
+          containers:
+            - name: db
+              image: postgres:latest
+              ports:
+                - containerPort: 5432
+              volumeMounts:
+                - name: revveries-secret
+                  mountPath: /etc/secret
+                - name: persist
+                  mountPath: /var/persist
+              env:
+                - name: POSTGRES_USER
+                  value: daemon
+                - name: POSTGRES_PASSWORD
+                  value: daemon
+                - name: POSTGRES_DB
+                  value: revveries-dev
+                - name: PGDATA
+                  value: /var/persist/postgresql/data
+            - name: www
+              image: javamonn/revveries-www:latest
+              ports:
+                - containerPort: 80
+              volumeMounts:
+                - name: persist
+                  mountPath: /var/persist
+                  readOnly: true
+                - name: revveries-secret
+                  mountPath: /etc/secret
+                  readOnly: true
+            - name: api 
+              image: javamonn/revveries-api:latest
+              ports:
+                - containerPort: 3000
+              volumeMounts:
+                - name: revveries-secret
+                  mountPath: /etc/secret
+                  readOnly: true

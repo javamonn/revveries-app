@@ -13,6 +13,8 @@ import com.revveries.app.utils.Auth
 class RevveriesServlet(val db: Database) extends ScalatraServlet 
   with FutureSupport with JacksonJsonSupport with ScalateSupport with Auth {
 
+  val staticUrl = sys.env("STATIC_URL")
+
   protected implicit lazy val jsonFormats: Formats = 
     DefaultFormats.withCompanions(
       classOf[Tables.GalleriesRow] -> Tables,
@@ -36,16 +38,23 @@ class RevveriesServlet(val db: Database) extends ScalatraServlet
           "gallery" -> gal, 
           "pictures" -> picturesByGallery(gal.galleryId)
         ))
-      layoutTemplate("/WEB-INF/templates/views/app.ssp", "galleriesJson" -> write(galleriesJson))
+      layoutTemplate("/WEB-INF/templates/views/app.ssp", 
+        "staticUrl" -> staticUrl,
+        "galleriesJson" -> write(galleriesJson)
+      )
     }
   }
 
   get("/cms") {
     auth
-    layoutTemplate("/WEB-INF/templates/views/cms.ssp")
+    layoutTemplate("/WEB-INF/templates/views/cms.ssp",
+      "staticUrl" -> staticUrl
+    )
   }
 
   get("/auth") {
-    layoutTemplate("/WEB-INF/templates/views/auth.ssp")
+    layoutTemplate("/WEB-INF/templates/views/auth.ssp",
+      "staticUrl" -> staticUrl
+    )
   }
 }

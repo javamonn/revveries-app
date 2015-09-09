@@ -75,3 +75,4 @@ src/main/webapp/_build
 npm-debug.log
 config.js
 /revveries-secret.yaml
+.dev-persist/

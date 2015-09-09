@@ -29,9 +29,8 @@ items:
         spec:
           volumes:
             - name: persist
-              gcePersistentDisk:
-                pdName: revveries-persist
-                fsType: ext4
+              hostPath:
+                path: /home/daniel/revveries-app/.dev-persist
             - name: revveries-secret
               secret:
                 secretName: revveries-dev-secret

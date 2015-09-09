@@ -1,2 +1,4 @@
+<%@ var staticUrl: String %>
+
 <section id="cms"></section> 
-<script src="https://s3-us-west-1.amazonaws.com/revveries/static/Cms.js"></script>
+<script src="<%= staticUrl %>Cms.js"></script>

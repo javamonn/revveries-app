@@ -1,8 +1,9 @@
 <%@ var galleriesJson: String %>
+<%@ var staticUrl: String %>
 
 <section id="app-section"></section>
 
 <script>
   var initialGalleries = JSON.parse('<%= unescape(galleriesJson) %>');
 </script>
-<script src="https://s3-us-west-1.amazonaws.com/revveries/static/App.js"></script>
+<script src="<%= staticUrl %>App.js"></script>
