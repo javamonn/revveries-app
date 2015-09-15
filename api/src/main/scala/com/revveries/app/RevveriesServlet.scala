@@ -26,7 +26,8 @@ class RevveriesServlet(val db: Database) extends ScalatraServlet
     contentType = "text/html"
   }
 
-  get("/") {
+  get("/*") {
+    println(request)
     val galleryJoin = for {
       (gallery, picture) <- Tables.Galleries join Tables.Pictures on (_.galleryId === _.galleryId)
     } yield (gallery, picture)

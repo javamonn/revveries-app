@@ -4,28 +4,28 @@ items:
   - apiVersion: v1
     kind: Service
     metadata:
-      name: revveries-dev-svc
+      name: revveries-prod-svc
       labels:
-        app: revveries-dev
+        app: revveries-prod
     spec:
       type: NodePort
       ports:
         - port: 80
           targetPort: 80
       selector:
-        app: revveries-dev
+        app: revveries-prod
   - apiVersion: v1
     kind: ReplicationController
     metadata:
-      name: revveries-dev
+      name: revveries-prod
     spec:
       replicas: 1
       selector: 
-        app: revveries-dev
+        app: revveries-prod
       template:
         metadata:
           labels:
-            app: revveries-dev
+            app: revveries-prod
         spec:
           volumes:
             - name: persist
@@ -51,7 +51,7 @@ items:
                 - name: POSTGRES_PASSWORD
                   value: daemon
                 - name: POSTGRES_DB
-                  value: revveries-dev
+                  value: revveries-prod
                 - name: PGDATA
                   value: /var/persist/postgresql/data
             - name: www
