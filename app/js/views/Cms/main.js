@@ -9,7 +9,7 @@ import PictureManager from './views/PictureManager/Handler';
 injectTapEventPlugin();
 
 var routes = (
-  <Route path='/' handler={Cms}>
+  <Route path='/cms/' handler={Cms}>
     <DefaultRoute name='galleries' handler={GalleryManager} />
     <Route name='pictures' path=':galleryId/pictures' handler={PictureManager} />
   </Route>
