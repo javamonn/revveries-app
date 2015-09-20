@@ -1,30 +1,43 @@
 import React from 'react'
 import AppActions from 'actions/AppActions'
 import PictureRecord from 'stores/records/PictureRecord'
+import Radium from 'radium'
 
-var PictureOverlay = React.createClass({
+@Radium
+class PictureOverlay extends React.Component {
 
-  propTypes: {
-    picture: React.PropTypes.instanceOf(PictureRecord).isRequired
-  },
+  constructor () {
+    super()
+    this.propTypes = {
+      picture: React.PropTypes.instanceOf(PictureRecord).isRequired
+    }
+  }
 
   _hideOverlay () {
     AppActions.hideOverlay()
-  },
+  }
 
   render () {
     return (
       <div className='picture-overlay' onTouchTap={this._hideOverlay}>
-        <div className='overlay-picture-container' style={{
-          width: '90%',
-          height: '90%',
-          backgroundImage: `url(${this.props.picture.url})`,
-          backgroundRepeat: 'no-repeat',
-          backgroundSize: 'contain',
-          backgroundPosition: 'center'
-        }} />
+        <div className='overlay-picture-container' style={[ getStyles(this.props.picture.url) ]} />
       </div>
     )
+  }
+}
+
+var getStyles = imageUrl => ({
+  backgroundImage: `url(${imageUrl})`,
+  backgroundRepeat: 'no-repeat',
+  backgroundSize: 'contain',
+  backgroundPosition: 'center',
+  '@media screen and (min-width: 600px)': {
+    width: '90%',
+    height: '90%'
+  },
+  '@media screen and (max-width: 600px)': {
+    width: '100%',
+    height: '100%'
   }
 })
 

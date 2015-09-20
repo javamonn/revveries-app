@@ -59,32 +59,9 @@ body {
       }
     }
   }
-
   #content {
     flex: 1;
     display: flex;
-  }
-
-  #index {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-top: 75px;
-    padding-bottom: 75px;
-    @media screen and (min-width: 1050px) and (max-width: 1350px) {
-      padding-left: 30px;
-      padding-right: 30px;
-    }
-    @media screen and (min-width: 600px) and (max-width: 1050px) {
-      padding: 36px;
-    }
-    @media screen and (min-width: 400px) and (max-width: 600px) {
-      padding: 12px;
-    }
-    @media screen and (max-width: 400px) {
-      padding: 6px;
-    }
   }
   #gallery::-webkit-scrollbar { 
     display: none; 
@@ -112,9 +89,9 @@ body {
     }
   }
   .picture-overlay {
-    position: absolute;
+    position: fixed;
+    top: 0;
     left: 0;
-    right: 0;
     width: 100%;
     height: 100%;
     display: flex;
