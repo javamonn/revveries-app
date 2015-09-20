@@ -15,14 +15,14 @@ var PictureOverlay = React.createClass({
   render () {
     return (
       <div className='picture-overlay' onTouchTap={this._hideOverlay}>
-        <div className='picture-container' style={{
+        <div className='overlay-picture-container' style={{
           width: '90%',
           height: '90%',
           backgroundImage: `url(${this.props.picture.url})`,
           backgroundRepeat: 'no-repeat',
           backgroundSize: 'contain',
           backgroundPosition: 'center'
-        }}></div>
+        }} />
       </div>
     )
   }

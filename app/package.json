@@ -17,6 +17,9 @@
     "url": "https://github.com/javamonn/revveries-app/issues"
   },
   "homepage": "https://github.com/javamonn/revveries-app",
+  "standard": {
+    "parser": "babel-eslint"
+  },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
     "testFileExtensions": [
@@ -61,6 +64,7 @@
     "material-ui": "^0.10.0",
     "node-fetch": "^1.3.0",
     "normalize.scss": "^0.1.0",
+    "radium": "^0.14.1",
     "react": "^0.13.3",
     "react-cookie": "^0.2.5",
     "react-router": "^0.13.3",
