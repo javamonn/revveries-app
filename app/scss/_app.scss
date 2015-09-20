@@ -1,3 +1,6 @@
+body {
+  overflow: hidden;
+}
 #app {
   font-family: 'Roboto', sans-serif;
   display: flex;
@@ -92,7 +95,10 @@
       }
     }
   }
-
+  #gallery::-webkit-scrollbar { 
+    display: none; 
+    overflow: -moz-scrollbars-none;
+  }
   #gallery {
     display: flex;
     align-items: center;

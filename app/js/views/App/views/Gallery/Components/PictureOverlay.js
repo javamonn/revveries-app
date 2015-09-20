@@ -1,20 +1,31 @@
-import React from 'react';
-import Reflux from 'reflux';
-import AppActions from 'actions/AppActions';
+import React from 'react'
+import AppActions from 'actions/AppActions'
+import PictureRecord from 'stores/records/PictureRecord'
 
 var PictureOverlay = React.createClass({
 
-  _hideOverlay() {
-    AppActions.hideOverlay();
+  propTypes: {
+    picture: React.PropTypes.instanceOf(PictureRecord).isRequired
   },
 
-  render() {
-    return (
-      <div className="picture-overlay" onTouchTap={this._hideOverlay}>
-        <img src={this.props.picture.url} />
-      </div>
-    );
-  }
-});
+  _hideOverlay () {
+    AppActions.hideOverlay()
+  },
 
-module.exports = PictureOverlay;
+  render () {
+    return (
+      <div className='picture-overlay' onTouchTap={this._hideOverlay}>
+        <div className='picture-container' style={{
+          width: '90%',
+          height: '90%',
+          backgroundImage: `url(${this.props.picture.url})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'contain',
+          backgroundPosition: 'center'
+        }}></div>
+      </div>
+    )
+  }
+})
+
+module.exports = PictureOverlay
