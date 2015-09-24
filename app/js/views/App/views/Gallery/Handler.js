@@ -47,7 +47,7 @@ var Gallery = React.createClass({
       if (this.state.mobile) {
         return (
           <li 
-            style={[ styles.mobile(picture.url, this.state.windowWidth) ]} 
+            style={[ styles.mobile(picture, this.state.windowWidth) ]} 
             onTouchTap={ this._displayOverlay.bind(this, picture) } >
           </li>
         )
@@ -72,13 +72,13 @@ var Gallery = React.createClass({
 })
 
 var styles = {
-  mobile: (imageUrl, windowWidth) => ({
-    backgroundImage: `url(${imageUrl})`,
+  mobile: (picture, windowWidth) => ({
+    backgroundImage: `url(${picture.url})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
     backgroundPosition: 'center',
     height: '100%',
-    width: `${windowWidth - 30}`,
+    width: `${Math.min(windowWidth - 30, picture.width)}`,
     display: 'inline-block',
     flex: '0 0 auto',
     marginLeft: '15',
