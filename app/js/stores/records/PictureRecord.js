@@ -1,7 +1,7 @@
-import { Record } from 'immutable';
+import { Record } from 'immutable'
 
 var Picture = Record({
-  // Integer ID of picture record in DB 
+  // Integer ID of picture record in DB
   pictureId: undefined,
   // String title of picture (optional)
   title: undefined,
@@ -13,6 +13,6 @@ var Picture = Record({
   galleryId: undefined,
   // Integer, 0 indexed, representing the order of this image in the gallery
   pictureOrder: undefined
-});
+})
 
-module.exports = Picture;
+module.exports = Picture
