@@ -1,20 +1,21 @@
-import Reflux from 'reflux';
-import { List }  from 'immutable';
-import AWS from 'aws-sdk';
-import cuid from 'cuid';
+/* global fetch */
+import Reflux from 'reflux'
+import { List } from 'immutable'
+import AWS from 'aws-sdk'
+import cuid from 'cuid'
 
-const PictureActions = require('../actions/PictureActions');
-const Picture = require('./records/PictureRecord');
-const Gallery = require('./records/GalleryRecord');
-const env = require('../config');
+const PictureActions = require('../actions/PictureActions')
+const Picture = require('./records/PictureRecord')
+const Gallery = require('./records/GalleryRecord')
+const env = require('../config')
 
 AWS.config.region = env.AWS_REGION
 AWS.config.update({
   accessKeyId: env.AWS_AKID,
   secretAccessKey: env.AWS_SK
-});
-var _S3 = new AWS.S3();
-var _gallery;
+})
+var _S3 = new AWS.S3()
+var _gallery
 
 var PictureStore = Reflux.createStore({
   listenables: PictureActions,
@@ -23,10 +24,10 @@ var PictureStore = Reflux.createStore({
    * TODO: Lack of picture id disallows optimistic picture creation here.
    * Backend needs to be refactored to enable this.
    */
-  onPictureCreated(image, title, description) {
-    var awsURL = cuid();
+  onPictureCreated (image, title, description) {
+    var awsURL = cuid()
     // don't need local URL until optimisitic creation
-    //var localURL =  URL.createObjectURL(image);
+    // var localURL =  URL.createObjectURL(image)
     var awsPromise = new Promise(
       (resolve, reject) => {
         _S3.putObject({
@@ -34,9 +35,9 @@ var PictureStore = Reflux.createStore({
           Key: `images/${awsURL}`,
           Body: image,
           ContentType: image.type
-        }, (err, data) => (err) ? reject(err) : resolve(data));
+        }, (err, data) => (err) ? reject(err) : resolve(data))
       }
-    );
+    )
     var apiPromise = fetch('/api/pictures', {
       method: 'post',
       credentials: 'include',
@@ -45,7 +46,9 @@ var PictureStore = Reflux.createStore({
         description: description,
         url: env.AWS_URI + awsURL,
         galleryId: _gallery.galleryId,
-        pictureOrder: _gallery.pictures.size
+        pictureOrder: _gallery.pictures.size,
+        width: image.width,
+        height: image.height
       })
     })
     .then(res => res.json())
@@ -55,19 +58,19 @@ var PictureStore = Reflux.createStore({
       })
   },
 
-  onPictureEdited(picture) {
+  onPictureEdited (picture) {
     // TODO: implement
   },
 
-  onPictureDeleted(pictureIndex) {
-    var pictureId = _gallery.pictures.get(pictureIndex).pictureId;
+  onPictureDeleted (pictureIndex) {
+    var pictureId = _gallery.pictures.get(pictureIndex).pictureId
     _updatePictures(
       _gallery.pictures
         .delete(pictureIndex)
         .map((picture, index) => {
-          return (index >= pictureIndex) ? picture.set('pictureOrder', picture.pictureOrder - 1) : picture;
+          return (index >= pictureIndex) ? picture.set('pictureOrder', picture.pictureOrder - 1) : picture
         })
-    );
+    )
     var deleteAction = fetch(`/api/pictures/${pictureId}`, {
       method: 'delete',
       credentials: 'include'
@@ -78,51 +81,51 @@ var PictureStore = Reflux.createStore({
             method: 'put',
             credentials: 'include',
             body: JSON.stringify(picture.toJS())
-          }));
+          }))
         }
-        return memo;
-      }, []);
-      return Promise.all(updateOrderPromises);
-    });
-    return deleteAction;
+        return memo
+      }, [])
+      return Promise.all(updateOrderPromises)
+    })
+    return deleteAction
   },
 
-  onPictureMoved(oldIndex, newIndex) {
+  onPictureMoved (oldIndex, newIndex) {
     _updatePictures(_gallery.pictures.map((picture, index) => {
-      if (index == oldIndex) return _gallery.pictures.get(newIndex);
-      else if (index == newIndex) return _gallery.pictures.get(oldIndex);
-      else return picture;
-    }));
-    var pictureNew = _gallery.pictures.get(newIndex);
+      if (index === oldIndex) return _gallery.pictures.get(newIndex)
+      else if (index === newIndex) return _gallery.pictures.get(oldIndex)
+      else return picture
+    }))
+    var pictureNew = _gallery.pictures.get(newIndex)
     var moveAction = fetch(`/api/pictures/${pictureNew.pictureId}`, {
       method: 'put',
       credentials: 'include',
       body: JSON.stringify(pictureNew.set('pictureOrder', newIndex).toJS())
-    });
-    var pictureOld = _gallery.pictures.get(oldIndex);
+    })
+    var pictureOld = _gallery.pictures.get(oldIndex)
     var moveReaction = fetch(`/api/pictures/${pictureOld.pictureId}`, {
       method: 'put',
       credentials: 'include',
       body: JSON.stringify(pictureOld.set('pictureOrder', oldIndex).toJS())
-    });
-    return Promise.all([moveAction, moveReaction]);
+    })
+    return Promise.all([moveAction, moveReaction])
   },
 
-  getInitialState(galleryId) {
+  getInitialState (galleryId) {
     var picturesPromise = fetch(`/api/galleries/${galleryId}/pictures`).then(res => res.json())
     var galleryPromise = fetch(`/api/galleries/${galleryId}`).then(res => res.json())
     return Promise.all([picturesPromise, galleryPromise])
       .then(data => {
-        data[1][0].pictures = List(data[0].map(pic => new Picture(pic)));
-        _gallery = new Gallery(data[1][0]);
-        return _gallery;
-      });
+        data[1][0].pictures = List(data[0].map(pic => new Picture(pic)))
+        _gallery = new Gallery(data[1][0])
+        return _gallery
+      })
   }
-});
+})
 
 var _updatePictures = pictures => {
-  _gallery = _gallery.set('pictures', pictures);
-  PictureStore.trigger(_gallery);
-};
+  _gallery = _gallery.set('pictures', pictures)
+  PictureStore.trigger(_gallery)
+}
 
-module.exports = PictureStore;
+module.exports = PictureStore

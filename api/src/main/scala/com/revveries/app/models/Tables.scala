@@ -58,17 +58,17 @@ trait Tables {
    *  @param url Database column url SqlType(varchar), Length(255,true)
    *  @param galleryId Database column gallery_id SqlType(int4)
    *  @param pictureOrder Database column picture_order SqlType(integer) */
-  case class PicturesRow(pictureId: Int, title: String, description: String, url: String, galleryId: Int, pictureOrder: Int)
+  case class PicturesRow(pictureId: Int, title: String, description: String, url: String, galleryId: Int, pictureOrder: Int, width: Int, height: Int)
   /** GetResult implicit for fetching PicturesRow objects using plain SQL queries */
   implicit def GetResultPicturesRow(implicit e0: GR[Int], e1: GR[String]): GR[PicturesRow] = GR{
     prs => import prs._
-    PicturesRow.tupled((<<[Int], <<[String], <<[String], <<[String], <<[Int], <<[Int]))
+    PicturesRow.tupled((<<[Int], <<[String], <<[String], <<[String], <<[Int], <<[Int], <<[Int], <<[Int]))
   }
   /** Table description of table pictures. Objects of this class serve as prototypes for rows in queries. */
   class Pictures(_tableTag: Tag) extends Table[PicturesRow](_tableTag, "pictures") {
-    def * = (pictureId, title, description, url, galleryId, pictureOrder) <> (PicturesRow.tupled, PicturesRow.unapply)
+    def * = (pictureId, title, description, url, galleryId, pictureOrder, width, height) <> (PicturesRow.tupled, PicturesRow.unapply)
     /** Maps whole row to an option. Useful for outer joins. */
-    def ? = (Rep.Some(pictureId), Rep.Some(title), Rep.Some(description), Rep.Some(url), Rep.Some(galleryId), Rep.Some(pictureOrder)).shaped.<>({r=>import r._; _1.map(_=> PicturesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
+    def ? = (Rep.Some(pictureId), Rep.Some(title), Rep.Some(description), Rep.Some(url), Rep.Some(galleryId), Rep.Some(pictureOrder), Rep.Some(width), Rep.Some(height)).shaped.<>({r=>import r._; _1.map(_=> PicturesRow.tupled((_1.get, _2.get, _3.get, _4.get, _5.get, _6.get, _7.get, _8.get)))}, (_:Any) =>  throw new Exception("Inserting into ? projection not supported."))
 
     /** Database column picture_id SqlType(serial), AutoInc, PrimaryKey */
     val pictureId: Rep[Int] = column[Int]("picture_id", O.AutoInc, O.PrimaryKey)
@@ -82,7 +82,10 @@ trait Tables {
     val galleryId: Rep[Int] = column[Int]("gallery_id")
     /** Database column picture_order SqlType(integer) */
     val pictureOrder: Rep[Int] = column[Int]("picture_order")
-
+    /** Database column width SqlType(integer) */
+    val width: Rep[Int] = column[Int]("width")
+    /** Database column height SqlType(integer) */
+    val height: Rep[Int] = column[Int]("height")
 
     /** Foreign key referencing Galleries (database name pictures_gallery_id_fkey) */
     lazy val galleriesFk = foreignKey("pictures_gallery_id_fkey", galleryId, Galleries)(r => r.galleryId, onUpdate=ForeignKeyAction.NoAction, onDelete=ForeignKeyAction.NoAction)
