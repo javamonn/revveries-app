@@ -53,7 +53,7 @@ var PictureCreator = React.createClass({
     if (this.state.selectedImage) {
       imagePreview = (
         <div className="image-preview">
-          <img src={this.state.selectedImage.url} />
+          <img src={this.state.selectedImage.url} ref='imagePreview' />
           <IconButton 
             className="remove-preview" 
             iconClassName="material-icons"
@@ -152,10 +152,13 @@ var PictureCreator = React.createClass({
       });
       return;
     }
+    var imagePreview = React.findDOMNode(this.refs.imagePreview)
     PictureActions.pictureCreated(
       this.state.selectedImage.file,
       this.refs.titleField.getValue(),
-      this.refs.descriptionField.getValue()
+      imagePreview.naturalWidth,
+      imagePreview.naturalHeight,
+      this.refs.descriptionField.getValue() || ""
     );
     this._clearDialog();
   },

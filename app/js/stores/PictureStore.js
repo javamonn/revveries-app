@@ -14,6 +14,7 @@ AWS.config.update({
   accessKeyId: env.AWS_AKID,
   secretAccessKey: env.AWS_SK
 })
+
 var _S3 = new AWS.S3()
 var _gallery
 
@@ -24,7 +25,7 @@ var PictureStore = Reflux.createStore({
    * TODO: Lack of picture id disallows optimistic picture creation here.
    * Backend needs to be refactored to enable this.
    */
-  onPictureCreated (image, title, description) {
+  onPictureCreated (image, title, width, height, description) {
     var awsURL = cuid()
     // don't need local URL until optimisitic creation
     // var localURL =  URL.createObjectURL(image)
@@ -47,8 +48,8 @@ var PictureStore = Reflux.createStore({
         url: env.AWS_URI + awsURL,
         galleryId: _gallery.galleryId,
         pictureOrder: _gallery.pictures.size,
-        width: image.width,
-        height: image.height
+        width: width,
+        height: height
       })
     })
     .then(res => res.json())

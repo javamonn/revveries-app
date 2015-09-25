@@ -46,8 +46,8 @@ var Gallery = React.createClass({
     var pictures = this.state.gallery.pictures.map(picture => {
       if (this.state.mobile) {
         return (
-          <li 
-            style={[ styles.mobile(picture, this.state.windowWidth) ]} 
+          <li
+            style={[ styles.mobile(picture, this.state.windowWidth) ]}
             onTouchTap={ this._displayOverlay.bind(this, picture) } >
           </li>
         )
