@@ -29,11 +29,15 @@ var Gallery = React.createClass({
   computeRenderedWidth (pictures) {
     var marginSize = 20
     var ww = window.innerWidth
-    var elem = document.getElementById('gallery')
+    var elem = document.getElementById('pictures-container')
     return Map(pictures.reduce(
       (memo, picture) => {
-        if (picture.width < picture.height && elem) {
-          memo[String(picture.pictureId)] = ((elem.clientHeight / picture.height) * picture.width) - marginSize
+        if (elem && picture.height > elem.clientHeight) {
+          var renderedWidth = (elem.clientHeight / picture.height) * picture.width
+          if (renderedWidth == ww) {
+            renderedWidth -= marginSize
+          }
+          memo[String(picture.pictureId)] = Math.min(renderedWidth, ww - marginSize)
         } else {
           memo[String(picture.pictureId)] = Math.min(ww - marginSize, picture.width)
         }
@@ -84,7 +88,7 @@ var Gallery = React.createClass({
     })
     return (
       <div id='gallery' ref='gallery'>
-        <ul>{pictures}</ul>
+        <ul id='pictures-container'>{pictures}</ul>
       </div>
     )
   }
