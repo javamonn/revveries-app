@@ -3,6 +3,7 @@ import AppStore from 'stores/AppStore'
 import { State } from 'react-router'
 import AppActions from 'actions/AppActions'
 import Radium from 'radium'
+import { Map } from 'immutable'
 
 var Gallery = React.createClass({
 
@@ -13,29 +14,47 @@ var Gallery = React.createClass({
   getInitialState () {
     var mq = window.matchMedia('screen and (max-width: 1050px)')
 
-    // update state on breakpoint
-    mq.addListener(mq => {
-      this.setState({
-        mobile: mq.matches
-      })
-    })
-
-    // update state on resize
-    window.addEventListener('resize', e => {
-      this.setState({
-        windowWidth: window.innerWidth
-      })
-    })
-
+    var gallery = AppStore.getGalleryForSlug(this.getParams().gallerySlug)
     return {
-      gallery: AppStore.getGalleryForSlug(this.getParams().gallerySlug),
+      gallery: gallery,
       overlay: {
         visible: false,
         picture: undefined
       },
-      windowWidth: window.innerWidth,
-      mobile: mq.matches
+      mobile: mq.matches,
+      renderedWidthById: this.computeRenderedWidth(gallery.pictures)
     }
+  },
+
+  computeRenderedWidth (pictures) {
+    var marginSize = 20
+    var ww = window.innerWidth
+    var elem = document.getElementById('gallery')
+    return Map(pictures.reduce(
+      (memo, picture) => {
+        if (picture.width < picture.height && elem) {
+          memo[String(picture.pictureId)] = ((elem.clientHeight / picture.height) * picture.width) - marginSize
+        } else {
+          memo[String(picture.pictureId)] = Math.min(ww - marginSize, picture.width)
+        }
+        return memo
+      }, {})
+    )
+  },
+
+  componentDidMount () {
+    this.setState({
+      renderedWidthById: this.computeRenderedWidth(this.state.gallery.pictures)
+    })
+    // update state on resize
+    window.addEventListener('resize', e => {
+      // TODO: debounce e
+      if (this.isMounted()) {
+        this.setState({
+          renderedWidthById: this.computeRenderedWidth(this.state.gallery.pictures)
+        })
+      }
+    })
   },
 
   _displayOverlay (picture) {
@@ -47,7 +66,7 @@ var Gallery = React.createClass({
       if (this.state.mobile) {
         return (
           <li
-            style={[ styles.mobile(picture, this.state.windowWidth) ]}
+            style={[ styles.mobile(picture, this.state.renderedWidthById.get(String(picture.pictureId))) ]}
             onTouchTap={ this._displayOverlay.bind(this, picture) } >
           </li>
         )
@@ -64,7 +83,7 @@ var Gallery = React.createClass({
       }
     })
     return (
-      <div id='gallery'>
+      <div id='gallery' ref='gallery'>
         <ul>{pictures}</ul>
       </div>
     )
@@ -72,17 +91,16 @@ var Gallery = React.createClass({
 })
 
 var styles = {
-  mobile: (picture, windowWidth) => ({
+  mobile: (picture, renderedWidth) => ({
     backgroundImage: `url(${picture.url})`,
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'contain',
     backgroundPosition: 'center',
-    height: '100%',
-    width: `${Math.min(windowWidth - 30, picture.width)}`,
+    width: `${renderedWidth}`,
     display: 'inline-block',
     flex: '0 0 auto',
-    marginLeft: '15',
-    marginRight: '15'
+    marginLeft: '10',
+    marginRight: '10'
   }),
   desktop: {
     display: 'inline-block',

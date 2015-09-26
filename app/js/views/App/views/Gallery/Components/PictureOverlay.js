@@ -31,14 +31,8 @@ var getStyles = imageUrl => ({
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'contain',
   backgroundPosition: 'center',
-  '@media screen and (min-width: 600px)': {
-    width: '90%',
-    height: '90%'
-  },
-  '@media screen and (max-width: 600px)': {
-    width: '100%',
-    height: '100%'
-  }
+  width: '100%',
+  height: '100%'
 })
 
 module.exports = PictureOverlay

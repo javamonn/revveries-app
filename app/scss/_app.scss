@@ -69,16 +69,30 @@ body {
   }
   #gallery {
     display: flex;
-    align-items: center;
-    flex: 1;
     overflow-x: scroll;
+    flex: 1 1 auto;
+    @media screen and (min-width: 1050px) {
+      align-items: center;
+    }
+    @media screen and (max-width: 1050px) {
+      align-items: stretch;
+      padding-bottom: 15px;
+      padding-top: 15px;
+    }
     ul {
       list-style: none;
-      flex: 1;
+      flex: 1 1 auto;
       display: flex;
-      align-items: center;
-      height: 80%;
-      padding-left: 0px;
+      align-items: stretch;
+      @media screen and (min-width: 1050px) {
+        height: 80%;
+        padding-left: 0px;
+      }
+      @media screen and (max-width: 1050px) {
+        height: auto;
+        margin: 0px;
+        padding: 0px;
+      }
     }
   }
   .picture-overlay {
