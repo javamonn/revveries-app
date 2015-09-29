@@ -19,8 +19,6 @@ class Index extends React.Component {
 }
 
 var getStyles = imageUrl => ({
-  paddingTop: '75px',
-  paddingBottom: '75px',
   backgroundImage: `url(${imageUrl})`,
   backgroundRepeat: 'no-repeat',
   backgroundSize: 'contain',
@@ -30,7 +28,9 @@ var getStyles = imageUrl => ({
   height: '100%',
   '@media screen and (min-width: 1050px) and (max-width: 1350px)': {
     paddingLeft: '30px',
-    paddingRight: '30px'
+    paddingRight: '30px',
+    paddingTop: '75px',
+    paddingBottom: '75px'
   },
   '@media screen and (min-width: 600px) and (max-width: 1050px)': {
     padding: '36px'

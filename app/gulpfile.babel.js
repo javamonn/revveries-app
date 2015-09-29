@@ -27,7 +27,7 @@ let bundle = bundleName => {
     gutil.log('bundling')
     return bundler
       .transform(babelify.configure({
-        stage: 1
+        stage: 0
       }))
       .transform(strictify)
       .bundle()
