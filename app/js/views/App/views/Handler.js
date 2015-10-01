@@ -3,7 +3,8 @@ import Reflux from 'reflux'
 import { RouteHandler } from 'react-router'
 import AppStore from 'stores/AppStore'
 import PictureOverlay from 'views/App/views/Gallery/Components/PictureOverlay'
-import Sidenav from './Nav/Handler'
+import GalleryListOverlay from 'views/App/views/Nav/Components/GalleryListOverlay'
+import Nav from './Nav/Handler'
 
 var App = React.createClass({
 
@@ -23,14 +24,15 @@ var App = React.createClass({
 
   render () {
     var overlay
-    if (this.state.overlay.visible) {
-      overlay = (
-        <PictureOverlay picture={this.state.overlay.picture} />
-      )
+    if (this.state.overlay.visible && this.state.overlay.type === 'picture') {
+      overlay = <PictureOverlay picture={this.state.overlay.picture} />
+    } 
+    else if (this.state.overlay.visible && this.state.overlay.type === 'galleryList') {
+      overlay = <GalleryListOverlay galleries={this.state.galleries} /> 
     }
     return (
       <div id='app' className={this.state.overlay.visible ? 'overlay-visible' : ''}>
-        <Sidenav galleries={this.state.galleries} />
+        <Nav galleries={this.state.galleries} />
         <div id='content'>
           <RouteHandler />
         </div>

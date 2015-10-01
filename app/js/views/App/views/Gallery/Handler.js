@@ -1,14 +1,17 @@
 import React from 'react'
 import AppStore from 'stores/AppStore'
+import RouteStore from 'stores/RouteStore'
 import { State } from 'react-router'
 import AppActions from 'actions/AppActions'
 import Radium from 'radium'
 import { Map } from 'immutable'
+import Reflux from 'reflux'
 
 var Gallery = React.createClass({
 
   mixins: [
-    State
+    State,
+    Reflux.listenTo(RouteStore, 'onRouteChanged')
   ],
 
   getInitialState () {
@@ -34,7 +37,7 @@ var Gallery = React.createClass({
       (memo, picture) => {
         if (elem && picture.height > elem.clientHeight) {
           var renderedWidth = (elem.clientHeight / picture.height) * picture.width
-          if (renderedWidth == ww) {
+          if (renderedWidth === ww) {
             renderedWidth -= marginSize
           }
           memo[String(picture.pictureId)] = Math.min(renderedWidth, ww - marginSize)
@@ -61,8 +64,16 @@ var Gallery = React.createClass({
     })
   },
 
+  onRouteChanged () {
+    var gallery = AppStore.getGalleryForSlug(this.getParams().gallerySlug)
+    this.setState({
+      gallery: gallery,
+      renderedWidthById: this.computeRenderedWidth(gallery.pictures)
+    })
+  },
+
   _displayOverlay (picture) {
-    AppActions.displayOverlay(picture)
+    AppActions.displayPictureOverlay(picture)
   },
 
   render () {
@@ -70,13 +81,14 @@ var Gallery = React.createClass({
       if (this.state.mobile) {
         return (
           <li
+            key={picture.pictureId}
             style={[ styles.mobile(picture, this.state.renderedWidthById.get(String(picture.pictureId))) ]}
             onTouchTap={ this._displayOverlay.bind(this, picture) } >
           </li>
         )
       } else {
         return (
-          <li style={[ styles.desktop ]}>
+          <li key={picture.pictureId} style={[ styles.desktop ]}>
             <img
               src={picture.url}
               onTouchTap={this._displayOverlay.bind(this, picture)}

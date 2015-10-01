@@ -1,7 +1,8 @@
 import Reflux from 'reflux';
 
 var AppActions = Reflux.createActions([
-  'displayOverlay',
+  'displayPictureOverlay',
+  'displayGalleryListOverlay',
   'hideOverlay'
 ]);
 
