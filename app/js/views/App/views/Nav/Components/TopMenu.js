@@ -27,17 +27,33 @@ var styles = {
   header: {
     textAlign: 'center',
     fontWeight: '400',
-    fontSize: '28',
     marginTop: '20px',
-    marginBottom: '20px'
+    marginBottom: '20px',
+    '@media screen and (min-width: 500px)': {
+      fontSize: '28'
+    },
+    '@media screen and (max-width: 500px)': {
+      fontSize: '18'
+    }
   },
   menuToggle: {
     position: 'absolute',
-    top: '20px',
-    right: '20px'
+    '@media screen and (min-width: 500px)': {
+      top: '20px',
+      right: '20px'
+    },
+    '@media screen and (max-width: 500px)': {
+      top: '18px',
+      right: '18px'
+    }
   },
   menuToggleIcon: {
-    fontSize: '30',
+    '@media screen and (min-width: 500px)': {
+      fontSize: '30',
+    },
+    '@media screen and (max-width: 500px)': {
+      fontSize: '26'
+    },
     ':hover': {
       cursor: 'pointer'
     }

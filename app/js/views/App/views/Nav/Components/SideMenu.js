@@ -2,6 +2,7 @@ import React from 'react'
 import { List } from 'immutable'
 import Radium from 'radium'
 import { Link } from 'react-router'
+import RouteActions from 'actions/RouteActions'
 
 @Radium
 export default class SideMenu extends React.Component {
@@ -18,7 +19,7 @@ export default class SideMenu extends React.Component {
     var galleryListItems = this.props.galleries.map(gallery => {
       return (
         <li key={'desktop-' + gallery.galleryId} className='sidenav-item' style={[ styles.listItem ]}> 
-          <Link to='gallery' params={{ gallerySlug: gallery.slug }}>{ gallery.name }</Link>
+          <Link to='gallery' params={{ gallerySlug: gallery.slug }} onTouchTap={RouteActions.routeChanged}>{ gallery.name }</Link>
         </li>
       )
     })

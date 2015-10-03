@@ -26,6 +26,10 @@ var getStyles = imageUrl => ({
   backgroundOrigin: 'content-box',
   width: '100%',
   height: '100%',
+  '@media screen and (min-width: 1350px)': {
+    height: '80%',
+    margin: 'auto'
+  },
   '@media screen and (min-width: 1050px) and (max-width: 1350px)': {
     paddingLeft: '30px',
     paddingRight: '30px',

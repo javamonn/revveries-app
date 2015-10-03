@@ -24,10 +24,10 @@ export default class GalleryListOverlay extends React.Component {
     var galleryListItems = this.props.galleries.map(gallery => {
       return (
         <li key={'mobile-' + gallery.galleryId} style={styles.listItem}>
-          <Link to='gallery' params={{gallerySlug: gallery.slug}} style={styles.galleryContainer} onTouchTap={this.onNavigationy}>
+          <Link className="gallery-image-link" to='gallery' params={{gallerySlug: gallery.slug}} onTouchTap={this.onNavigation}>
             <div style={styles.galleryPreview(gallery.pictures.first().url)}></div>
           </Link>
-          <Link to='gallery' params={{gallerySlug: gallery.slug}} style={styles.galleryLink} onTouchTap={this.onNavigation}>
+          <Link className="gallery-title-link" to='gallery' params={{gallerySlug: gallery.slug}} style={styles.galleryLink} onTouchTap={this.onNavigation}>
             <h4 style={styles.galleryHeader}>
               {gallery.name}
             </h4>
@@ -38,15 +38,30 @@ export default class GalleryListOverlay extends React.Component {
     return (
       <div id='menu-overlay' style={styles.overlayBackground}>
         <div onTouchTap={AppActions.hideOverlay} style={styles.overlayFiller} />
-        <ul style={styles.list}>
-          {galleryListItems}
-        </ul>
+        <div id='gallery-list-overlay' style={styles.listContainer}>
+          <ul style={styles.list}>
+            {galleryListItems}
+          </ul>
+        </div>
       </div>
     )
   }
 }
 
 var styles = {
+  listContainer: {
+    marginLeft: 'auto',
+    backgroundColor: '#FFF',
+    height: '100%',
+    '@media screen and (min-width: 430px)': {
+      width: '350px',
+    },
+    '@media screen and (max-width: 430px)': {
+      width: '80%',
+    },
+    borderLeft: 'solid 1px #d3d3d3',
+    overflowY: 'scroll'
+  },
   list: {
     listStyle: 'none',
     marginRight: '0',
@@ -55,16 +70,13 @@ var styles = {
     fontWeight: '300',
     paddingLeft: '0',
     marginLeft: 'auto',
-    backgroundColor: '#FFF',
-    paddingTop: '73px',
-    height: '100%',
-    width: '350px',
-    overflowY: 'scroll'
+    paddingTop: '20px'
   },
   overlayFiller: {
     flex: '1'
   },
-  listItem: {
+  listItem:{
+    marginBottom: '20' 
   },
   galleryPreview: imageUrl => ({
     backgroundImage: `url(${imageUrl})`,
@@ -79,7 +91,11 @@ var styles = {
     fontWeight: '300',
     textAlign: 'center',
     color: '#000',
-    textDecoration: 'none'
+    textDecoration: 'none',
+    '@media screen and (max-width: 500px)': {
+      marginTop: '10px',
+      marginBottom: '10px'
+    }
   },
   galleryLink: {
     color: '#000',
@@ -96,7 +112,12 @@ var styles = {
   },
   galleryContainer: {
     display: 'inline-block',
-    width: '350px',
+    '@media screen and (max-width: 500px)': {
+      width: '350px',
+    },
+    '@media screen and (min-width: 500px)': {
+      width: '100%'
+    },
     color: '#000',
     textDecoration: 'none',
     alignItems: 'stretch'

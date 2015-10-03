@@ -19,11 +19,15 @@ body {
     flex: 1;
     display: flex;
   }
-  #gallery::-webkit-scrollbar { 
+  #gallery::-webkit-scrollbar,
+  #gallery-list-overlay::-webkit-scrollbar { 
     display: none; 
+  }
+  #gallery-list-overlay {
     overflow: -moz-scrollbars-none;
   }
   #gallery {
+    overflow: -moz-scrollbars-none;
     display: flex;
     overflow-x: scroll;
     flex: 1 1 auto;
@@ -67,6 +71,22 @@ body {
     z-index: 1;
     background: rgba(255, 255, 255, .7);
   }
+}
+
+.gallery-image-link {
+  display: inline-block;
+  color: #000;
+  text-decoration: none;
+  align-items: stretch;
+  @media screen and (max-width: 500px) {
+    width: 100%;
+  }
+  @media screen and (min-width: 500px) {
+    width: 350px;
+  }
+}
+.gallery-title-link {
+
 }
 
 .overlay-visible #content,
