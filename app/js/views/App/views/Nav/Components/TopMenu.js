@@ -14,7 +14,7 @@ export default class TopMenu extends React.Component {
   render () {
     return (
       <div id='sidenav' style={styles.base}>
-        <h1 style={styles.header}>Odette Chavez-Mayo</h1>
+        <h1 style={styles.header}>ODETTE CHAVEZ-MAYO</h1>
         <div style={styles.menuToggle} onTouchTap={AppActions.displayGalleryListOverlay}>
           <i style={styles.menuToggleIcon}  className="material-icons">menu</i>
         </div>
@@ -43,8 +43,8 @@ var styles = {
       right: '20px'
     },
     '@media screen and (max-width: 500px)': {
-      top: '18px',
-      right: '18px'
+      top: '20px',
+      right: '20px'
     }
   },
   menuToggleIcon: {
@@ -52,7 +52,7 @@ var styles = {
       fontSize: '30',
     },
     '@media screen and (max-width: 500px)': {
-      fontSize: '26'
+      fontSize: '22'
     },
     ':hover': {
       cursor: 'pointer'

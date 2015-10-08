@@ -2,7 +2,7 @@ body {
   overflow: hidden;
 }
 #app {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Quicksand', sans-serif;
   display: flex;
   width: 100%;
   height: 100%;
@@ -85,8 +85,29 @@ body {
     width: 350px;
   }
 }
-.gallery-title-link {
 
+#menu-transition {
+  @media screen and (min-width: 430px) {
+    width: 350px;
+  }
+  @media screen and (max-width: 430px) {
+    width: 80%;
+  }
+}
+
+.menu-appear,
+.menu-leave {
+  transition: width 300ms ease;
+}
+
+.menu-appear,
+.menu-leave.menu-leave-active {
+  width: 0px;
+}
+
+.menu-leave,
+.menu-appear.menu-appear-active {
+  width: 100%;
 }
 
 .overlay-visible #content,

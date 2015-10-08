@@ -4,6 +4,7 @@ import Radium from 'radium'
 import { Link } from 'react-router'
 import AppActions from 'actions/AppActions'
 import RouteActions from 'actions/RouteActions'
+var ReactCSSTransitionGroup = require('react/addons').addons.CSSTransitionGroup
 
 @Radium
 export default class GalleryListOverlay extends React.Component {
@@ -38,11 +39,13 @@ export default class GalleryListOverlay extends React.Component {
     return (
       <div id='menu-overlay' style={styles.overlayBackground}>
         <div onTouchTap={AppActions.hideOverlay} style={styles.overlayFiller} />
-        <div id='gallery-list-overlay' style={styles.listContainer}>
-          <ul style={styles.list}>
-            {galleryListItems}
-          </ul>
-        </div>
+        <ReactCSSTransitionGroup transitionName='menu' transitionAppear={true} id='menu-transition'>
+          <div key='gallery-list-overlay' id='gallery-list-overlay' style={styles.listContainer}>
+            <ul style={styles.list}>
+              {galleryListItems}
+            </ul>
+          </div>
+        </ReactCSSTransitionGroup>
       </div>
     )
   }
@@ -53,14 +56,9 @@ var styles = {
     marginLeft: 'auto',
     backgroundColor: '#FFF',
     height: '100%',
-    '@media screen and (min-width: 430px)': {
-      width: '350px',
-    },
-    '@media screen and (max-width: 430px)': {
-      width: '80%',
-    },
     borderLeft: 'solid 1px #d3d3d3',
-    overflowY: 'scroll'
+    overflowY: 'scroll',
+    overflowX: 'hidden'
   },
   list: {
     listStyle: 'none',

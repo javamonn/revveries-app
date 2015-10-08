@@ -26,7 +26,7 @@ export default class SideMenu extends React.Component {
 
     return (
       <div id='sidenav' style={[ styles.base ]}>
-        <h1 style={[ styles.header ]}>Odette Chavez-Mayo</h1>
+        <h1 style={[ styles.header ]}>ODETTE CHAVEZ-MAYO</h1>
         <ul key='desktop-galleries' style={[ styles.list ]}>
           {galleryListItems}
         </ul>
