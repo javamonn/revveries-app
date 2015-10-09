@@ -74,5 +74,6 @@ src/main/webapp/_build
 .sbtopts
 npm-debug.log
 config.js
-/revveries-secret.yaml
+/kube/dev/secret.json
+/kube/prod/secret.json
 .dev-persist/

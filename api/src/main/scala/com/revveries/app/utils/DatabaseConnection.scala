@@ -15,11 +15,13 @@ class DatabaseConnection(uri: String) {
     while (true) {
       try {
         flyway.setDataSource(uri, sys.env("POSTGRES_USER"), sys.env("POSTGRES_PASSWORD"))
+        flyway.setCleanOnValidationError(true)
         flyway.migrate
         break
       } catch {
         case e: Exception => {
           logger.info("unable to connect to db, retrying in 100ms")        
+          logger.info(e.getMessage)
           Thread.sleep(100)
         }
       }

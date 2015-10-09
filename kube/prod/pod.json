@@ -1,0 +1,113 @@
+{
+  "apiVersion": "v1",
+  "kind": "ReplicationController",
+  "metadata": {
+    "name": "revveries-prod"
+  },
+  "spec": {
+    "replicas": 1,
+    "selector":  {
+      "app": "revveries-prod"
+    },
+    "template": {
+      "metadata": {
+        "labels": {
+          "app": "revveries-prod"
+        }
+      },
+      "spec": {
+        "volumes": [
+          {
+            "name": "persist",
+            "gcePersistentDisk": {
+              "pdName": "revveries-persist",
+              "fsType": "ext4"
+            }
+          },
+          {
+            "name": "revveries-secret",
+            "secret": {
+              "secretName": "revveries-prod-secret"
+            }
+          }
+        ],
+        "containers": [
+          {
+            "name": "db",
+            "image": "postgres:latest",
+            "ports": [
+              {
+                "containerPort": 5432
+              }
+            ],
+            "volumeMounts": [
+              {
+                "name": "revveries-secret",
+                "mountPath": "/etc/secret"
+              },
+              {
+                "name": "persist",
+                "mountPath": "/var/persist"
+              }
+            ],
+            "env": [
+              {
+                "name": "POSTGRES_USER",
+                "value": "daemon"
+              },
+              {
+                "name": "POSTGRES_PASSWORD",
+                "value": "daemon"
+              },
+              {
+                "name": "POSTGRES_DB",
+                "value": "revveries-prod"
+              },
+              {
+                "name": "PGDATA",
+                "value": "/var/persist/postgresql/data"
+              }
+            ]
+          },
+          {
+            "name": "www",
+            "image": "javamonn/revveries-www:latest",
+            "ports": [
+              {
+                "containerPort": 80
+              }
+            ],
+            "volumeMounts": [
+              {
+                "name": "persist",
+                "mountPath": "/var/persist",
+                "readOnly": true
+              },
+              {
+                "name": "revveries-secret",
+                "mountPath": "/etc/secret",
+                "readOnly": true
+              }
+            ]
+          },
+          {
+            "name": "api",
+            "image": "javamonn/revveries-api:latest",
+            "ports": [
+              {
+                "containerPort": 3000
+              }
+            ],
+            "volumeMounts": [
+              {
+                "name": "revveries-secret",
+                "mountPath": "/etc/secret",
+                "readOnly": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
