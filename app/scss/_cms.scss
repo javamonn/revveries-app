@@ -77,6 +77,11 @@
     }
   }
 
+  #picture-manager {
+    height: 100vh;
+    overflow-y: scroll;
+  }
+
   #picture-list {
     padding: 60px 24px;
     display: flex;
