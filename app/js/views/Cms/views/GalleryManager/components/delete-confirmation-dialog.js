@@ -14,7 +14,7 @@ class DeleteConfirmationDialog extends Component {
   constructor () {
     super()
     this.show = this.show.bind(this)
-    this.hide = this.hide.bind(this)
+    this.dismiss = this.dismiss.bind(this)
     this._onCancel = this._onCancel.bind(this)
     this._onConfirm = this._onConfirm.bind(this)
   }
@@ -25,19 +25,19 @@ class DeleteConfirmationDialog extends Component {
     }
   }
 
-  hide () {
+  dismiss () {
     if (this.refs.confirmationDialog) {
-      this.refs.confirmationDialog.hide()
+      this.refs.confirmationDialog.dismiss()
     }
   }
 
   _onCancel () {
-    this.hide()
+    this.dismiss()
     this.props.onCancel()
   }
 
   _onConfirm () {
-    this.hide()
+    this.dismiss()
     this.props.onConfirm()
   }
 
