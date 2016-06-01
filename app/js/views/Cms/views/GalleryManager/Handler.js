@@ -4,6 +4,8 @@ import Reflux from 'reflux';
 import GalleryCreator from './components/GalleryCreator';
 import GalleryCard from './components/GalleryCard';
 import CmsStore from 'stores/CmsStore';
+import DeleteConfirmationDialog from './components/delete-confirmation-dialog'
+import CmsActions from 'actions/CmsActions';
 
 var GalleryManager = React.createClass({
 
@@ -30,11 +32,33 @@ var GalleryManager = React.createClass({
     this.setState({galleries});
   },
 
+  onDelete (galleryIndex) {
+    this.setState(
+      { promptedGalleryIdx: galleryIndex},
+      () => this.refs.deleteConfirmationDialog.show()
+    )
+  },
+
+  onConfirmDelete () {
+    CmsActions.galleryDeleted(this.state.promptedGalleryIdx);
+  },
+
+  onCancelDelete () {
+    this.setState({
+      promptedGalleryIdx: -1
+    })
+  },
+
   render() {
     var galleryCount = this.state.galleries.size;
     var cardList = this.state.galleries.map((gallery, i) => {
       return (
-        <GalleryCard gallery={gallery} galleryIndex={i} galleryCount={galleryCount} />
+        <GalleryCard 
+          gallery={gallery}
+          galleryIndex={i}
+          galleryCount={galleryCount} 
+          onDelete={this.onDelete}
+        />
       );
     });
     return (
@@ -43,6 +67,11 @@ var GalleryManager = React.createClass({
           {cardList} 
         </div>
         <GalleryCreator />
+        <DeleteConfirmationDialog 
+          ref='deleteConfirmationDialog' 
+          onConfirm={this.onConfirmDelete}
+          onCancel={this.onCancelDelete}
+        />
       </div>
     );
   }

@@ -39,6 +39,7 @@ let bundle = bundleName => {
         .on('error', gutil.log)
       .pipe(sourcemaps.write())
       .pipe(gulp.dest('_build/'))
+        .on('end', () => gutil.log('bundling complete'))
   }
   rebundle()
   return {

@@ -9,12 +9,12 @@ import PictureManager from './views/PictureManager/Handler';
 injectTapEventPlugin();
 
 var routes = (
-  <Route path='/cms' handler={Cms}>
+  <Route handler={Cms}>
     <DefaultRoute name='galleries' handler={GalleryManager} />
     <Route name='pictures' path=':galleryId/pictures' handler={PictureManager} />
   </Route>
 );
 
-Router.run(routes, Router.HistoryLocation, (Root) => {
+Router.run(routes, Router.HashLocation, (Root) => {
   React.render(<Root/>, document.getElementById('cms'));
 });

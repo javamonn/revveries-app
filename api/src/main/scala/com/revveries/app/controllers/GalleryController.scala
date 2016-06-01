@@ -11,6 +11,7 @@ class GalleryController(db: Database) {
   protected implicit def executor = scala.concurrent.ExecutionContext.Implicits.global
 
   def index: Future[Seq[GalleriesRow]] = {
+    val galleryIndex = Galleries.result
     return db.run(Galleries.result) 
   }
 

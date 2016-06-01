@@ -3,6 +3,7 @@ import { List } from 'immutable';
 
 const CmsActions = require('../actions/CmsActions');
 const Gallery = require('./records/GalleryRecord');
+const Picture = require('./records/PictureRecord');
 
 var _galleries = List([]);
 
@@ -87,9 +88,19 @@ var CmsStore = Reflux.createStore({
     return fetch('/api/galleries/')
       .then(res => res.json())
       .then(galleries => {
-        _galleries = List(galleries.map(gal => new Gallery(gal)));
-        return _galleries;
-      });
+        return Promise.all(galleries.map(gallery => {
+            return fetch(`/api/galleries/${gallery.galleryId}/pictures`)
+              .then(res => res.json())
+              .then(pictures => {
+                gallery.pictures = List(pictures.map(pic => new Picture(pic)))
+                return new Gallery(gallery)
+              })
+        }))
+      })
+      .then(galleries => {
+        _galleries = List(galleries)
+        return _galleries
+      })
   }
 });
 

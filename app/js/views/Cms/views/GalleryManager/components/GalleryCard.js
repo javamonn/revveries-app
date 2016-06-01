@@ -38,15 +38,19 @@ var GalleryCard = React.createClass({
   },
 
   _onDelete() {
-    CmsActions.galleryDeleted(this.props.galleryIndex);
+    this.props.onDelete(this.props.galleryIndex);
   },
 
   _onTransition() {
-    this.transitionTo('pictures', {galleryId: this.props.gallery.galleryId});
+    this.transitionTo('pictures', { galleryId: this.props.gallery.galleryId });
     StateActions.transitionToPictures(this.props.gallery.name);
   },
 
   render() {
+    var imageLabel = this.props.gallery.get('pictures').size === 1
+      ? '1 image'
+      : `${this.props.gallery.get('pictures').size} images`
+      
     return (
       <Card className="gallery-card">
         <CardTitle 
@@ -62,7 +66,7 @@ var GalleryCard = React.createClass({
           <div className="actions-container">
             <div className="left-actions">
               <FlatButton 
-                label="0 images"
+                label={imageLabel}
                 disabled={true}>
               </FlatButton>
             </div>
