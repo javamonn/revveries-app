@@ -1,6 +1,5 @@
 <%@ var body: String %>
 <%@ var staticUrl: String %>
-
 <html>
 <head>
   <title>revveries</title>

@@ -3,6 +3,7 @@ import { List } from 'immutable'
 import Radium from 'radium'
 import { Link } from 'react-router'
 import AppActions from 'actions/AppActions'
+import RouteActions from 'actions/RouteActions'
 
 @Radium
 export default class TopMenu extends React.Component {
@@ -14,7 +15,9 @@ export default class TopMenu extends React.Component {
   render () {
     return (
       <div id='sidenav' style={styles.base}>
-        <h1 style={styles.header}>ODETTE CHAVEZ-MAYO</h1>
+        <Link to='default' onTouchTap={RouteActions.routeChanged}>
+          <h1 style={styles.header}>ODETTE CHAVEZ-MAYO</h1>
+        </Link> 
         <div style={styles.menuToggle} onTouchTap={AppActions.displayGalleryListOverlay}>
           <i style={styles.menuToggleIcon}  className="material-icons">menu</i>
         </div>

@@ -26,7 +26,9 @@ export default class SideMenu extends React.Component {
 
     return (
       <div id='sidenav' style={[ styles.base ]}>
-        <h1 style={[ styles.header ]}>ODETTE CHAVEZ-MAYO</h1>
+        <Link to='default' onTouchTap={RouteActions.routeChanged}>
+          <h1 style={[ styles.header ]}>ODETTE CHAVEZ-MAYO</h1>
+        </Link>
         <ul key='desktop-galleries' style={[ styles.list ]}>
           {galleryListItems}
         </ul>
