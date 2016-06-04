@@ -48,6 +48,9 @@ body {
       }
     }
   }
+  #gallery:focus {
+    outline: none;
+  }
   #sidenav a {
     text-decoration: none;
     color: #000;

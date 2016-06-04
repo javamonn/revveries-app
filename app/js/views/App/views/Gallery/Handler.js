@@ -53,6 +53,7 @@ var Gallery = React.createClass({
     this.setState({
       renderedWidthById: this.computeRenderedWidth(this.state.gallery.pictures)
     })
+
     // update state on resize
     window.addEventListener('resize', e => {
       // TODO: debounce e
@@ -62,6 +63,12 @@ var Gallery = React.createClass({
         })
       }
     })
+
+    // focus the gallery
+    if (this.refs.gallery) {
+      console.log(this.refs.gallery)
+      this.refs.gallery.getDOMNode().focus()
+    }
   },
 
   onRouteChanged () {
@@ -88,7 +95,9 @@ var Gallery = React.createClass({
         )
       } else {
         return (
-          <li key={picture.pictureId} style={[ styles.desktop ]}>
+          <li 
+            key={picture.pictureId} 
+            style={[ styles.desktop ]}>
             <img
               src={picture.url}
               onTouchTap={this._displayOverlay.bind(this, picture)}
@@ -99,7 +108,7 @@ var Gallery = React.createClass({
       }
     })
     return (
-      <div id='gallery' ref='gallery'>
+      <div tabIndex={-1} id='gallery' ref='gallery'>
         <ul id='pictures-container'>{pictures}</ul>
       </div>
     )
