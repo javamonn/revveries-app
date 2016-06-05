@@ -41,6 +41,13 @@ export default class GalleryListOverlay extends React.Component {
         <div onTouchTap={AppActions.hideOverlay} style={styles.overlayFiller} />
         <ReactCSSTransitionGroup transitionName='menu' transitionAppear={true} id='menu-transition'>
           <div key='gallery-list-overlay' id='gallery-list-overlay' style={styles.listContainer}>
+            <div style={styles.metaContainer}>
+              <Link to='about' onTouchTap={this.onNavigation} style={styles.metaLink}>
+                <span>ABOUT</span>
+              </Link>
+              <span style={styles.metaDivider}>|</span>
+              <a href="mailto:revveries@gmail.com" style={styles.metaLink}>CONTACT</a>
+            </div>
             <ul style={styles.list}>
               {galleryListItems}
             </ul>
@@ -68,7 +75,7 @@ var styles = {
     fontWeight: '300',
     paddingLeft: '0',
     marginLeft: 'auto',
-    paddingTop: '20px'
+    paddingTop: '30px'
   },
   overlayFiller: {
     flex: '1'
@@ -119,5 +126,16 @@ var styles = {
     color: '#000',
     textDecoration: 'none',
     alignItems: 'stretch'
-  }
+  },
+  metaContainer: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    paddingTop: '30'
+  },
+  metaLink: {
+    width: '100%',
+    textAlign: 'center',
+    textDecoration: 'none',
+    color: '#000'
+  },
 }

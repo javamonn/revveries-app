@@ -66,8 +66,17 @@ var Gallery = React.createClass({
 
     // focus the gallery
     if (this.refs.gallery) {
-      console.log(this.refs.gallery)
       this.refs.gallery.getDOMNode().focus()
+      this._focusListener = this.refs.gallery.getDOMNode().addEventListener('blur', () => {
+        var elem = this.refs.gallery.getDOMNode()
+        if (elem) elem.focus()
+      })
+    }
+  },
+
+  componentWillUnmount () {
+    if (this._focusListener) {
+      this.refs.gallery.getDOMNode().removeEventListener('blur', this._focusListener)
     }
   },
 
@@ -125,12 +134,14 @@ var styles = {
     display: 'inline-block',
     flex: '0 0 auto',
     marginLeft: '10',
-    marginRight: '10'
+    marginRight: '10',
+    cursor: 'pointer'
   }),
   desktop: {
     display: 'inline-block',
     marginRight: '20',
-    height: '100%'
+    height: '100%',
+    cursor: 'pointer'
   }
 }
 

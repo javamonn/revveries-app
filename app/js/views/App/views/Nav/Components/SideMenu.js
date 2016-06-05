@@ -26,12 +26,21 @@ export default class SideMenu extends React.Component {
 
     return (
       <div id='sidenav' style={[ styles.base ]}>
-        <Link to='default' onTouchTap={RouteActions.routeChanged}>
-          <h1 style={[ styles.header ]}>ODETTE CHAVEZ-MAYO</h1>
-        </Link>
-        <ul key='desktop-galleries' style={[ styles.list ]}>
-          {galleryListItems}
-        </ul>
+        <div style={styles.sidenavContainer}>
+          <Link to='default' onTouchTap={RouteActions.routeChanged}>
+            <h1 style={[ styles.header ]}>ODETTE CHAVEZ-MAYO</h1>
+          </Link>
+          <ul key='desktop-galleries' style={[ styles.list ]}>
+            {galleryListItems}
+          </ul>
+          <div style={styles.metaContainer}>
+            <Link to='about' style={styles.metaLink}>
+              <span>ABOUT</span>
+            </Link>
+            <span style={styles.metaDivider}>|</span>
+            <a href="mailto:revveries@gmail.com" style={styles.metaLink}>CONTACT</a>
+          </div>
+        </div>
       </div>
     )
   }
@@ -40,9 +49,6 @@ export default class SideMenu extends React.Component {
 var styles = {
   base: {
     display: 'inline-block',
-    paddingLeft: '30',
-    paddingRight: '30',
-    paddingTop: '30',
   },
   header: {
     fontWeight: '300',
@@ -55,8 +61,29 @@ var styles = {
     margin: '0',
     fontWeight: '300',
     paddingLeft: '0',
+    display: 'flex',
+    flex: 1
   },
   listItem: {
     marginBottom: '10',
+  },
+  metaContainer: {
+    display: 'flex',
+    justifyContent: 'space-around',
+    paddingRight: '30',
+    paddingLeft: '30',
+    marginBottom: '95'
+  },
+  metaLink: {
+    width: '100%',
+    textAlign: 'center'
+  },
+  sidenavContainer: {
+    display: 'flex',
+    paddingLeft: '30',
+    paddingRight: '30',
+    paddingTop: '30',
+    flexDirection: 'column',
+    height: '100%'
   }
 }

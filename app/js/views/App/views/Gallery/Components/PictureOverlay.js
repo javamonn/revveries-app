@@ -32,7 +32,7 @@ var getStyles = imageUrl => ({
   backgroundSize: 'contain',
   backgroundPosition: 'center',
   width: '100%',
-  height: '100%'
+  height: '90%'
 })
 
 module.exports = PictureOverlay
