@@ -22,14 +22,14 @@ $ ./sbt
 > container:start
 ```
 
-## Run the Tests ##
+### Run the Tests ###
 ```sh
 $ gulp spec
 $ ./sbt
 > test
 ```
 
-## Deployment ##
+### Deployment ###
 
 `./api` deployment:
 - `$ ./api/sbt docker:publish`
