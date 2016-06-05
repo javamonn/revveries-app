@@ -4,6 +4,7 @@
 <head>
   <title>revveries</title>
   <meta name="viewport" content="initial-scale=1, maximum-scale=1" charset="UTF-8" />
+  <meta name="google-site-verification" content="2F4ZwI_wNmB1dKIylWoY9dKqQBWm489weOkZ8_ezfKo" />
   <link rel="shortcut icon" href="<%= staticUrl %>favicon.png" type="image/png" />
   <link rel="stylesheet" href="<%= staticUrl %>main.css">
   <link href='https://fonts.googleapis.com/css?family=Playfair+Display|Quicksand' rel='stylesheet' type='text/css'>
