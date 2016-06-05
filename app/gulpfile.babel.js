@@ -16,7 +16,7 @@ var s3 = require('vinyl-s3')
 
 const env = require('./js/config')
 
-let bundle = bundleName => {
+let bundle = (bundleName, cb) => {
   var browserifyOpts = {
     entries: [`./js/views/${bundleName}/main.js`],
     paths: ['./node_modules', './js']
@@ -39,7 +39,7 @@ let bundle = bundleName => {
         .on('error', gutil.log)
       .pipe(sourcemaps.write())
       .pipe(gulp.dest('_build/'))
-        .on('end', () => gutil.log('bundling complete'))
+        .on('end', cb)
   }
   rebundle()
   return {
@@ -48,10 +48,12 @@ let bundle = bundleName => {
   }
 }
 
-gulp.task('scripts', () => {
-  bundle('Cms')
-  bundle('Auth')
-  bundle('App')
+gulp.task('scripts', (cb) => {
+  Promise.all([
+    new Promise(resolve => bundle('Cms', resolve)),
+    new Promise(resolve => bundle('Auth', resolve)),
+    new Promise(resolve => bundle('App', resolve))
+  ]).then(() => cb())
 })
 
 gulp.task('scripts:watch', () => {

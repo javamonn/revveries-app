@@ -69,6 +69,7 @@ jrebel.lic
 /.lib/
 
 /app/node_modules/*
+/app/_build
 src/main/webapp/_build
 .env
 .sbtopts
