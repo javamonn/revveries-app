@@ -38,7 +38,9 @@ export default class SideMenu extends React.Component {
               <span>ABOUT</span>
             </Link>
             <span style={styles.metaDivider}>|</span>
-            <a href="mailto:revveries@gmail.com" style={styles.metaLink}>CONTACT</a>
+            <Link to='contact' style={styles.metaLink}>
+              <span>CONTACT</span>
+            </Link>
           </div>
         </div>
       </div>
