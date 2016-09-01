@@ -49,7 +49,8 @@ var AppStore = Reflux.createStore({
       var galleries = List(
         initialGalleries
           .map(data => {
-            var pictures = List(data.pictures.map(picture => new Picture(picture))).reverse()
+            var pictures = List(data.pictures.map(picture => new Picture(picture)))
+              .sort((a, b) => parseInt(a.pictureOrder) - parseInt(b.pictureOrder))
             data.gallery.pictures = pictures
             return new Gallery(data.gallery)
           })
