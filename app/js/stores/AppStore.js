@@ -47,11 +47,13 @@ var AppStore = Reflux.createStore({
   getInitialState () {
     if (_galleries === undefined || _defaultPicture === undefined) {
       var galleries = List(
-        initialGalleries.map(data => {
-          var pictures = List(data.pictures.map(picture => new Picture(picture))).reverse()
-          data.gallery.pictures = pictures
-          return new Gallery(data.gallery)
-        })
+        initialGalleries
+          .map(data => {
+            var pictures = List(data.pictures.map(picture => new Picture(picture))).reverse()
+            data.gallery.pictures = pictures
+            return new Gallery(data.gallery)
+          })
+          .sort((a, b) => parseInt(a.galleryOrder) - parseInt(b.galleryOrder))
       )
       _defaultPicture = galleries.get(0).pictures.get(0)
       _galleries = galleries.delete(0)

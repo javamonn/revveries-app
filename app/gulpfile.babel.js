@@ -31,15 +31,15 @@ let bundle = (bundleName, cb) => {
       }))
       .transform(strictify)
       .bundle()
-        .on('error', gutil.log)
+        .on('error', (e) => gutil.log(e))
       .pipe(source(`${bundleName}.js`))
       .pipe(buffer())
       .pipe(sourcemaps.init({loadMaps: true}))
       .pipe(uglify())
-        .on('error', gutil.log)
+        .on('error', (e) => gutil.log(e))
       .pipe(sourcemaps.write())
       .pipe(gulp.dest('_build/'))
-        .on('end', cb)
+        .on('end', () => cb())
   }
   rebundle()
   return {

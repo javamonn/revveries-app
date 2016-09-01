@@ -31,7 +31,7 @@ var CmsStore = Reflux.createStore({
   onGalleryEdited(gallery) {
     // TODO: implement
   },
-  
+
   onGalleryDeleted(galleryIndex) {
     var galleryId = _galleries.get(galleryIndex).galleryId;
     _updateGalleries(
@@ -66,7 +66,7 @@ var CmsStore = Reflux.createStore({
       else if (index == newIndex) return _galleries.get(oldIndex);
       else return gal;
     }));
-    
+
     var galNew = _galleries.get(newIndex);
     var moveAction = fetch(`/api/galleries/${galNew.galleryId}`, {
       method: 'put',
@@ -78,7 +78,7 @@ var CmsStore = Reflux.createStore({
     var moveReaction = fetch(`/api/galleries/${galOld.galleryId}`, {
       method: 'put',
       credentials: 'include',
-      body: JSON.stringify(galOld.set('galleryOrder', newIndex).toJS())
+      body: JSON.stringify(galOld.set('galleryOrder', oldIndex).toJS())
     });
 
     return Promise.all([moveAction, moveReaction]);
