@@ -7,8 +7,7 @@
   <meta name="google-site-verification" content="2F4ZwI_wNmB1dKIylWoY9dKqQBWm489weOkZ8_ezfKo" />
   <link rel="shortcut icon" href="<%= staticUrl %>favicon.png" type="image/png" />
   <link rel="stylesheet" href="<%= staticUrl %>main.css">
-  <link href='https://fonts.googleapis.com/css?family=Playfair+Display|Quicksand' rel='stylesheet' type='text/css'>
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
 </head>
 <body>
   <%= unescape(body) %>

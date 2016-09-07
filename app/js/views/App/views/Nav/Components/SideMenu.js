@@ -18,7 +18,7 @@ export default class SideMenu extends React.Component {
   render () {
     var galleryListItems = this.props.galleries.map(gallery => {
       return (
-        <li key={'desktop-' + gallery.galleryId} className='sidenav-item' style={[ styles.listItem ]}> 
+        <li key={'desktop-' + gallery.galleryId} className='sidenav-item' style={[ styles.listItem ]}>
           <Link to='gallery' params={{ gallerySlug: gallery.slug }} onTouchTap={RouteActions.routeChanged}>{ gallery.name }</Link>
         </li>
       )
@@ -28,7 +28,7 @@ export default class SideMenu extends React.Component {
       <div id='sidenav' style={[ styles.base ]}>
         <div style={styles.sidenavContainer}>
           <Link to='default' onTouchTap={RouteActions.routeChanged}>
-            <h1 style={[ styles.header ]}>ODETTE CHAVEZ-MAYO</h1>
+            <h1 style={[ styles.header ]}>Odette Chavez-Mayo</h1>
           </Link>
           <ul key='desktop-galleries' style={[ styles.list ]}>
             {galleryListItems}

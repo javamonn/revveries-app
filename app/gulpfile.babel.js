@@ -39,7 +39,10 @@ let bundle = (bundleName, cb) => {
         .on('error', (e) => gutil.log(e))
       .pipe(sourcemaps.write())
       .pipe(gulp.dest('_build/'))
-        .on('end', () => cb())
+        .on('end', () => {
+          gutil.log(`bundling ${bundleName} complete`)
+          cb()
+        })
   }
   rebundle()
   return {
@@ -57,9 +60,9 @@ gulp.task('scripts', (cb) => {
 })
 
 gulp.task('scripts:watch', () => {
-  var cms = bundle('Cms')
-  var auth = bundle('Auth')
-  var app = bundle('App')
+  var cms = bundle('Cms', () => ({}))
+  var auth = bundle('Auth', () => ({}))
+  var app = bundle('App', () => ({}))
   cms.bundler.on('update', () => cms.rebundle())
   auth.bundler.on('update', () => auth.rebundle())
   app.bundler.on('update', () => app.rebundle())
