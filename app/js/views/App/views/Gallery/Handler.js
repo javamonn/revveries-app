@@ -11,7 +11,8 @@ var Gallery = React.createClass({
 
   mixins: [
     State,
-    Reflux.listenTo(RouteStore, 'onRouteChanged')
+    Reflux.listenTo(RouteStore, 'onRouteChanged'),
+    Reflux.listenTo(AppStore, 'onAppChanged')
   ],
 
   getInitialState () {
@@ -88,8 +89,27 @@ var Gallery = React.createClass({
     })
   },
 
+  onAppChanged (appState) {
+    this.setState({ overlay: appState.overlay })
+  },
+
   _displayOverlay (picture) {
     AppActions.displayPictureOverlay(picture)
+  },
+
+  _onKeyDown (ev) {
+    if (this.state.overlay.visible && this.state.overlay.type === 'picture') {
+      var currentIdx = this.state.overlay.picture.get('pictureOrder')
+      if (ev.key === 'ArrowLeft') {
+        ev.preventDefault()
+        var picture = this.state.gallery.pictures.get(Math.max(currentIdx - 1, 0))
+        AppActions.displayPictureOverlay(picture)
+      } else if (ev.key === 'ArrowRight') {
+        ev.preventDefault()
+        var picture = this.state.gallery.pictures.get(Math.min(currentIdx + 1, this.state.gallery.pictures.size - 1))
+        AppActions.displayPictureOverlay(picture)
+      }
+    }
   },
 
   render () {
@@ -104,8 +124,8 @@ var Gallery = React.createClass({
         )
       } else {
         return (
-          <li 
-            key={picture.pictureId} 
+          <li
+            key={picture.pictureId}
             style={[ styles.desktop ]}>
             <img
               src={picture.url}
@@ -117,8 +137,14 @@ var Gallery = React.createClass({
       }
     })
     return (
-      <div tabIndex={-1} id='gallery' ref='gallery'>
-        <ul id='pictures-container'>{pictures}</ul>
+      <div
+        tabIndex={-1}
+        id='gallery'
+        ref='gallery'
+        onKeyDown={this._onKeyDown}>
+        <ul id='pictures-container'>
+          {pictures}
+        </ul>
       </div>
     )
   }

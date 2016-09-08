@@ -55,7 +55,7 @@ var styles = {
   header: {
     fontWeight: '300',
     marginTop: '0',
-    fontSize: '28',
+    fontSize: '26',
     marginBottom: '30'
   },
   list: {

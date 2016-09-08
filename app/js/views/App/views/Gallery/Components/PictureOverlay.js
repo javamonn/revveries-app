@@ -19,8 +19,13 @@ class PictureOverlay extends React.Component {
 
   render () {
     return (
-      <div className='picture-overlay' onTouchTap={this._hideOverlay}>
-        <div className='overlay-picture-container' style={[ getStyles(this.props.picture.url) ]} />
+      <div
+        className='picture-overlay'
+        onTouchTap={this._hideOverlay}>
+        <div
+          className='overlay-picture-container'
+          style={[ getStyles(this.props.picture.url) ]}
+        />
       </div>
     )
   }
