@@ -8,6 +8,8 @@
   <link rel="shortcut icon" href="<%= staticUrl %>favicon.png" type="image/png" />
   <link rel="stylesheet" href="<%= staticUrl %>main.css">
   <link href="https://fonts.googleapis.com/css?family=Lora" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
   <%= unescape(body) %>
