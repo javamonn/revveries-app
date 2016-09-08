@@ -34,12 +34,8 @@ export default class SideMenu extends React.Component {
             {galleryListItems}
           </ul>
           <div style={styles.metaContainer}>
-            <Link to='about' style={styles.metaLink}>
-              <span>ABOUT</span>
-            </Link>
-            <span style={styles.metaDivider}>|</span>
-            <Link to='contact' style={styles.metaLink}>
-              <span>CONTACT</span>
+            <Link to='info'>
+              <span>Info</span>
             </Link>
           </div>
         </div>
@@ -71,14 +67,8 @@ var styles = {
   },
   metaContainer: {
     display: 'flex',
-    justifyContent: 'space-around',
-    paddingRight: '30',
-    paddingLeft: '30',
+    justifyContent: 'flex-start',
     marginBottom: '95'
-  },
-  metaLink: {
-    width: '100%',
-    textAlign: 'center'
   },
   sidenavContainer: {
     display: 'flex',

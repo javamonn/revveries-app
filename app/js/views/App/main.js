@@ -5,16 +5,14 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import App from './views/Handler';
 import Gallery from './views/Gallery/Handler';
 import Index from './views/Index/Handler';
-import About from './views/About/Handler';
-import Contact from './views/Contact/Handler';
+import Info from './views/Info/Handler';
 
 injectTapEventPlugin();
 
 var routes = (
   <Route path='/' handler={App}>
     <DefaultRoute name='default' handler={Index} />
-    <Route name='contact' path='/contact' handler={Contact} />
-    <Route name='about' path='/about' handler={About} />
+    <Route name='info' path='/info' handler={Info} />
     <Route name='gallery' path='/:gallerySlug' handler={Gallery} />
   </Route>
 );

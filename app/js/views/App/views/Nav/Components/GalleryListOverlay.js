@@ -17,7 +17,7 @@ export default class GalleryListOverlay extends React.Component {
   }
 
   onNavigation () {
-    RouteActions.routeChanged() 
+    RouteActions.routeChanged()
     AppActions.hideOverlay()
   }
 
@@ -42,12 +42,9 @@ export default class GalleryListOverlay extends React.Component {
         <ReactCSSTransitionGroup transitionName='menu' transitionAppear={true} id='menu-transition'>
           <div key='gallery-list-overlay' id='gallery-list-overlay' style={styles.listContainer}>
             <div style={styles.metaContainer}>
-              <Link to='about' onTouchTap={this.onNavigation} style={styles.metaLink}>
-                <span>ABOUT</span>
-              </Link>
               <span style={styles.metaDivider}>|</span>
-              <Link to='contact' onTouchTap={this.onNavigation} style={styles.metaLink}>
-                <span>CONTACT</span>
+              <Link to='info' onTouchTap={this.onNavigation} style={styles.metaLink}>
+                <span>Info</span>
               </Link>
             </div>
             <ul style={styles.list}>
@@ -83,7 +80,7 @@ var styles = {
     flex: '1'
   },
   listItem:{
-    marginBottom: '20' 
+    marginBottom: '20'
   },
   galleryPreview: imageUrl => ({
     backgroundImage: `url(${imageUrl})`,

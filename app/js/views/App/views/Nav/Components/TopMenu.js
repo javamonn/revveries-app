@@ -19,7 +19,7 @@ export default class TopMenu extends React.Component {
           <h1 style={styles.header}>Odette Chavez-Mayo</h1>
         </Link>
         <div style={styles.menuToggle} onTouchTap={AppActions.displayGalleryListOverlay}>
-          <i style={styles.menuToggleIcon}  className="material-icons">menu</i>
+          <i style={styles.menuToggleIcon} className="material-icons">menu</i>
         </div>
       </div>
     )
