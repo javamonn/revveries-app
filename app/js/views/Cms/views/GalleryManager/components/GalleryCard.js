@@ -41,6 +41,10 @@ var GalleryCard = React.createClass({
     this.props.onDelete(this.props.galleryIndex);
   },
 
+  _onEdit() {
+    this.props.onEdit();
+  },
+
   _onTransition() {
     this.transitionTo('pictures', { galleryId: this.props.gallery.galleryId });
     StateActions.transitionToPictures(this.props.gallery.name);
@@ -50,12 +54,21 @@ var GalleryCard = React.createClass({
     var imageLabel = this.props.gallery.get('pictures').size === 1
       ? '1 image'
       : `${this.props.gallery.get('pictures').size} images`
-      
+
+    var visibilityLabel
+    if (this.props.gallery.get('name') === 'Landing') {
+      visibilityLabel = 'Landing image'
+    } else if (this.props.gallery.get('name') === 'Info') {
+      visibilityLabel = 'Info page'
+    } else {
+      visibilityLabel = 'Gallery'
+    }
+
     return (
       <Card className="gallery-card">
-        <CardTitle 
-          title={this.props.gallery.name} 
-          subtitle={this.props.gallery.description} 
+        <CardTitle
+          title={this.props.gallery.name}
+          subtitle={this.props.gallery.description}
           style={{
             paddingBottom: '4',
             paddingTop: '6'
@@ -65,34 +78,45 @@ var GalleryCard = React.createClass({
         <CardActions className="card-actions">
           <div className="actions-container">
             <div className="left-actions">
-              <FlatButton 
+              <FlatButton
                 label={imageLabel}
-                disabled={true}>
-              </FlatButton>
+                disabled
+              />
+              <FlatButton
+                label={visibilityLabel}
+                disabled
+              />
             </div>
             <div className="right-actions">
-              <IconButton 
+              <IconButton
                 className={this.props.galleryIndex == 0 ? 'hidden-button' : ''}
-                tooltip="Move Up" 
-                tooltipPosition="top-center" 
+                tooltip="Move Up"
+                tooltipPosition="top-center"
                 onTouchTap={this._onMoveUp}
                 style={{paddingLeft: '6', paddingRight: '6'}}>
-                  <FontIcon className="material-icons">keyboard_arrow_up</FontIcon> 
+                  <FontIcon className="material-icons">keyboard_arrow_up</FontIcon>
               </IconButton>
-              <IconButton 
+              <IconButton
                 className={this.props.galleryIndex == this.props.galleryCount - 1 ? 'hidden-button' : ''}
-                tooltip="Move Down" 
-                tooltipPosition="top-center" 
+                tooltip="Move Down"
+                tooltipPosition="top-center"
                 onTouchTap={this._onMoveDown}
                 style={{paddingLeft: '6', paddingRight: '6'}}>
-                  <FontIcon className="material-icons">keyboard_arrow_down</FontIcon> 
+                  <FontIcon className="material-icons">keyboard_arrow_down</FontIcon>
               </IconButton>
-              <IconButton 
-                tooltip="Delete" 
-                tooltipPosition="top-center" 
+              <IconButton
+                tooltip="Edit"
+                tooltipPosition="top-center"
+                onTouchTap={this._onEdit}
+                style={{paddingLeft: '6', paddingRight: '6'}}>
+                <FontIcon className="material-icons">mode_edit</FontIcon>
+              </IconButton>
+              <IconButton
+                tooltip="Delete"
+                tooltipPosition="top-center"
                 onTouchTap={this._onDelete}
                 style={{paddingLeft: '6', paddingRight: '6'}}>
-                  <FontIcon className="material-icons">delete</FontIcon> 
+                  <FontIcon className="material-icons">delete</FontIcon>
               </IconButton>
             </div>
           </div>

@@ -7,14 +7,11 @@
     line-height: 64px;
   }
 
-  #gallery-creator,
-  #picture-creator {
-    .create-content {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-    }
+  .create-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
   #picture-creator {
@@ -97,7 +94,7 @@
         padding: 0px !important;
       }
       .media-container img {
-        width: 100%; 
+        width: 100%;
       }
       .actions-container {
         display: flex;

@@ -92,13 +92,17 @@ var CmsStore = Reflux.createStore({
             return fetch(`/api/galleries/${gallery.galleryId}/pictures`)
               .then(res => res.json())
               .then(pictures => {
-                gallery.pictures = List(pictures.map(pic => new Picture(pic)))
+                gallery.pictures = List(
+                  pictures
+                    .sort((a, b) => parseInt(a.pictureOrder) - parseInt(b.pictureOrder))
+                    .map(pic => new Picture(pic))
+                )
                 return new Gallery(gallery)
               })
         }))
       })
       .then(galleries => {
-        _galleries = List(galleries)
+        _galleries = List(galleries.sort((a, b) => parseInt(a.galleryOrder) - parseInt(b.galleryOrder)))
         return _galleries
       })
   }

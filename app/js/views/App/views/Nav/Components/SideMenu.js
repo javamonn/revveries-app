@@ -60,6 +60,7 @@ var styles = {
     fontWeight: '300',
     paddingLeft: '0',
     display: 'flex',
+    flexDirection: 'column',
     flex: 1
   },
   listItem: {

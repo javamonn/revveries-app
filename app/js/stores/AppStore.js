@@ -7,6 +7,7 @@ import Picture from 'stores/records/PictureRecord'
 
 var _galleries
 var _defaultPicture
+var _info
 
 // TODO: Lazy load in active gallery, don't load all images up front
 var AppStore = Reflux.createStore({
@@ -45,7 +46,7 @@ var AppStore = Reflux.createStore({
   },
 
   getInitialState () {
-    if (_galleries === undefined || _defaultPicture === undefined) {
+    if (_galleries === undefined || _defaultPicture === undefined || _info === undefined) {
       var galleries = List(
         initialGalleries
           .map(data => {
@@ -56,12 +57,30 @@ var AppStore = Reflux.createStore({
           })
           .sort((a, b) => parseInt(a.galleryOrder) - parseInt(b.galleryOrder))
       )
-      _defaultPicture = galleries.get(0).pictures.get(0)
-      _galleries = galleries.delete(0)
+
+
+      // Remove the "Landing" gallery so that it doesn't appear in the sidenav
+      // and set the landing image.
+      var landingIdx = galleries.findIndex(gal => gal.get('name') === 'Landing')
+      if (landingIdx !== -1) {
+        _defaultPicture = galleries.get(landingIdx).pictures.get(0)
+        galleries = galleries.delete(landingIdx)
+      }
+
+      // Remove the "Info" gallery so that it doesn't appear in the sidenav
+      // and set the info gallery.
+      var infoIdx = galleries.findIndex(gal => gal.get('name') === 'Info')
+      if (infoIdx !== -1) {
+        _info = galleries.get(landingIdx)
+        galleries = galleries.delete(infoIdx)
+      }
+
+      _galleries = galleries
     }
     return {
       galleries: _galleries,
       defaultPicture: _defaultPicture,
+      info: _info,
       overlay: {
         visible: false
       }

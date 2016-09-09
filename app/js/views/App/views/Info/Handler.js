@@ -1,35 +1,45 @@
 import React, { Component } from 'react'
+import Reflux from 'reflux'
 import Radium from 'radium'
+import AppStore from 'stores/AppStore'
 
-@Radium
-class Info extends Component {
+var Info = React.createClass({
+
+  mixins: [
+    Reflux.listenTo(AppStore, 'onAppChanged')
+  ],
+
+  getInitialState () {
+    return AppStore.getInitialState()
+  },
+
+  onAppChanged () {
+    this.setState({
+      info: appState.info
+    })
+  },
+
   render () {
     return (
       <div style={styles.base}>
         <span style={styles.info}>
-          20 yr old photographer living in Yellow Springs, Ohio and studying at Antioch College. I like to take photos.
+          {this.state.info.description}
         </span>
         <span style={styles.email}>
           <a href="mailto:revveries@gmail.com">revveries@gmail.com</a>
         </span>
         <div style={styles.socialContainer}>
-          <a href="/" style={styles.socialLink}>
+          <a href="https://instagram.com/revveries" style={styles.socialLink}>
             <i style={styles.socialIcon} className="fa fa-instagram fa-lg" />
           </a>
-          <a href="/" style={styles.socialLink}>
+          <a href="https://revveries.tumblr.com" style={styles.socialLink}>
             <i style={styles.socialIcon} className="fa fa-tumblr fa-lg" />
-          </a>
-          <a href="/" style={styles.socialLink}>
-            <i style={styles.socialIcon} className="fa fa-twitter fa-lg" />
-          </a>
-          <a href="/" style={styles.socialLink}>
-            <i style={styles.socialIcon} className="fa fa-facebook fa-lg" />
           </a>
         </div>
       </div>
     )
   }
-}
+})
 
 const styles = {
   base: {
@@ -61,4 +71,4 @@ const styles = {
   }
 }
 
-export default Info
+export default Radium(Info)
