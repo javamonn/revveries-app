@@ -201,14 +201,20 @@ var styles = {
     position: 'absolute',
     top: 0,
     bottom: 0,
-    width: 140
+    width: 140,
+    '@media screen and (max-width: 1050px)': {
+      display: 'none'
+    }
   },
   rightBumper: {
     position: 'absolute',
     right: 0,
     top: 0,
     bottom: 0,
-    width: 140
+    width: 140,
+    '@media screen and (max-width: 1050px)': {
+      display: 'none'
+    }
   }
 }
 

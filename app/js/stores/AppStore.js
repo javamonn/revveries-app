@@ -71,7 +71,7 @@ var AppStore = Reflux.createStore({
       // and set the info gallery.
       var infoIdx = galleries.findIndex(gal => gal.get('name') === 'Info')
       if (infoIdx !== -1) {
-        _info = galleries.get(landingIdx)
+        _info = galleries.get(infoIdx)
         galleries = galleries.delete(infoIdx)
       }
 
