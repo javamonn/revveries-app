@@ -19,7 +19,12 @@ export default class SideMenu extends React.Component {
     var galleryListItems = this.props.galleries.map(gallery => {
       return (
         <li key={'desktop-' + gallery.galleryId} className='sidenav-item' style={[ styles.listItem ]}>
-          <Link to='gallery' params={{ gallerySlug: gallery.slug }} onTouchTap={RouteActions.routeChanged}>{ gallery.name }</Link>
+          <Link
+            to='gallery'
+            params={{ gallerySlug: gallery.slug }}
+            onTouchTap={RouteActions.routeChanged}>
+              { gallery.name }
+          </Link>
         </li>
       )
     })
@@ -33,7 +38,7 @@ export default class SideMenu extends React.Component {
           <ul key='desktop-galleries' style={[ styles.list ]}>
             {galleryListItems}
           </ul>
-          <div style={styles.metaContainer}>
+          <div className='sidenav-item' style={styles.metaContainer}>
             <Link to='info'>
               <span>Info</span>
             </Link>
@@ -61,7 +66,6 @@ var styles = {
     paddingLeft: '0',
     display: 'flex',
     flexDirection: 'column',
-    flex: 1
   },
   listItem: {
     marginBottom: '10',
@@ -69,6 +73,7 @@ var styles = {
   metaContainer: {
     display: 'flex',
     justifyContent: 'flex-start',
+    marginTop: '30',
     marginBottom: '95'
   },
   sidenavContainer: {

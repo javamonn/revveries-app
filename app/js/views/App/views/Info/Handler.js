@@ -22,6 +22,17 @@ var Info = React.createClass({
   render () {
     return (
       <div style={styles.base}>
+        { this.state.info.pictures.size > 0
+          ? (
+            <div style={styles.imageContainer}>
+              <img
+                src={this.state.info.pictures.getIn([0, 'url'])}
+                style={styles.image}
+              />
+            </div>
+          )
+          : null
+        }
         <span style={styles.info}>
           {this.state.info.description}
         </span>
@@ -36,17 +47,6 @@ var Info = React.createClass({
             <i style={styles.socialIcon} className="fa fa-tumblr fa-lg" />
           </a>
         </div>
-        { this.state.info.pictures.size > 0
-          ? (
-            <div style={styles.imageContainer}>
-              <img
-                src={this.state.info.pictures.getIn([0, 'url'])}
-                style={styles.image}
-              />
-            </div>
-          )
-          : null
-        }
       </div>
     )
   }
@@ -61,7 +61,9 @@ const styles = {
       paddingTop: '30'
     },
     paddingLeft: '30',
-    paddingRight: '30'
+    paddingRight: '30',
+    width: '100%',
+    overflowY: 'scroll'
   },
   info: {
     display: 'block'
@@ -72,6 +74,7 @@ const styles = {
   },
   socialContainer: {
     marginTop: '20',
+    marginBottom: '20'
   },
   socialIcon: {
     marginRight: '18'
@@ -81,7 +84,7 @@ const styles = {
     color: '#000'
   },
   imageContainer: {
-    marginTop: '18'
+    marginBottom: '18'
   },
   image: {
     maxWidth: '100%'
