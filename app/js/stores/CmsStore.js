@@ -28,8 +28,19 @@ var CmsStore = Reflux.createStore({
     .then(galleries => _updateGalleries(_galleries.push(new Gallery(galleries))));
   },
 
-  onGalleryEdited(gallery) {
-    // TODO: implement
+  onGalleryEdited(galleryId, galleryTitle, galleryDescription) {
+    var gallery = _galleries
+      .find(gal => gal.get('galleryId') === galleryId)
+      .set('name', galleryTitle)
+      .set('description', galleryDescription)
+
+    _updateGalleries(_galleries.set(gallery.get('galleryOrder'), gallery))
+    return fetch(`/api/galleries/${galleryId}`, {
+      method: 'PUT',
+      credentials: 'include',
+      body: JSON.stringify(gallery.toJS())
+    }).then(res => res.json())
+
   },
 
   onGalleryDeleted(galleryIndex) {

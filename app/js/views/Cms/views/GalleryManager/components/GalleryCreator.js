@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import cmsActions from 'actions/CmsActions';
 import mui, {
   FloatingActionButton,
   FontIcon

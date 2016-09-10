@@ -1,4 +1,5 @@
 import React from 'react'
+import cmsActions from 'actions/CmsActions';
 import mui, {
   FloatingActionButton,
   Dialog,
@@ -17,7 +18,7 @@ var GalleryDialog = React.createClass({
   display (context, gallery) {
     if (context === 'edit') {
       this.setState({
-        galleryId: gallery.id
+        galleryId: gallery.galleryId
       })
     }
     this.refs.createGalleryDialog.show()
@@ -75,11 +76,13 @@ var GalleryDialog = React.createClass({
           <TextField
             floatingLabelText="Title"
             ref="titleField"
+            style={styles.textField}
           />
           <TextField
             floatingLabelText="Description (optional)"
-            multiline={true}
+            multiLine={true}
             ref="descriptionField"
+            style={styles.textField}
           />
         </section>
       </Dialog>
@@ -87,5 +90,10 @@ var GalleryDialog = React.createClass({
   }
 })
 
+var styles = {
+  textField: {
+    width: 356
+  }
+}
 
 export default GalleryDialog

@@ -112,6 +112,24 @@ var Gallery = React.createClass({
     }
   },
 
+  onBumperEnter (direction) {
+    this.bumperHandler = {
+      direction,
+      handler: setInterval(() => {
+        this.refs.gallery.getDOMNode().scrollLeft += (direction === 'right' ? 15 : -15)
+      }, 50)
+    }
+  },
+
+  onBumperLeave (direction) {
+    if (this.bumperHandler &&
+        this.bumperHandler.direction == direction &&
+        this.bumperHandler.handler) {
+      clearInterval(this.bumperHandler.handler)
+      this.bumperHandler = null
+    }
+  },
+
   render () {
     var pictures = this.state.gallery.pictures.map(picture => {
       if (this.state.mobile) {
@@ -142,9 +160,19 @@ var Gallery = React.createClass({
         id='gallery'
         ref='gallery'
         onKeyDown={this._onKeyDown}>
+        <div
+          style={styles.leftBumper}
+          onMouseEnter={() => this.onBumperEnter('left')}
+          onMouseLeave={() => this.onBumperLeave('left')}
+        />
         <ul id='pictures-container'>
           {pictures}
         </ul>
+        <div
+          style={styles.rightBumper}
+          onMouseEnter={() => this.onBumperEnter('right')}
+          onMouseLeave={() => this.onBumperLeave('right')}
+        />
       </div>
     )
   }
@@ -168,6 +196,19 @@ var styles = {
     marginRight: '20',
     height: '100%',
     cursor: 'pointer'
+  },
+  leftBumper: {
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    width: 140
+  },
+  rightBumper: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    bottom: 0,
+    width: 140
   }
 }
 

@@ -41,6 +41,7 @@ var styles = {
   },
   menuToggle: {
     position: 'absolute',
+    zIndex: 20,
     '@media screen and (min-width: 500px)': {
       top: '20px',
       right: '20px'

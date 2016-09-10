@@ -36,6 +36,17 @@ var Info = React.createClass({
             <i style={styles.socialIcon} className="fa fa-tumblr fa-lg" />
           </a>
         </div>
+        { this.state.info.pictures.size > 0
+          ? (
+            <div style={styles.imageContainer}>
+              <img
+                src={this.state.info.pictures.getIn([0, 'url'])}
+                style={styles.image}
+              />
+            </div>
+          )
+          : null
+        }
       </div>
     )
   }
@@ -68,6 +79,12 @@ const styles = {
   socialLink: {
     textDecoration: 'none',
     color: '#000'
+  },
+  imageContainer: {
+    marginTop: '18'
+  },
+  image: {
+    maxWidth: '100%'
   }
 }
 
