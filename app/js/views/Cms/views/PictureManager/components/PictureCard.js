@@ -44,8 +44,8 @@ var PictureCard = React.createClass({
     if (this.props.picture.title || this.props.picture.description) {
       cardTitle = (
         <CardTitle 
-          title={this.props.gallery.name} 
-          subtitle={this.props.gallery.description} 
+          title={this.props.picture.title} 
+          subtitle={this.props.picture.description} 
           style={{
             paddingBottom: '4',
             paddingTop: '6'

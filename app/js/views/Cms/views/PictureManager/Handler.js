@@ -40,7 +40,11 @@ var PictureManager = React.createClass({
     var pictureCount = this.state.gallery.pictures.size;
     var cardList = this.state.gallery.pictures.map((picture, i) => {
       return (
-        <PictureCard picture={picture} pictureIndex={i} pictureCount={pictureCount} />
+        <PictureCard
+          picture={picture}
+          pictureIndex={i}
+          pictureCount={pictureCount}
+        />
       );
     });
     return (
