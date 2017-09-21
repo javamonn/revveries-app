@@ -43,8 +43,8 @@ export default class GalleryListOverlay extends React.Component {
           <div key='gallery-list-overlay' id='gallery-list-overlay' style={styles.listContainer}>
             <div style={styles.metaContainer}>
               <span style={styles.metaDivider}>|</span>
-              <Link to='info' onTouchTap={this.onNavigation} style={styles.metaLink}>
-                <span>Info</span>
+              <Link to='about' onTouchTap={this.onNavigation} style={styles.metaLink}>
+                <span>About</span>
               </Link>
             </div>
             <ul style={styles.list}>

@@ -66,7 +66,8 @@ const styles = {
     overflowY: 'scroll'
   },
   info: {
-    display: 'block'
+    display: 'block',
+    whiteSpace: 'pre'
   },
   email: {
     display: 'block',

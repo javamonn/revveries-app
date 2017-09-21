@@ -39,8 +39,8 @@ export default class SideMenu extends React.Component {
             {galleryListItems}
           </ul>
           <div className='sidenav-item' style={styles.metaContainer}>
-            <Link to='info'>
-              <span>Info</span>
+            <Link to='about'>
+              <span>About</span>
             </Link>
           </div>
         </div>

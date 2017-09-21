@@ -12,7 +12,7 @@ injectTapEventPlugin();
 var routes = (
   <Route path='/' handler={App}>
     <DefaultRoute name='default' handler={Index} />
-    <Route name='info' path='/info' handler={Info} />
+    <Route name='about' path='/about' handler={Info} />
     <Route name='gallery' path='/:gallerySlug' handler={Gallery} />
   </Route>
 );
