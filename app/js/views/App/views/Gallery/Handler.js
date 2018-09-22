@@ -195,13 +195,15 @@ var styles = {
     display: 'inline-block',
     marginRight: '20',
     height: '100%',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    flexShrink: 0
   },
   leftBumper: {
     position: 'absolute',
     top: 0,
     bottom: 0,
     width: 140,
+    cursor: 'w-resize',
     '@media screen and (max-width: 1050px)': {
       display: 'none'
     }
@@ -212,6 +214,7 @@ var styles = {
     top: 0,
     bottom: 0,
     width: 140,
+    cursor: 'e-resize',
     '@media screen and (max-width: 1050px)': {
       display: 'none'
     }

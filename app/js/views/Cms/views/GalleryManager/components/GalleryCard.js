@@ -58,8 +58,8 @@ var GalleryCard = React.createClass({
     var visibilityLabel
     if (this.props.gallery.get('name') === 'Landing') {
       visibilityLabel = 'Landing image'
-    } else if (this.props.gallery.get('name') === 'Info') {
-      visibilityLabel = 'Info page'
+    } else if (this.props.gallery.get('name') === 'About') {
+      visibilityLabel = 'About page'
     } else {
       visibilityLabel = 'Gallery'
     }

@@ -16,10 +16,9 @@ export default class TopMenu extends React.Component {
     return (
       <div id='sidenav' style={styles.base}>
         <Link to='default' onTouchTap={RouteActions.routeChanged}>
-          <h1 style={styles.header}>Odette Chavez-Mayo</h1>
+          <h1 style={styles.header}>odette chavez-mayo</h1>
         </Link>
         <div style={styles.menuToggle} onTouchTap={AppActions.displayGalleryListOverlay}>
-          <i style={styles.menuToggleIcon} className="material-icons">menu</i>
         </div>
       </div>
     )
@@ -29,11 +28,12 @@ export default class TopMenu extends React.Component {
 var styles = {
   header: {
     textAlign: 'center',
-    fontWeight: '400',
+    fontWeight: '900',
+    color: 'rgb(87, 16, 46)',
     marginTop: '20px',
     marginBottom: '20px',
     '@media screen and (min-width: 500px)': {
-      fontSize: '28'
+      fontSize: '26'
     },
     '@media screen and (max-width: 500px)': {
       fontSize: '18'
@@ -41,14 +41,18 @@ var styles = {
   },
   menuToggle: {
     position: 'absolute',
+    width: '22px',
+    height: '22px',
+    backgroundColor: 'black',
+    borderRadius: '50%',
     zIndex: 20,
     '@media screen and (min-width: 500px)': {
-      top: '20px',
-      right: '20px'
+      top: '28px',
+      right: '28px'
     },
     '@media screen and (max-width: 500px)': {
-      top: '20px',
-      right: '20px'
+      top: '28px',
+      right: '28px'
     }
   },
   menuToggleIcon: {

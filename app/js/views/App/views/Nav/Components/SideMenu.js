@@ -33,14 +33,14 @@ export default class SideMenu extends React.Component {
       <div id='sidenav' style={[ styles.base ]}>
         <div style={styles.sidenavContainer}>
           <Link to='default' onTouchTap={RouteActions.routeChanged}>
-            <h1 style={[ styles.header ]}>Odette Chavez-Mayo</h1>
+            <h1 style={[ styles.header ]}>odette chavez-mayo</h1>
           </Link>
           <ul key='desktop-galleries' style={[ styles.list ]}>
             {galleryListItems}
           </ul>
           <div className='sidenav-item' style={styles.metaContainer}>
             <Link to='about'>
-              <span>About</span>
+              <span>about</span>
             </Link>
           </div>
         </div>
@@ -54,7 +54,8 @@ var styles = {
     display: 'inline-block',
   },
   header: {
-    fontWeight: '300',
+    fontWeight: '900',
+    color: 'rgb(87, 16, 46)',
     marginTop: '0',
     fontSize: '26',
     marginBottom: '30'
@@ -78,8 +79,8 @@ var styles = {
   },
   sidenavContainer: {
     display: 'flex',
-    paddingLeft: '30',
-    paddingRight: '30',
+    paddingLeft: '40',
+    paddingRight: '0',
     paddingTop: '30',
     flexDirection: 'column',
     height: '100%'

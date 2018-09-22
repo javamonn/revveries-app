@@ -69,7 +69,7 @@ var AppStore = Reflux.createStore({
 
       // Remove the "Info" gallery so that it doesn't appear in the sidenav
       // and set the info gallery.
-      var infoIdx = galleries.findIndex(gal => gal.get('name') === 'About')
+      var infoIdx = galleries.findIndex(gal => gal.get('name') === 'about')
       if (infoIdx !== -1) {
         _info = galleries.get(infoIdx)
         galleries = galleries.delete(infoIdx)
