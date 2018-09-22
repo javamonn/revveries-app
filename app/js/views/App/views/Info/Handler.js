@@ -37,14 +37,17 @@ var Info = React.createClass({
           {this.state.info.description}
         </span>
         <span style={styles.email}>
-          <a href="mailto:revveries@gmail.com">revveries@gmail.com</a>
+          <a href="mailto:odettechavezmayo@gmail.com">odettechavezmayo@gmail.com</a>
         </span>
         <div style={styles.socialContainer}>
-          <a href="https://instagram.com/revveries" style={styles.socialLink}>
+          <a href="https://instagram.com/odettechavezmayo" style={styles.socialLink}>
             <i style={styles.socialIcon} className="fa fa-instagram fa-lg" />
           </a>
           <a href="https://revveries.tumblr.com" style={styles.socialLink}>
             <i style={styles.socialIcon} className="fa fa-tumblr fa-lg" />
+          </a>
+          <a href="https://www.linkedin.com/in/brendaodettechavezmayo" style={styles.socialLink}>
+            <i style={styles.socialIcon} className="fa fa-linkedin fa-lg" />
           </a>
         </div>
       </div>

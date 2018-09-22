@@ -1,7 +1,7 @@
-# revveries.com #
+# odettechavez-mayo.com #
 ![Build Status](https://travis-ci.org/javamonn/revveries-app.svg?branch=master)
 
-Code running [revveries.com](http://revveries.com), a photography portfolio and private CMS.
+Code running [odettechavez-mayo.com](http://odettechavez-mayo.com), a photography portfolio and private CMS.
 
 Arguably over-engineered as this was intended as a learning project and chance to deploy several new technologies that I hadn't worked with previously. 
 
